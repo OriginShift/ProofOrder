@@ -6,6 +6,16 @@ Updated: 2026-09-09 HKT. Submission target: 2026-09-14 00:00 HKT (ETHGlobal dead
 
 The project advances only when a runnable experiment answers one of three questions: does a buyer need an external result, does hidden deterministic acceptance add a real guarantee over ordinary escrow, and can another developer reproduce both success and failure? Code volume is not progress.
 
+## Competition objective
+
+The team's priority order is:
+
+1. Reach the ETHOnline 2026 Finalist judging round with a credible, reproducible submission.
+2. Earn one or more naturally matched Partner Prizes with real integrations and evidence.
+3. Pursue the overall championship through stronger technical proof, product clarity, reliability, and demo impact when the core path is stable.
+
+Every scope decision is evaluated against this order. A feature that weakens the core demo, evidence quality, or deadline readiness does not enter the hackathon build merely because it sounds impressive.
+
 ## G0: freeze before broad implementation
 
 - Freeze the allocation task, integer units, canonical encoding, score formula, threshold, deadline, and threat model.
