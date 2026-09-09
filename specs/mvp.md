@@ -28,6 +28,14 @@ Out of scope: a marketplace, bidding, multiple task types, multi-chain support, 
 
 `SettlementStatus` reports funding, verification, and delivery independently. Errors use stable codes and state whether retry is allowed.
 
+## Frozen G0 state machine
+
+`DRAFT -> FUNDED -> SUBMITTED -> VERIFIED -> DELIVERED -> SETTLED` is the successful path. `FUNDED -> REFUNDED` is allowed only after the fixed deadline with no valid submission. `SUBMITTED -> REJECTED` is terminal for that submission and may move to a pre-deadline retry according to the retry policy. `FUNDED -> CANCELLED` is not an allowed buyer shortcut. Settlement and refund are mutually exclusive and every transition is scoped to the order digest, chain ID, contract, verifier version, and fixed payee.
+
+## Frozen offline checkpoint
+
+Before any settlement or release action, the buyer must durably save the complete `RecoveryBundle` locally: order bytes and digest, ciphertext, nonce/IV and authentication data, wrapped key, proof/evidence, chain and contract identifiers, and the retrieval locator. The buyer may then stop responding. Recovery uses only the saved bundle, the buyer private key, and queryable chain state; it must not require a provider callback. This checkpoint does not promise recovery after local deletion or unavailable external storage.
+
 ## Acceptance gates
 
 1. A valid result produces valid evidence, settlement, and buyer-side recovery.
