@@ -11,6 +11,8 @@ For every AI-assisted change, record:
 - commands run and their actual output;
 - reviewer and acceptance status.
 
+Human ownership boundaries are defined in [HUMAN_CONTRIBUTION.md](HUMAN_CONTRIBUTION.md). The goal is meaningful design, implementation, testing, and review by team members, not cosmetic authorship.
+
 Do not describe AI-generated code as independently designed by a human. Do not claim a mechanism, audit, performance result, or sponsor integration until the repository contains the corresponding implementation and evidence.
 
 ## Initial session record

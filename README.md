@@ -10,5 +10,6 @@ This repository is an ETHOnline 2026 submission in active development. It is not
 - [Execution plan](docs/EXECUTION_PLAN.md)
 - [Acceptance evidence ledger](evidence/test-ledger.md)
 - [AI use and human contribution record](docs/AI_USAGE.md)
+- [Human-owned work items](docs/HUMAN_CONTRIBUTION.md)
 
 The implementation and evidence will be updated in small, reviewable commits. Reused libraries and external research will be attributed with their licenses and links when integrated.
