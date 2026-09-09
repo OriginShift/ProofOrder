@@ -1,0 +1,19 @@
+# AI Use and Human Contribution Record
+
+This project uses Codex as an implementation assistant. Human team members define the problem, choose scope and assumptions, select and review cryptographic and exchange mechanisms, run acceptance experiments, interpret failures, and approve releases.
+
+For every AI-assisted change, record:
+
+- date and contributor;
+- tool/model and the prompt or task brief;
+- files generated or modified;
+- human decisions, edits, and review performed;
+- commands run and their actual output;
+- reviewer and acceptance status.
+
+Do not describe AI-generated code as independently designed by a human. Do not claim a mechanism, audit, performance result, or sponsor integration until the repository contains the corresponding implementation and evidence.
+
+## Initial session record
+
+- 2026-09-09: Codex inspected the public `OriginShift/ProofOrder` repository and confirmed it contained only the initial README and MIT license.
+- 2026-09-09: The team supplied the ProofOrder product specification and execution rules through Notion. Codex converted the agreed scope into `specs/mvp.md` and `docs/EXECUTION_PLAN.md`; the team remains responsible for the technical decisions and acceptance.
