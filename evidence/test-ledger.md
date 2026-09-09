@@ -5,7 +5,8 @@ Status: all entries pending implementation and execution.
 | ID | Scenario | Expected evidence | Status |
 | --- | --- | --- | --- |
 | T01 | Valid result | proof, balances, recovery and re-evaluation | pending (HPKE recovery primitive passed; proof/chain pending) |
-| T02 | Rule violation | verifier/settlement rejection | pending |
+| T02 | Rule violation | verifier/settlement rejection | evaluator rejection cases passed; verifier/settlement pending |
+| T03 | Empty/duplicate/negative/out-of-range result | stable evaluator error code | empty/duplicate/concentration/liquidity cases passed; negative/encoding cases pending |
 | T04 | Changed input snapshot | binding failure | pending |
 | T05 | Changed rule or verifier version | binding failure | pending |
 | T06 | Replaced ciphertext | delivery binding failure | HPKE primitive passed; proof/chain pending |

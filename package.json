@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "node src/g0-hpke.mjs",
+    "test": "node --test test/*.test.mjs",
     "g0": "node src/g0-hpke.mjs"
   },
   "repository": {

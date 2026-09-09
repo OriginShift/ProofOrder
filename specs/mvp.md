@@ -9,6 +9,7 @@ Demonstrate one complete agent-to-agent work order in which a buyer can verify t
 ## Scope
 
 - One fixed task adapter: constrained allocation over a frozen input snapshot.
+- G0 freezes the first task rules at 10,000 integer budget units, 6,000 maximum per target, 5,000 minimum liquidity bps, and 7,500 minimum weighted score bps. These are demo parameters, not investment advice.
 - One buyer process and one provider process with separate identities.
 - One deterministic evaluator and one real proof system selected by the first experiment.
 - One settlement chain and test asset selected after the proof and exchange feasibility checks.
