@@ -4,13 +4,13 @@ Status: all entries pending implementation and execution.
 
 | ID | Scenario | Expected evidence | Status |
 | --- | --- | --- | --- |
-| T01 | Valid result | proof, balances, recovery and re-evaluation | local Anvil settlement path passed; proof/recovery integration pending |
+| T01 | Valid result | proof, balances, recovery and re-evaluation | local Anvil settlement + ECDSA evidence path passed; recovery integration pending |
 | T02 | Rule violation | verifier/settlement rejection | evaluator rejection cases passed; verifier/settlement pending |
 | T03 | Empty/duplicate/negative/out-of-range result | stable evaluator error code | empty/duplicate/concentration/liquidity cases passed; negative/encoding cases pending |
 | T04 | Changed input snapshot | binding failure | pending |
-| T05 | Changed rule or verifier version | binding failure | evidence digest changes with evaluation/rule output; on-chain verifier pending |
+| T05 | Changed rule or verifier version | binding failure | evidence digest changes; on-chain ECDSA binding passed; ZK verifier pending |
 | T06 | Replaced ciphertext | delivery binding failure | HPKE primitive passed; proof/chain pending |
-| T07 | Replaced order | replay/binding failure | HPKE AAD binding passed; proof/chain pending |
+| T07 | Replaced order | replay/binding failure | HPKE AAD + ECDSA message binding passed; ZK/recovery pending |
 | T08 | Replaced payee | fixed-recipient failure | pending |
 | T09 | Cross-domain replay | domain separation failure | pending |
 | T10 | Duplicate submit/settle | idempotent rejection | contract path passed; demo flow passed |

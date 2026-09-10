@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
-import { ContractFactory, JsonRpcProvider, NonceManager, Wallet, keccak256, parseEther } from "ethers";
+import { ContractFactory, JsonRpcProvider, NonceManager, Wallet, getBytes, keccak256, parseEther } from "ethers";
 import { buildEvidence } from "./evidence.mjs";
 import { evaluateAllocation } from "./evaluator.mjs";
 import { orderDigest } from "./order.mjs";
@@ -16,7 +16,8 @@ const artifact = JSON.parse(await readFile("out/ProofOrderSettlement.sol/ProofOr
 const provider = new JsonRpcProvider(RPC_URL);
 const buyer = new NonceManager(new Wallet(ANVIL_KEYS.buyer, provider));
 const serviceProvider = new NonceManager(new Wallet(ANVIL_KEYS.provider, provider));
-const verifier = new NonceManager(new Wallet(ANVIL_KEYS.verifier, provider));
+const verifierWallet = new Wallet(ANVIL_KEYS.verifier, provider);
+const verifier = new NonceManager(verifierWallet);
 const buyerAddress = await buyer.getAddress();
 const providerAddress = await serviceProvider.getAddress();
 const verifierAddress = await verifier.getAddress();
@@ -56,7 +57,9 @@ const providerBefore = await provider.getBalance(providerAddress);
 
 await (await settlement.fund(orderId, orderDigestHex, providerAddress, providerAddress, deadline, { value: parseEther("1") })).wait();
 await (await settlement.connect(serviceProvider).submit(orderId, ciphertextCommitment)).wait();
-await (await settlement.connect(verifier).markVerified(orderId, orderDigestHex, ciphertextCommitment, evidenceDigest)).wait();
+const messageHash = await settlement.evidenceMessageHash(orderId, orderDigestHex, ciphertextCommitment, evidenceDigest);
+const signature = await verifierWallet.signMessage(getBytes(messageHash));
+await (await settlement.markVerified(orderId, orderDigestHex, ciphertextCommitment, evidenceDigest, signature)).wait();
 await (await settlement.settle(orderId)).wait();
 const providerAfter = await provider.getBalance(providerAddress);
 const record = await settlement.orders(orderId);
@@ -73,5 +76,5 @@ console.log(JSON.stringify({
   settlementBalanceWei: (await provider.getBalance(await settlement.getAddress())).toString(),
   finalState: Number(record.state),
   finalStateName: ["None", "Funded", "Submitted", "Verified", "Settled", "Refunded"][Number(record.state)],
-  claimBoundary: "local Anvil flow with deterministic evaluator evidence digest; not a signature or ZK proof",
+  claimBoundary: "local Anvil flow with ECDSA-signed deterministic evaluator evidence; not a ZK proof",
 }, null, 2));

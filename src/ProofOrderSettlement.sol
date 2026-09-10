@@ -41,6 +41,7 @@ contract ProofOrderSettlement {
     error DeadlineNotReached();
     error DeadlinePassed();
     error TransferFailed();
+    error InvalidSignature();
 
     event Funded(bytes32 indexed orderId, address indexed buyer, uint256 amount);
     event Submitted(bytes32 indexed orderId, bytes32 ciphertextCommitment);
@@ -84,13 +85,28 @@ contract ProofOrderSettlement {
         emit Submitted(orderId, ciphertextCommitment);
     }
 
-    function markVerified(bytes32 orderId, bytes32 orderDigest, bytes32 ciphertextCommitment, bytes32 evidenceDigest) external {
+    function evidenceMessageHash(bytes32 orderId, bytes32 orderDigest, bytes32 ciphertextCommitment, bytes32 evidenceDigest) public view returns (bytes32) {
+        return keccak256(abi.encodePacked("ProofOrder/VerificationEvidence/v1", address(this), orderId, orderDigest, ciphertextCommitment, evidenceDigest));
+    }
+
+    function markVerified(bytes32 orderId, bytes32 orderDigest, bytes32 ciphertextCommitment, bytes32 evidenceDigest, bytes calldata signature) external {
         Order storage order = orders[orderId];
         if (order.state != State.Submitted) revert InvalidState();
-        if (msg.sender != verifier) revert Unauthorized();
         if (order.orderDigest != orderDigest || order.ciphertextCommitment != ciphertextCommitment || evidenceDigest == bytes32(0)) {
             revert InvalidOrder();
         }
+        if (signature.length != 65) revert InvalidSignature();
+        bytes32 message = evidenceMessageHash(orderId, orderDigest, ciphertextCommitment, evidenceDigest);
+        bytes32 ethSignedMessage = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", message));
+        bytes32 r;
+        bytes32 s;
+        uint8 v;
+        assembly {
+            r := calldataload(signature.offset)
+            s := calldataload(add(signature.offset, 32))
+            v := byte(0, calldataload(add(signature.offset, 64)))
+        }
+        if (ecrecover(ethSignedMessage, v, r, s) != verifier) revert InvalidSignature();
         order.evidenceDigest = evidenceDigest;
         order.state = State.Verified;
         emit Verified(orderId);

@@ -12,7 +12,7 @@ This repository is an ETHOnline 2026 submission in active development. It is not
 - [AI use and human contribution record](docs/AI_USAGE.md)
 - [Human-owned work items](docs/HUMAN_CONTRIBUTION.md)
 
-The current `deterministic-evaluator-evidence-v1` adapter is a fallback integration boundary, not a signature or zero-knowledge proof. Its trust assumptions and replacement path are recorded in the evidence decisions.
+The current `deterministic-evaluator-evidence-v1` adapter is authorized on chain by an ECDSA verifier signature. It is a trusted attestation, not a zero-knowledge proof; its replacement path is recorded in the evidence decisions.
 
 ## Run the local demo
 
