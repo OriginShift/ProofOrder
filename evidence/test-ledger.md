@@ -8,7 +8,7 @@ Status: all entries pending implementation and execution.
 | T02 | Rule violation | verifier/settlement rejection | evaluator rejection cases passed; verifier/settlement pending |
 | T03 | Empty/duplicate/negative/out-of-range result | stable evaluator error code | empty/duplicate/concentration/liquidity cases passed; negative/encoding cases pending |
 | T04 | Changed input snapshot | binding failure | pending |
-| T05 | Changed rule or verifier version | binding failure | verifier binding pending |
+| T05 | Changed rule or verifier version | binding failure | evidence digest changes with evaluation/rule output; on-chain verifier pending |
 | T06 | Replaced ciphertext | delivery binding failure | HPKE primitive passed; proof/chain pending |
 | T07 | Replaced order | replay/binding failure | HPKE AAD binding passed; proof/chain pending |
 | T08 | Replaced payee | fixed-recipient failure | pending |

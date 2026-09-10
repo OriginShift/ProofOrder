@@ -12,4 +12,6 @@ This repository is an ETHOnline 2026 submission in active development. It is not
 - [AI use and human contribution record](docs/AI_USAGE.md)
 - [Human-owned work items](docs/HUMAN_CONTRIBUTION.md)
 
+The current `signed-deterministic-evaluator-v1` evidence adapter is a fallback integration boundary, not a zero-knowledge proof. Its trust assumptions and replacement path are recorded in the evidence decisions.
+
 The implementation and evidence will be updated in small, reviewable commits. Reused libraries and external research will be attributed with their licenses and links when integrated.
