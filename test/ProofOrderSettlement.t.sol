@@ -13,6 +13,7 @@ contract ProofOrderSettlementTest is Test {
     bytes32 orderId = keccak256("order-1");
     bytes32 orderDigest = keccak256("digest-1");
     bytes32 commitment = keccak256("ciphertext-1");
+    bytes32 evidenceDigest = keccak256("evidence-1");
     uint256 amount = 1 ether;
 
     function setUp() public {
@@ -31,12 +32,12 @@ contract ProofOrderSettlementTest is Test {
         vm.prank(provider);
         settlement.submit(orderId, commitment);
         vm.prank(verifier);
-        settlement.markVerified(orderId);
+        settlement.markVerified(orderId, orderDigest, commitment, evidenceDigest);
         uint256 beforeBalance = payee.balance;
         vm.prank(buyer);
         settlement.settle(orderId);
         assertEq(payee.balance, beforeBalance + amount);
-        (, , , , , ProofOrderSettlement.State state, ,) = settlement.orders(orderId);
+        (, , , , , ProofOrderSettlement.State state, , ,) = settlement.orders(orderId);
         assertEq(uint8(state), uint8(ProofOrderSettlement.State.Settled));
     }
 
@@ -55,7 +56,7 @@ contract ProofOrderSettlementTest is Test {
         vm.expectRevert(ProofOrderSettlement.InvalidState.selector);
         settlement.submit(orderId, commitment);
         vm.prank(verifier);
-        settlement.markVerified(orderId);
+        settlement.markVerified(orderId, orderDigest, commitment, evidenceDigest);
         vm.prank(buyer);
         settlement.settle(orderId);
         vm.prank(buyer);
@@ -78,6 +79,15 @@ contract ProofOrderSettlementTest is Test {
         settlement.submit(orderId, commitment);
         vm.prank(provider);
         vm.expectRevert(ProofOrderSettlement.Unauthorized.selector);
-        settlement.markVerified(orderId);
+        settlement.markVerified(orderId, orderDigest, commitment, evidenceDigest);
+    }
+
+    function testVerifierCannotApproveMismatchedEvidence() public {
+        _fund();
+        vm.prank(provider);
+        settlement.submit(orderId, commitment);
+        vm.prank(verifier);
+        vm.expectRevert(ProofOrderSettlement.InvalidOrder.selector);
+        settlement.markVerified(orderId, orderDigest, keccak256("other-ciphertext"), evidenceDigest);
     }
 }

@@ -23,6 +23,7 @@ contract ProofOrderSettlement {
         State state;
         bytes32 orderDigest;
         bytes32 ciphertextCommitment;
+        bytes32 evidenceDigest;
     }
 
     mapping(bytes32 => Order) public orders;
@@ -66,7 +67,8 @@ contract ProofOrderSettlement {
             deadline: deadline,
             state: State.Funded,
             orderDigest: orderDigest,
-            ciphertextCommitment: bytes32(0)
+            ciphertextCommitment: bytes32(0),
+            evidenceDigest: bytes32(0)
         });
         emit Funded(orderId, msg.sender, msg.value);
     }
@@ -82,10 +84,14 @@ contract ProofOrderSettlement {
         emit Submitted(orderId, ciphertextCommitment);
     }
 
-    function markVerified(bytes32 orderId) external {
+    function markVerified(bytes32 orderId, bytes32 orderDigest, bytes32 ciphertextCommitment, bytes32 evidenceDigest) external {
         Order storage order = orders[orderId];
         if (order.state != State.Submitted) revert InvalidState();
         if (msg.sender != verifier) revert Unauthorized();
+        if (order.orderDigest != orderDigest || order.ciphertextCommitment != ciphertextCommitment || evidenceDigest == bytes32(0)) {
+            revert InvalidOrder();
+        }
+        order.evidenceDigest = evidenceDigest;
         order.state = State.Verified;
         emit Verified(orderId);
     }
