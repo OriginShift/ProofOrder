@@ -19,4 +19,4 @@ Do not describe AI-generated code as independently designed by a human. Do not c
 
 - 2026-09-09: Codex inspected the public `OriginShift/ProofOrder` repository and confirmed it contained only the initial README and MIT license.
 - 2026-09-09: The team supplied the ProofOrder product specification and execution rules through Notion. Codex converted the agreed scope into `specs/mvp.md` and `docs/EXECUTION_PLAN.md`; the team remains responsible for the technical decisions and acceptance.
-- 2026-09-11: Codex added the signed deterministic-evaluator evidence adapter and tests. The team must decide whether to replace it with a real ZK verifier before submission; the adapter is not represented as a ZK proof.
+- 2026-09-11: Codex added the deterministic-evaluator evidence digest adapter and tests. The team must decide whether to replace it with a real signed or ZK verifier before submission; the adapter is not represented as either.

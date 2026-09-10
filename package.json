@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "node --test test/*.test.mjs",
-    "g0": "node src/g0-hpke.mjs"
+    "g0": "node src/g0-hpke.mjs",
+    "demo": "forge build && node src/demo-flow.mjs"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   "homepage": "https://github.com/OriginShift/ProofOrder#readme",
   "dependencies": {
     "@hpke/core": "^1.9.0",
-    "@hpke/dhkem-x25519": "^1.8.0"
+    "@hpke/dhkem-x25519": "^1.8.0",
+    "ethers": "^6.15.0"
   }
 }

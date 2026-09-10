@@ -31,7 +31,7 @@ Every scope decision is evaluated against this order. A feature that weakens the
 - Implement order/ciphertext/proof bindings and the smallest settlement contract.
 - Run valid proof, changed ciphertext, changed order, changed rule, and secret-leakage experiments.
 - Stop and narrow the claim if the leakage or exchange experiment fails.
-- If a full ZK verifier cannot be benchmarked in the time box, ship the signed deterministic-evaluator adapter only as a clearly labeled fallback. It may demonstrate the order and settlement path, but it must not be described as a trustless hidden-result proof.
+- If a full ZK verifier cannot be benchmarked in the time box, ship the deterministic-evaluator evidence adapter only as a clearly labeled fallback. It may demonstrate the order and settlement path, but it must not be described as a signature, trustless hidden-result proof, or independent cryptographic verification.
 
 ## G2: complete order
 

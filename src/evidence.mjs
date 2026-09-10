@@ -24,7 +24,7 @@ export function evidenceDigest({ orderDigest, ciphertextCommitment, evaluation }
 
 export function buildEvidence({ orderDigest, ciphertextCommitment, evaluation }) {
   return {
-    proofSystem: "signed-deterministic-evaluator-v1",
+    proofSystem: "deterministic-evaluator-evidence-v1",
     verifierId: "local-verifier",
     publicInputs: { orderDigest, ciphertextCommitment },
     evaluation,

@@ -10,7 +10,7 @@ const base = {
 
 test("evidence digest binds order, ciphertext, and evaluation", () => {
   const evidence = buildEvidence(base);
-  assert.equal(evidence.proofSystem, "signed-deterministic-evaluator-v1");
+  assert.equal(evidence.proofSystem, "deterministic-evaluator-evidence-v1");
   assert.match(evidence.evidenceDigest, /^sha256:[0-9a-f]{64}$/);
   assert.notEqual(buildEvidence({ ...base, ciphertextCommitment: "sha256:other" }).evidenceDigest, evidence.evidenceDigest);
   assert.notEqual(buildEvidence({ ...base, evaluation: { ...base.evaluation, scoreBps: 7499 } }).evidenceDigest, evidence.evidenceDigest);
