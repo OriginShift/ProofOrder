@@ -1,9 +1,11 @@
 import { readFile } from "node:fs/promises";
+import { mkdir } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { ContractFactory, JsonRpcProvider, NonceManager, Wallet, getBytes, keccak256, parseEther } from "ethers";
 import { buildEvidence } from "./evidence.mjs";
 import { evaluateAllocation } from "./evaluator.mjs";
 import { orderDigest } from "./order.mjs";
+import { createRecoveryBundle, loadRecoveryBundle, saveRecoveryBundle, verifyRecoveryBundle } from "./recovery.mjs";
 
 const RPC_URL = process.env.PROOFORDER_RPC_URL ?? "http://127.0.0.1:8545";
 const ANVIL_KEYS = {
@@ -54,6 +56,18 @@ const orderId = keccak256(Buffer.from("prooforder-demo-1"));
 const latest = await provider.getBlock("latest");
 const deadline = BigInt(latest.timestamp + 900);
 const providerBefore = await provider.getBalance(providerAddress);
+await mkdir("artifacts", { recursive: true });
+const recoveryPath = "artifacts/demo-recovery-bundle.json";
+const recoveryBundle = createRecoveryBundle({
+  order,
+  orderDigest: `sha256:${Buffer.from(digest).toString("hex")}`,
+  ciphertext,
+  evidence: { ...evidence, publicInputs: { orderDigest: `sha256:${Buffer.from(digest).toString("hex")}`, ciphertextCommitment: `sha256:${ciphertextCommitment.slice(2)}` } },
+  chainId: 31337,
+  contractAddress: await settlement.getAddress(),
+  retrieval: { kind: "local-file", locator: recoveryPath },
+});
+await saveRecoveryBundle(recoveryPath, recoveryBundle);
 
 await (await settlement.fund(orderId, orderDigestHex, providerAddress, providerAddress, deadline, { value: parseEther("1") })).wait();
 await (await settlement.connect(serviceProvider).submit(orderId, ciphertextCommitment)).wait();
@@ -63,6 +77,7 @@ await (await settlement.markVerified(orderId, orderDigestHex, ciphertextCommitme
 await (await settlement.settle(orderId)).wait();
 const providerAfter = await provider.getBalance(providerAddress);
 const record = await settlement.orders(orderId);
+const recoveredBundle = verifyRecoveryBundle(await loadRecoveryBundle(recoveryPath));
 
 console.log(JSON.stringify({
   flow: "buyer -> provider -> verifier -> settlement",
@@ -74,6 +89,7 @@ console.log(JSON.stringify({
   evaluation,
   providerBalanceDeltaWei: (providerAfter - providerBefore).toString(),
   settlementBalanceWei: (await provider.getBalance(await settlement.getAddress())).toString(),
+  recoveryBundle: { path: recoveryPath, valid: recoveredBundle.ok, bytes: recoveredBundle.ok ? recoveredBundle.ciphertext.length : 0 },
   finalState: Number(record.state),
   finalStateName: ["None", "Funded", "Submitted", "Verified", "Settled", "Refunded"][Number(record.state)],
   claimBoundary: "local Anvil flow with ECDSA-signed deterministic evaluator evidence; not a ZK proof",
