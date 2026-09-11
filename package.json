@@ -9,7 +9,8 @@
   "scripts": {
     "test": "node --test test/*.test.mjs",
     "g0": "node src/g0-hpke.mjs",
-    "demo": "forge build && node src/demo-flow.mjs"
+    "demo": "forge build && node src/demo-flow.mjs",
+    "demo:failures": "forge build && node scripts/run-failure-demo.mjs"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,209 @@
+{
+  "flow": "failure-boundaries",
+  "status": "passed",
+  "generatedAt": "2026-09-11T15:25:06.563Z",
+  "environment": {
+    "node": "v25.9.0",
+    "ethers": "6.15.0",
+    "clientVersion": "anvil/v1.6.0",
+    "chainId": 31337
+  },
+  "sourceSha256": {
+    "src/ProofOrderSettlement.sol": "bd45fb97794f2dcc37cfa89b80593421492eb19fcab335008418dcb1e954570e",
+    "src/failure-flow.mjs": "6477aa2e4451427abf89ef903b17f37370aa12cf0420d217cb90145f7b2259a3",
+    "scripts/run-failure-demo.mjs": "4a53232dcedc237b4cc9b040b2b4baf6f87fccf54b066431a959c752512672b7",
+    "package-lock.json": "265d14761d12b0b980b998e75fabd9724e79f1313b195dd30a63e044fe63565e"
+  },
+  "settlementAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "buyerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "providerAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+  "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+  "inputs": {
+    "submittedId": "0x4c733d1148fb6dc7cdb7a063f4606e0020414b8e971170988f84334a556c0842",
+    "absentId": "0x20829efa57538b53bf9238a77956a665bc17127a5b0e2035581cd1270f04a16a",
+    "orderDigest": "0xe04ef1c67e1b73d04cadde35e19adbfebf38fc7365c9c1b45a65ce2dbf231135",
+    "absentDigest": "0xaf31488e993b1d2ec9e1afa63c3732892cb89dfe93a807a7a3381207c28a7652",
+    "commitment": "0x91392c4fee9d77584f9962eeab79a81dd43fb1c0d6749c333eda0aaad885faf2",
+    "evidenceDigest": "0x3fe52aa5d97b749cad16e96f65003939ab0e3ace6b1eae2bce10644403cd10e1",
+    "amountWei": "1000000000000000000",
+    "submittedDeadline": "1789143906",
+    "absentDeadline": "1789143906",
+    "validSignature": "0x3a52555ff37c5c4015dd34e2483c45868aad1bbc09bc93c108c800d093b07a4c7c0964756b7fe3951093e601592f8dc860854a21587d686f55b76b3f06ede10a1c",
+    "wrongSignature": "0xe745a24ce1a6393b4e0d27cd1660d24cbf7feb9018f0bc038375ccd6201853146a411949eb633fca59e5c57d2cfc3dbe5dc9219852d0e3a0e7481993640511e41c"
+  },
+  "positiveControl": {
+    "authorizedSignatureAccepted": true,
+    "simulation": true,
+    "stateBalancesAndNoncesUnchanged": true
+  },
+  "rejectedCalls": [
+    {
+      "scenario": "wrong-verifier-signature",
+      "error": "InvalidSignature",
+      "revertData": "0x8baa579f",
+      "blockNumber": 4,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "changed-order-digest",
+      "error": "InvalidOrder",
+      "revertData": "0xaf610693",
+      "blockNumber": 4,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "changed-ciphertext-commitment",
+      "error": "InvalidOrder",
+      "revertData": "0xaf610693",
+      "blockNumber": 4,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "changed-evidence-digest",
+      "error": "InvalidSignature",
+      "revertData": "0x8baa579f",
+      "blockNumber": 4,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "settle-before-verification",
+      "error": "InvalidState",
+      "revertData": "0xbaf3f0f7",
+      "blockNumber": 4,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "submitted-refund-before-deadline",
+      "error": "DeadlineNotReached",
+      "revertData": "0x66ec4ee6",
+      "blockNumber": 4,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "funded-refund-before-deadline",
+      "error": "DeadlineNotReached",
+      "revertData": "0x66ec4ee6",
+      "blockNumber": 4,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "submit-after-deadline",
+      "error": "DeadlinePassed",
+      "revertData": "0x70f65caa",
+      "blockNumber": 5,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "repeat-refund-provider-absent",
+      "error": "InvalidState",
+      "revertData": "0xbaf3f0f7",
+      "blockNumber": 6,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "repeat-refund-submitted",
+      "error": "InvalidState",
+      "revertData": "0xbaf3f0f7",
+      "blockNumber": 7,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    }
+  ],
+  "refunds": [
+    {
+      "orderId": "0x20829efa57538b53bf9238a77956a665bc17127a5b0e2035581cd1270f04a16a",
+      "initialState": 1,
+      "finalState": 5,
+      "finalStateName": "Refunded",
+      "buyer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "refundAmountWei": "1000000000000000000",
+      "transactionHash": "0x5fd1105b738cf46afaad82302440754470e418036af7c4bee22c219cb5b7063c",
+      "blockNumber": 6,
+      "blockHash": "0x311e72a98a473d76822ccb77ed76bc1e5a5e4bb2a7724d5e32d3c09e014b8cd6",
+      "balanceBeforeBlock": 5,
+      "escrowBalanceBeforeWei": "2000000000000000000",
+      "escrowBalanceAfterWei": "1000000000000000000",
+      "buyerBalanceBeforeWei": "9997996592828316857044",
+      "buyerBalanceAfterWei": "9998996529732665400164",
+      "transactionFeeWei": "63095651456880",
+      "buyerCreditPlusGasWei": "1000000000000000000",
+      "payeeBalanceBeforeWei": "9999999903594693501464",
+      "payeeBalanceAfterWei": "9999999903594693501464"
+    },
+    {
+      "orderId": "0x4c733d1148fb6dc7cdb7a063f4606e0020414b8e971170988f84334a556c0842",
+      "initialState": 2,
+      "finalState": 5,
+      "finalStateName": "Refunded",
+      "buyer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "refundAmountWei": "1000000000000000000",
+      "transactionHash": "0xa057b3f2405b3f001a53542d2856a363f08c55a774abd75dca4c19ee715b0a99",
+      "blockNumber": 7,
+      "blockHash": "0xae56c5f3d1fdfa9b67eb0c46a5706c81cb62178412d70b5e22db8033b6c5b4f5",
+      "balanceBeforeBlock": 6,
+      "escrowBalanceBeforeWei": "1000000000000000000",
+      "escrowBalanceAfterWei": "0",
+      "buyerBalanceBeforeWei": "9998996529732665400164",
+      "buyerBalanceAfterWei": "9999996468975156237684",
+      "transactionFeeWei": "60757509162480",
+      "buyerCreditPlusGasWei": "1000000000000000000",
+      "payeeBalanceBeforeWei": "9999999903594693501464",
+      "payeeBalanceAfterWei": "9999999903594693501464"
+    }
+  ],
+  "finalEscrowBalanceWei": "0",
+  "transactions": [
+    {
+      "action": "deploy",
+      "hash": "0x331a7b0a52c960874a2012f81e1876a2e110c0d98b9c7ae71fcacb7a9676f671",
+      "blockNumber": 1,
+      "blockHash": "0x001093ce8f8d06531980a67fad966e8472dd4b08996b9b0ad7fe4156b59db06a"
+    },
+    {
+      "action": "fund-submitted",
+      "hash": "0xabc1de14b3061682f8c23b479cb6d0bb5cb097aa66e536e940f89144405301a2",
+      "blockNumber": 2,
+      "blockHash": "0x3c31c1de9981edf2c737199427095712a00214da957fc58b7fddd9bdd2db0679"
+    },
+    {
+      "action": "submit",
+      "hash": "0x62436d299afedeb1e99eccaa33e69376f364875d970f7d318c65ce0004a782eb",
+      "blockNumber": 3,
+      "blockHash": "0x4b7d3449488fb927e80197a813b25965811ac7979377ff250e3f48b1f4b1bf90"
+    },
+    {
+      "action": "fund-provider-absent",
+      "hash": "0xe47e1eb33db7b4e5cd87d2da767f9e467741089983bfdcb013ecdca697a473c3",
+      "blockNumber": 4,
+      "blockHash": "0x147f927133d1ff2ae034c6225dddf9fcbbd6868dffbb8a05d3bc2fd992e92a1d"
+    },
+    {
+      "action": "refund-provider-absent",
+      "hash": "0x5fd1105b738cf46afaad82302440754470e418036af7c4bee22c219cb5b7063c",
+      "blockNumber": 6,
+      "blockHash": "0x311e72a98a473d76822ccb77ed76bc1e5a5e4bb2a7724d5e32d3c09e014b8cd6"
+    },
+    {
+      "action": "refund-submitted",
+      "hash": "0xa057b3f2405b3f001a53542d2856a363f08c55a774abd75dca4c19ee715b0a99",
+      "blockNumber": 7,
+      "blockHash": "0xae56c5f3d1fdfa9b67eb0c46a5706c81cb62178412d70b5e22db8033b6c5b4f5"
+    }
+  ],
+  "expiryBlock": {
+    "number": 5,
+    "hash": "0x5f2264d7982348931edfb699b6821c9ee98dc58174c7a9273d607e7b6e5a4ba9",
+    "timestamp": 1789143907
+  },
+  "claimBoundary": "Local Anvil: rejection probes are eth_call simulations; funding, submission and refunds are mined transactions. Placeholder commitments; no encryption, ZK proof, public testnet finality, deadline-race or interruption-retry claim.",
+  "nodeLifecycle": "fresh Anvil started and stopped by runner"
+}
