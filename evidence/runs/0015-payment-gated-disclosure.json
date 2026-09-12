@@ -1,0 +1,14 @@
+{
+  "experiment": "payment-gated-disclosure-v1",
+  "status": "candidate-fails-fair-exchange",
+  "orderDigest": "0xabababababababababababababababababababababababababababababababab",
+  "ciphertextCommitment": "0x44ff1259bb1e47886ade80c4f95716ae93036ec38602dca747b02afb1f03b019",
+  "keyCommitment": "0xdd35ad0e6b5450786849b299173606333c51483aad5faaee15c08026b10facdf",
+  "prepaymentDecryptable": false,
+  "prepaymentError": "KEY_UNAVAILABLE",
+  "postSettlementReleaseDecryptable": true,
+  "providerWithholdingAfterSettlement": true,
+  "withholdingError": "KEY_UNAVAILABLE",
+  "plaintextSha256": "d72f8008bac34750788bd6f493ccfa217f6801503df0a34d8a7e3b769b09e37f",
+  "claimBoundary": "The candidate prevents local decryption until a key release, but payment does not force the provider to release that key. It is an experiment, not a production fair-exchange protocol."
+}

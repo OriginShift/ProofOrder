@@ -31,7 +31,7 @@ npm run demo
 
 The command starts a fresh local Anvil, deploys the contract, and runs two asserted traces:
 
-- A valid encrypted delivery is signed by the trusted verifier, then settled for 1 ETH by an independent relayer after the buyer stops sending transactions and the verification grace has elapsed. The payee receives exactly 1 ETH at the settlement block; the relayer cannot redirect the fixed payee.
+- A valid encrypted delivery is signed by the trusted verifier, then settled for 1 ETH by a separate relayer signer after the buyer stops sending transactions and the verification grace has elapsed. The payee receives exactly 1 ETH at the settlement block; the relayer cannot redirect the fixed payee.
 - A provider delivers the complete encrypted bundle and stops before verification is mined. The buyer decrypts while the order is `Submitted`, then takes a 1 ETH timeout refund. This is an intentional counterexample to full fair exchange, not a successful security property.
 
 The report is `artifacts/encrypted-delivery.json`. The [recorded settlement run](evidence/runs/0014-verified-settlement.json) and [exchange decision](evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) contain source hashes, public bundles, transaction hashes and measured balances. Anvil is stopped automatically; the saved files remain usable for offline recovery.
@@ -59,6 +59,8 @@ npm run demo:failures
 It checks an authorized-signature positive control and 10 exact contract rejections, then refunds a funded order and a submitted order after their deadlines. Refund events, receipt-block balances, buyer credit including gas, unchanged provider balance, and final zero escrow are asserted. A failed assertion or RPC error exits nonzero. The flow has a 60-second overall timeout and bounded RPC/receipt waits.
 
 The settlement contract gives submitted orders a fixed one-hour `VERIFICATION_GRACE`: a submission made before the deadline cannot be refunded immediately while verifier processing is in flight, and verification after the grace is rejected. This bounds the verifier window; it does not resolve post-payment delivery withholding.
+
+The payment-gated disclosure experiment is recorded separately in [decision 0015](evidence/decisions/0015-payment-gated-disclosure.md). It keeps the data key out of the prepayment bundle, but a provider can withhold that key after receiving payment, so it is retained as a failed candidate rather than wired into the settlement path.
 
 The generated report is `artifacts/failure-boundaries.json`; a new invocation removes the previous report so a failed run cannot leave stale success evidence. The [recorded run](evidence/decisions/0010-failure-boundaries-run.md) includes committed transaction hashes, inputs, source hashes and exact claim boundaries. Rejected calls are simulations; the refunds are mined local transactions.
 

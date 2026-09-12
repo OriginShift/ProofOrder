@@ -247,7 +247,7 @@ contract SettlementLivenessTest is Test {
         assertEq(buyer.balance, buyerBefore);
     }
 
-    function testReentrantPayeeCannotDoublePayOrSpendSecondOrder() public {
+    function testReentrantPayeeCannotDoublePaySameOrderOrDrainSecondEscrow() public {
         ReentrantPayee recipient = new ReentrantPayee(settlement, orderId);
         bytes32 secondOrderId = keccak256("second-liveness-order");
         uint256 secondAmount = 2 ether;

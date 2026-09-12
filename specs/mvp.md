@@ -2,7 +2,7 @@
 
 Status: draft, created 2026-09-09 HKT
 
-Implementation update, 2026-09-12: the local encrypted delivery, offline recovery, bounded verification grace, and permissionless fixed-payee settlement paths are implemented. The [HPKE counterexample](../evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) still shows that the full prepayment recovery checkpoint enables immediate decryption followed by refund if the provider stops before verification is mined. These local paths do not satisfy full fair exchange.
+Implementation update, 2026-09-12: the local encrypted delivery, offline recovery, bounded verification grace, and permissionless fixed-payee settlement paths are implemented. The [HPKE counterexample](../evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) still shows that the full prepayment recovery checkpoint enables immediate decryption followed by refund if the provider stops before verification is mined. A separate [payment-gated disclosure experiment](../evidence/decisions/0015-payment-gated-disclosure.md) blocks prepayment decryption but exposes provider withholding after payment. These local paths do not satisfy full fair exchange.
 
 ## Goal
 

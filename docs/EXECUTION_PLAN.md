@@ -2,7 +2,7 @@
 
 Updated: 2026-09-12 HKT. Submission target: 2026-09-14 00:00 HKT (ETHGlobal deadline is 2026-09-13 12:00 EDT).
 
-Current gate: encrypted delivery, offline recovery, explicit chain domain separation, bounded Submitted verification grace, and permissionless fixed-payee settlement work locally. A verifier signature authorizes a relayer or provider to pay after the buyer stops sending transactions, including after the grace window. The [reproduced counterexample](../evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) still permits decryption before payment followed by timeout refund when the provider stops before on-chain verification, so full fair exchange remains unaccepted. The next mechanism decision is payment-gated disclosure or an explicit final claim narrowing before UI or sponsor expansion.
+Current gate: encrypted delivery, offline recovery, explicit chain domain separation, bounded Submitted verification grace, and permissionless fixed-payee settlement work locally. A verifier signature authorizes a relayer or provider to pay after the buyer stops sending transactions, including after the grace window. The [reproduced counterexample](../evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) still permits decryption before payment followed by timeout refund when the provider stops before on-chain verification. A payment-gated disclosure candidate now blocks prepayment decryption but fails when the provider withholds its key after payment ([decision 0015](../evidence/decisions/0015-payment-gated-disclosure.md)); full fair exchange remains unaccepted. The next work is clean-room reproduction, human review, and final claim narrowing.
 
 ## First principle
 
