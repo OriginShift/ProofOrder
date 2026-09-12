@@ -1,0 +1,331 @@
+{
+  "flow": "encrypted-delivery-and-exchange-boundary",
+  "status": "passed",
+  "generatedAt": "2026-09-12T10:51:22.738Z",
+  "environment": {
+    "node": "v26.5.1",
+    "ethers": "6.15.0",
+    "clientVersion": "anvil/v1.8.1",
+    "chainId": 31337
+  },
+  "sourceSha256": {
+    "src/ProofOrderSettlement.sol": "c1e5845daa14ef82f87cc71ce3501b4b8ad7ab613102cfd9893fcbcf2e24ed6e",
+    "src/order.mjs": "9d0348c1c6027bdce0e609d97eb87e1d01b182458b16441c27ddd7970aa53ccb",
+    "src/demo-flow.mjs": "f270ced0056aed8b8be4e12f10b6cbe3a6dab8f70afaf29ab7ec0dc38508ca31",
+    "src/provider-flow.mjs": "d388627bd523342157f41f3e2f2e303aea6c192a02b07873f356ceef950a052d",
+    "src/sealed-result.mjs": "e8736b133232df03cf576c6cdb19123eaa7328ce74a9b688822a959337f2f840",
+    "src/recovery.mjs": "079d74ea84e1b872f8b322eea616694203759b8ffdded893a01d22a359f11113",
+    "src/evaluator.mjs": "8e94c0276ede0eb87a312fc33e28effdcbb8dd120aa54781dc09b5e08056b917",
+    "src/evidence.mjs": "1c035ed42f5da72be70003d0ea44395d3bd5905cdc1ced9da2b2ad31f35102fb",
+    "scripts/recover-demo.mjs": "464203c22b9473c443ea8257182599f593edc33d96faab38e5a4799a12270002",
+    "scripts/run-demo.mjs": "624e4cb841a7148fa535bc29e1996bae205c27a4c6e156e3f25c53af6b0cee66",
+    "scripts/local-demo.mjs": "441421028937e4cb07bcc4460dcb2dad792400a119618d52ebf9665970360b5a",
+    "package-lock.json": "8ed57367784437d0ba051a98909e8a274f903c010bf8b445e3dff5b45bf2770a"
+  },
+  "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "encryptedDelivery": {
+    "orderId": "0x079f277bc675aa76a968f91afc4877fbc9fe417e3f8eb8c30a78b77f17797022",
+    "orderDigest": "sha256:778566c45227d4b8fff8731d69eff40b50b0bb7a6007d5942e365c602c100f4b",
+    "ciphertextCommitment": "0xc146b23560c978646717aabdb78f5e81f1d58ae0178d5918f5112bff703ea209",
+    "evidenceDigest": "sha256:bb717e2618aa0f26f901bfd90e14d04c36faa5957f821bd1f954085e6400f643",
+    "suite": "DHKEM(X25519, HKDF-SHA256)/HKDF-SHA256/AES-256-GCM",
+    "checkpointBeforeFunding": true,
+    "finalState": "Settled",
+    "recipientKeyFileMode": "0600",
+    "recovery": {
+      "independentProcess": true,
+      "rpcRequired": false,
+      "providerCallbackRequired": false,
+      "result": {
+        "allocations": [
+          {
+            "target": "target-a",
+            "amountMinorUnits": 6000
+          },
+          {
+            "target": "target-b",
+            "amountMinorUnits": 4000
+          }
+        ]
+      },
+      "evaluation": {
+        "ok": true,
+        "totalMinorUnits": 10000,
+        "scoreBps": 7960,
+        "ruleVersion": "allocation-score-v1"
+      },
+      "paths": {
+        "bundle": "artifacts/encrypted-XJpLqI/settled-bundle.json",
+        "key": "artifacts/encrypted-XJpLqI/settled-buyer-key.json",
+        "context": "artifacts/encrypted-XJpLqI/settled-trusted-context.json"
+      }
+    },
+    "settlement": {
+      "transactionHash": "0xaba718142f2148710a4b817997c4a62de4e92167f4f5c180f63e61d864631894",
+      "blockNumber": 6,
+      "payeeBalanceBeforeWei": "9999999903496151226724",
+      "payeeBalanceAfterWei": "10000999903496151226724",
+      "payeeCreditWei": "1000000000000000000",
+      "escrowBalanceAfterWei": "0"
+    },
+    "buyerOfflineSettlement": {
+      "buyerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "providerAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "relayerAddress": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "payeeAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "checkpointBlockNumber": 3,
+      "verificationTransactionHash": "0x105e06db38421cca1150d77c6f80717e208f92f5beee091e562efb0e014ded7d",
+      "buyerNonceAtCheckpoint": 2,
+      "buyerNonceAfterSettlement": 2,
+      "buyerBalanceAtCheckpointWei": "9998996677240787928675",
+      "buyerBalanceAfterSettlementWei": "9998996677240787928675",
+      "deadline": 1789211176,
+      "verificationGraceSeconds": 3600,
+      "settlementTimestamp": 1789214778,
+      "relayerBalanceBeforeWei": "10000000000000000000000",
+      "relayerBalanceAfterWei": "9999999933772219057320",
+      "relayerFeeWei": "66227780942680",
+      "buyerTransactionsAfterCheckpoint": 0,
+      "paymentAuthorization": "Trusted verifier signature accepted on chain; any caller may pay the fixed payee."
+    }
+  },
+  "exchangeBoundary": {
+    "status": "counterexample-reproduced",
+    "scenario": "Provider delivers the complete encrypted bundle, then stops before verification is mined. Buyer decrypts while Submitted, then obtains timeout refund.",
+    "orderId": "0x22c19cebb8ac9031a66acab6f4119a16ab96389ae681c69f1eefbedcc00d7886",
+    "orderDigest": "sha256:d8d76aff4673acd2a4de8c162cfb025b4e03ccbcaad8db92c9f29632a29cabb3",
+    "ciphertextCommitment": "0x7b667dfe45f18606779ddbb9d56d803b68d77a2de4921bf9ad2c4f74f87d29d7",
+    "decryptedBeforePayment": true,
+    "chainStateAtDecryption": "Submitted",
+    "chainEvidenceAtDecryption": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "decryptBlockNumber": 8,
+    "deadline": 1789215678,
+    "verificationGraceSeconds": 3600,
+    "finalState": "Refunded",
+    "refundTransactionHash": "0x1afc53521457f3c10364bb0216bd96b52d349d08e87133054804237993b9f4df",
+    "refundBlockNumber": 10,
+    "buyerBalanceBeforeWei": "9997996436917769403449",
+    "buyerBalanceAfterWei": "9998996381588827772159",
+    "refundFeeWei": "55328941631290",
+    "buyerCreditPlusGasWei": "1000000000000000000",
+    "providerCreditDuringRefundWei": "0",
+    "result": {
+      "allocations": [
+        {
+          "target": "target-a",
+          "amountMinorUnits": 6000
+        },
+        {
+          "target": "target-b",
+          "amountMinorUnits": 4000
+        }
+      ]
+    },
+    "fairExchangeEstablished": false
+  },
+  "inputs": {
+    "settledBundle": {
+      "schemaVersion": 2,
+      "orderId": "0x079f277bc675aa76a968f91afc4877fbc9fe417e3f8eb8c30a78b77f17797022",
+      "order": {
+        "buyer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "chainId": 31337,
+        "deadline": 1789211176,
+        "deadlineSeconds": 900,
+        "feeMinorUnits": "1000000000000000000",
+        "inputCommitment": "sha256:fdb6221d1359d653f2aab63d630cacc74a1a8b35607ab9cf122b919119eaf74c",
+        "nonce": "0xd33b42a5cf5e4c5d9fc554e140322c9ce02f41ccacb00397999383fb067d6c9a",
+        "payee": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "paymentAsset": "native",
+        "provider": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "recipientPublicKey": "f2k+87qB+X02Ye6SwL/BA+NE9BE0cVX7nPVA4thUk2w=",
+        "ruleId": "allocation-score-v1",
+        "settlementContract": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "snapshot": {
+          "id": "fixed-snapshot-001",
+          "targets": [
+            {
+              "id": "target-a",
+              "liquidityBps": 9000,
+              "scoreBps": 8200
+            },
+            {
+              "id": "target-b",
+              "liquidityBps": 8000,
+              "scoreBps": 7600
+            }
+          ]
+        },
+        "taskType": "constrained-allocation-v1",
+        "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+        "verifierVersion": "ecdsa-evaluator-v1",
+        "version": 1
+      },
+      "sealedResult": {
+        "version": 1,
+        "suite": "DHKEM(X25519, HKDF-SHA256)/HKDF-SHA256/AES-256-GCM",
+        "orderDigest": "0x778566c45227d4b8fff8731d69eff40b50b0bb7a6007d5942e365c602c100f4b",
+        "recipientPublicKey": "f2k+87qB+X02Ye6SwL/BA+NE9BE0cVX7nPVA4thUk2w=",
+        "enc": "cBtSGh5XLyvkgxek87+UEW1C38+riDWf7O+ZC2FgcCc=",
+        "ciphertext": "YnL/wuWvXIExH/s6RcI9bOMKYa30C5VqaSjCWCVVP1psrn9Sm5oxcPrW5a5xKJUURWjqULL1ChBuEFcUECwu9/U2z0WO3vugAbTy/8uMH/QkdSVec7xZ+4GTNtILZDk4mWaET41h/wkbcl8wodXDY4Mms11oTTHujNQ3Q54="
+      },
+      "evidence": {
+        "proofSystem": "deterministic-evaluator-evidence-v1",
+        "verifierId": "local-verifier",
+        "publicInputs": {
+          "orderDigest": "sha256:778566c45227d4b8fff8731d69eff40b50b0bb7a6007d5942e365c602c100f4b",
+          "ciphertextCommitment": "sha256:c146b23560c978646717aabdb78f5e81f1d58ae0178d5918f5112bff703ea209"
+        },
+        "evaluation": {
+          "ok": true,
+          "totalMinorUnits": 10000,
+          "scoreBps": 7960,
+          "ruleVersion": "allocation-score-v1"
+        },
+        "evidenceDigest": "sha256:bb717e2618aa0f26f901bfd90e14d04c36faa5957f821bd1f954085e6400f643"
+      },
+      "attestation": {
+        "signature": "0x3283b364d099c9af9a1e3ac93e44541a79eda274ebe39f56b87601c44518ad3b71ba5f576fa17076e71d29a917f0ac4811b5424c537db2e5b67da6254ffd4a6b1b",
+        "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
+      },
+      "chain": {
+        "chainId": 31337,
+        "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+      },
+      "orderDigest": "sha256:778566c45227d4b8fff8731d69eff40b50b0bb7a6007d5942e365c602c100f4b",
+      "ciphertextCommitment": "sha256:c146b23560c978646717aabdb78f5e81f1d58ae0178d5918f5112bff703ea209"
+    },
+    "prepaymentBundle": {
+      "schemaVersion": 2,
+      "orderId": "0x22c19cebb8ac9031a66acab6f4119a16ab96389ae681c69f1eefbedcc00d7886",
+      "order": {
+        "buyer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "chainId": 31337,
+        "deadline": 1789215678,
+        "deadlineSeconds": 900,
+        "feeMinorUnits": "1000000000000000000",
+        "inputCommitment": "sha256:fdb6221d1359d653f2aab63d630cacc74a1a8b35607ab9cf122b919119eaf74c",
+        "nonce": "0x2db36815803959ee7edeb128aaf72a45c86b6d7c563e38815290d9c60632a9f2",
+        "payee": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "paymentAsset": "native",
+        "provider": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "recipientPublicKey": "0Pvdjhh0p2/GHq4OcXnLhukJ/XRLB/ENUXeL9r/X0DM=",
+        "ruleId": "allocation-score-v1",
+        "settlementContract": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "snapshot": {
+          "id": "fixed-snapshot-001",
+          "targets": [
+            {
+              "id": "target-a",
+              "liquidityBps": 9000,
+              "scoreBps": 8200
+            },
+            {
+              "id": "target-b",
+              "liquidityBps": 8000,
+              "scoreBps": 7600
+            }
+          ]
+        },
+        "taskType": "constrained-allocation-v1",
+        "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+        "verifierVersion": "ecdsa-evaluator-v1",
+        "version": 1
+      },
+      "sealedResult": {
+        "version": 1,
+        "suite": "DHKEM(X25519, HKDF-SHA256)/HKDF-SHA256/AES-256-GCM",
+        "orderDigest": "0xd8d76aff4673acd2a4de8c162cfb025b4e03ccbcaad8db92c9f29632a29cabb3",
+        "recipientPublicKey": "0Pvdjhh0p2/GHq4OcXnLhukJ/XRLB/ENUXeL9r/X0DM=",
+        "enc": "rPxh9YQUmHYzUqXy7rz5zaShTIPx9iJNTFG8tjV0XEM=",
+        "ciphertext": "29D2YV3eLwUtVQnfuAO9lV/j9n3BHFWXSq6905sonsy0+YbxJBEjnONrBvyTFvGgzZD5ETVk5rsa1t200uW/y5MHL6xOSl3VIOxCvV+nVHlB2An6t7FE7Oee0tzsAmRmUGzHI9AOCoZY6lyqxxhFnv5kKqbGxB5CwlkVp54="
+      },
+      "evidence": {
+        "proofSystem": "deterministic-evaluator-evidence-v1",
+        "verifierId": "local-verifier",
+        "publicInputs": {
+          "orderDigest": "sha256:d8d76aff4673acd2a4de8c162cfb025b4e03ccbcaad8db92c9f29632a29cabb3",
+          "ciphertextCommitment": "sha256:7b667dfe45f18606779ddbb9d56d803b68d77a2de4921bf9ad2c4f74f87d29d7"
+        },
+        "evaluation": {
+          "ok": true,
+          "totalMinorUnits": 10000,
+          "scoreBps": 7960,
+          "ruleVersion": "allocation-score-v1"
+        },
+        "evidenceDigest": "sha256:4cede69108973db0a029d22b4b08c61b7f95d5823a17eb3fca8519bc690bf520"
+      },
+      "attestation": {
+        "signature": "0x99d86d8075a055b404a73db7e40684aa02f25089965786ef273cbf403a7c8e620d8efb8d905a0240705108de1950df2afda15941a3e0d8387379a5f44e7ce1fe1c",
+        "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
+      },
+      "chain": {
+        "chainId": 31337,
+        "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+      },
+      "orderDigest": "sha256:d8d76aff4673acd2a4de8c162cfb025b4e03ccbcaad8db92c9f29632a29cabb3",
+      "ciphertextCommitment": "sha256:7b667dfe45f18606779ddbb9d56d803b68d77a2de4921bf9ad2c4f74f87d29d7"
+    }
+  },
+  "transactions": [
+    {
+      "action": "deploy",
+      "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "hash": "0x04d240ce4c2edc465e14700b9480e5e752185dfcd1d674163855ed4673dfe1ca",
+      "blockNumber": 1,
+      "blockHash": "0xe82c198ef886f9bb45ccb07772b4c2530e64af502ca2cda10efee23cde84ec52"
+    },
+    {
+      "action": "settled:fund",
+      "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "hash": "0xd2c7ee18ad2e2dba685f100956d8ddc58f0998317b458422fadb77442736280b",
+      "blockNumber": 2,
+      "blockHash": "0x0f6cbc8368ac98b1a55a5c98cf54727f91e683a1273f9219d90e2b8c656e40e7"
+    },
+    {
+      "action": "settled:submit",
+      "from": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "hash": "0x00cafcf0d8bb887f470d0ffe15b67ae83f15d57ea03f9f51272fe1f241e83305",
+      "blockNumber": 3,
+      "blockHash": "0x0ce1d763ac1f78f43234639d7f060b31919e77b643fdf2b037a1033ecba84ec1"
+    },
+    {
+      "action": "settled:verify",
+      "from": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "hash": "0x105e06db38421cca1150d77c6f80717e208f92f5beee091e562efb0e014ded7d",
+      "blockNumber": 4,
+      "blockHash": "0xaa9523055783b975a3e0185dcef7b7acc3af29a91698722fb7c409d97df03710"
+    },
+    {
+      "action": "settled:pay",
+      "from": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "hash": "0xaba718142f2148710a4b817997c4a62de4e92167f4f5c180f63e61d864631894",
+      "blockNumber": 6,
+      "blockHash": "0x8bb9c13759f329ef8e5d9a89af057d5930a3c948d521a842aaf2252675bf627a"
+    },
+    {
+      "action": "prepayment:fund",
+      "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "hash": "0x7d7b9cf8ca779b2777e2084b994c9cfa9865dcdc44faeb94874cf4eb5b35507e",
+      "blockNumber": 7,
+      "blockHash": "0xf77c157704da065572b544b8f6dfefd9525c2ecc2c3d4e85e1d3ac5f7796261c"
+    },
+    {
+      "action": "prepayment:submit",
+      "from": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "hash": "0x3a7adc6af87cbbfb211c3e919df1bf6e26c48b3e7cf6444c8162db4fa3329260",
+      "blockNumber": 8,
+      "blockHash": "0xe5fc3bbe92b508abe50afb03fd1b9892af67bc380071fae6a0063cb409925ec9"
+    },
+    {
+      "action": "prepayment:refund",
+      "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "hash": "0x1afc53521457f3c10364bb0216bd96b52d349d08e87133054804237993b9f4df",
+      "blockNumber": 10,
+      "blockHash": "0x061407d8cafecaf3ac664cb5188730e44a7b7be6f864fcba4d18b268caafe49c"
+    }
+  ],
+  "claimBoundary": "Real recipient encryption, offline recovery and fixed-payee settlement by a relayer after the buyer stops sending transactions, on local Anvil. Trusted verifier; no ZK. Verification authorizes payment without a further buyer approval and does not prove delivery. Recovery does not establish payment or finality. Complete HPKE delivery permits prepayment decryption; provider-abort trace disproves full fair exchange. Actors still share one orchestration process. A permanently reverting payee can still block payout.",
+  "nodeLifecycle": "fresh Anvil started and stopped by runner"
+}
