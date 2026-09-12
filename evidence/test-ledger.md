@@ -12,7 +12,7 @@ Status: partial local implementation evidence; no gate is fully accepted. Passed
 | T06 | Replaced ciphertext | delivery binding failure | [HPKE envelope, signature and recovery mutation checks](decisions/0011-encrypted-recovery-and-exchange-boundary.md) and local chain commitment rejection passed; ZK pending |
 | T07 | Replaced order | replay/binding failure | HPKE AAD, local chain binding and schema-2 recovery order/digest checks passed; ZK pending |
 | T08 | Replaced payee | fixed-recipient failure | pending |
-| T09 | Cross-domain replay | domain separation failure | offline recovery checks trusted chain/contract/verifier context; contract message still lacks explicit chain ID, on-chain replay test pending |
+| T09 | Cross-domain replay | domain separation failure | contract evidence hash now binds `block.chainid`; Foundry hash-difference test and offline chain-context checks passed ([decision 0012](decisions/0012-chain-domain-separation.md)); public testnet replay pending |
 | T10 | Duplicate submit/settle | idempotent rejection | contract path passed; demo flow passed |
 | T12 | Provider abort | bounded exit/refund | [Local Funded and Submitted timeout refunds](decisions/0010-failure-boundaries-run.md) passed with event/balance assertions; provider-initiated exit and Verified-state handling pending |
 | T13 | Missing or corrupt ciphertext | no false recovery success | schema-2 envelope/signature/key mutation checks and durable local recovery passed; external storage pending |

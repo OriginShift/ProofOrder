@@ -190,8 +190,8 @@ export async function verifyEncryptedRecoveryBundle(bundle, trust) {
     if (!isDeepStrictEqual(bundle.evidence, expectedEvidence)) return fail("EVIDENCE_MISMATCH");
     if (typeof bundle.attestation.signature !== "string" || !/^0x[0-9a-fA-F]{128}(?:1b|1c)$/i.test(bundle.attestation.signature)) return fail("INVALID_SIGNATURE");
     const messageHash = solidityPackedKeccak256(
-      ["string", "address", "bytes32", "bytes32", "bytes32", "bytes32"],
-      ["ProofOrder/VerificationEvidence/v1", trust.expectedContractAddress, bundle.orderId,
+      ["string", "uint256", "address", "bytes32", "bytes32", "bytes32", "bytes32"],
+      ["ProofOrder/VerificationEvidence/v1", trust.expectedChainId, trust.expectedContractAddress, bundle.orderId,
         digestHex, envelopeCommitment, `0x${expectedEvidence.evidenceDigest.slice(7)}`],
     );
     let recoveredVerifier;

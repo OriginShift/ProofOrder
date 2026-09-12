@@ -86,7 +86,7 @@ contract ProofOrderSettlement {
     }
 
     function evidenceMessageHash(bytes32 orderId, bytes32 orderDigest, bytes32 ciphertextCommitment, bytes32 evidenceDigest) public view returns (bytes32) {
-        return keccak256(abi.encodePacked("ProofOrder/VerificationEvidence/v1", address(this), orderId, orderDigest, ciphertextCommitment, evidenceDigest));
+        return keccak256(abi.encodePacked("ProofOrder/VerificationEvidence/v1", block.chainid, address(this), orderId, orderDigest, ciphertextCommitment, evidenceDigest));
     }
 
     function markVerified(bytes32 orderId, bytes32 orderDigest, bytes32 ciphertextCommitment, bytes32 evidenceDigest, bytes calldata signature) external {

@@ -107,4 +107,11 @@ contract ProofOrderSettlementTest is Test {
         vm.expectRevert(ProofOrderSettlement.InvalidSignature.selector);
         settlement.markVerified(orderId, orderDigest, commitment, evidenceDigest, abi.encodePacked(r, s, v));
     }
+
+    function testEvidenceHashBindsChainId() public {
+        bytes32 localHash = settlement.evidenceMessageHash(orderId, orderDigest, commitment, evidenceDigest);
+        vm.chainId(1);
+        bytes32 otherChainHash = settlement.evidenceMessageHash(orderId, orderDigest, commitment, evidenceDigest);
+        assertTrue(localHash != otherChainHash);
+    }
 }

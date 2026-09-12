@@ -1,7 +1,7 @@
 {
   "flow": "encrypted-delivery-and-exchange-boundary",
   "status": "passed",
-  "generatedAt": "2026-09-12T04:09:05.391Z",
+  "generatedAt": "2026-09-12T04:13:43.990Z",
   "environment": {
     "node": "v25.9.0",
     "ethers": "6.15.0",
@@ -9,11 +9,11 @@
     "chainId": 31337
   },
   "sourceSha256": {
-    "src/ProofOrderSettlement.sol": "bd45fb97794f2dcc37cfa89b80593421492eb19fcab335008418dcb1e954570e",
+    "src/ProofOrderSettlement.sol": "57f18883547663171cbf0ebfc5d8060232a4326b669b186163abbdab03cafc14",
     "src/order.mjs": "67db7110577d976785ed189975b4b9f020ce4b8945348818fd96b83a0339c112",
     "src/demo-flow.mjs": "54ddecc5c9dbd5918ec48e4258131a7ea4064722c90c876d649fc3874199a6ea",
     "src/sealed-result.mjs": "f241e8725bf8a5dbac23690c37e9030ff734f982af9b5f2bdbf061e53c563ce5",
-    "src/recovery.mjs": "869583d7c4cb6fe82d72204229b34db877ff3acd83e8a770ec384e7ad41873e9",
+    "src/recovery.mjs": "fb0da797177a3d6ed0acfd867649855bb6112db50e1d7d401a609ed75edee768",
     "src/evaluator.mjs": "2b0c185ac2eb105421e80d6e0625ef1c58b6fdfdae649b940e8ec9dd0c7f1798",
     "src/evidence.mjs": "30ff38d0b05785fc36f8974bbffb30cd1e9488b69e9131f0b078efeb448eba3e",
     "scripts/recover-demo.mjs": "b702c2ac9fe3d260f1943c5b3f995e72551ccc2f7b7fff4f3ddb8c1e346aae0d",
@@ -23,10 +23,10 @@
   },
   "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
   "encryptedDelivery": {
-    "orderId": "0xb091052e0e5a5dcdadbbca8a66bcce83e7e7ff164905646da25252e697adf43b",
-    "orderDigest": "sha256:607b306f688ca2a80e67249b2e72eb1c9164be08ab750f8e10103525524f0e69",
-    "ciphertextCommitment": "0x67b9a7094489fb3668885ab443aee18ff944b07b7f70f5e61e835ba9db437410",
-    "evidenceDigest": "sha256:e90de3c7939b9fe6a440047d071a218ab53e2d2c74c722d0c064e248ed87985f",
+    "orderId": "0xa5713bd4f19082301fd11685862381816e45a3b38365b872fee270e9ac81ffba",
+    "orderDigest": "sha256:b740aa124af2dae47fae3b407495057302a9e0fc6da26cc9b7f205d8c59ebd82",
+    "ciphertextCommitment": "0xbf87a547047d97121da54bfc5c1c453bd7dc880e19c624d2216214ae91b2a52b",
+    "evidenceDigest": "sha256:d35c3a7d2b2cc6e0b48fde72ef55d73f263a28685e064fdd140db07948e2b23f",
     "suite": "DHKEM(X25519, HKDF-SHA256)/HKDF-SHA256/AES-256-GCM",
     "checkpointBeforeFunding": true,
     "finalState": "Settled",
@@ -54,16 +54,16 @@
         "ruleVersion": "allocation-score-v1"
       },
       "paths": {
-        "bundle": "artifacts/encrypted-bDcX1n/settled-bundle.json",
-        "key": "artifacts/encrypted-bDcX1n/settled-buyer-key.json",
-        "context": "artifacts/encrypted-bDcX1n/settled-trusted-context.json"
+        "bundle": "artifacts/encrypted-Pwmdyq/settled-bundle.json",
+        "key": "artifacts/encrypted-Pwmdyq/settled-buyer-key.json",
+        "context": "artifacts/encrypted-Pwmdyq/settled-trusted-context.json"
       }
     },
     "settlement": {
-      "transactionHash": "0x1b5a49c6fb7caf07611237789a20bd4aedf2652cdd63349bc70e0e3dc80e9a19",
+      "transactionHash": "0x1f3c5e5dccccae9ab044739e5c8a338df75f1d3abe5eb39445fb25422ed93a16",
       "blockNumber": 5,
-      "payeeBalanceBeforeWei": "9999999903573363210040",
-      "payeeBalanceAfterWei": "10000999903573363210040",
+      "payeeBalanceBeforeWei": "9999999903568998318600",
+      "payeeBalanceAfterWei": "10000999903568998318600",
       "payeeCreditWei": "1000000000000000000",
       "escrowBalanceAfterWei": "0"
     }
@@ -71,20 +71,20 @@
   "exchangeBoundary": {
     "status": "counterexample-reproduced",
     "scenario": "Provider delivers the complete encrypted bundle, then stops before verification is mined. Buyer decrypts while Submitted, then obtains timeout refund.",
-    "orderId": "0x3db14c350e74b69d2a0721801d007815058f783702960ba6d05e29136ed597c7",
-    "orderDigest": "sha256:a58d9bfd2ed31ecd56e90897838b00a0f166f0e61c0436dba52e9c0202b43b8e",
-    "ciphertextCommitment": "0xaa24c5a946843af782d8995b152daaa009245c0b5347d6a6711d15eacff1b6c2",
+    "orderId": "0x5ab5684f252dd7aeb8a225a67bf54cd4a6e49108c6bcba128bc9d133abd16a1a",
+    "orderDigest": "sha256:65db281faba46ead61744bf5b97ba741e9b4950548533017e3a795f3b9cfc2e8",
+    "ciphertextCommitment": "0x42609bd92affa6d0ed7f58fbb37feef15ac7c54eb368aaa8d4e17ee444dab13f",
     "decryptedBeforePayment": true,
     "chainStateAtDecryption": "Submitted",
     "chainEvidenceAtDecryption": "0x0000000000000000000000000000000000000000000000000000000000000000",
     "decryptBlockNumber": 7,
-    "deadline": 1789187045,
+    "deadline": 1789187323,
     "finalState": "Refunded",
-    "refundTransactionHash": "0xbbb3800e720f9e13a8869a5775b4eda57587ed98c640e411635cdbae49423669",
+    "refundTransactionHash": "0x5248a23a606409a4caa519bc8fc88c2a4c4d29a4e14e36e3bdbd5443153179b0",
     "refundBlockNumber": 9,
-    "buyerBalanceBeforeWei": "9997996437802780395074",
-    "buyerBalanceAfterWei": "9998996381492451578414",
-    "refundFeeWei": "56310328816660",
+    "buyerBalanceBeforeWei": "9997996415420724964580",
+    "buyerBalanceAfterWei": "9998996359092655328972",
+    "refundFeeWei": "56328069635608",
     "buyerCreditPlusGasWei": "1000000000000000000",
     "providerCreditDuringRefundWei": "0",
     "result": {
@@ -104,19 +104,19 @@
   "inputs": {
     "settledBundle": {
       "schemaVersion": 2,
-      "orderId": "0xb091052e0e5a5dcdadbbca8a66bcce83e7e7ff164905646da25252e697adf43b",
+      "orderId": "0xa5713bd4f19082301fd11685862381816e45a3b38365b872fee270e9ac81ffba",
       "order": {
         "buyer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
         "chainId": 31337,
-        "deadline": 1789187045,
+        "deadline": 1789187323,
         "deadlineSeconds": 900,
         "feeMinorUnits": "1000000000000000000",
         "inputCommitment": "sha256:fdb6221d1359d653f2aab63d630cacc74a1a8b35607ab9cf122b919119eaf74c",
-        "nonce": "0xc4a920c0a3459e9be1eb42c4135984707d5c2a57ba0a54c7784a97505ad73d5b",
+        "nonce": "0x98661190459a1721f0e87bb8f7f04bcdd30808158cbc5cdd1211b30acb06bcad",
         "payee": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
         "paymentAsset": "native",
         "provider": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-        "recipientPublicKey": "V2SSVO9GHTL5pfic0ck8meQ9WWVP8DU0PexGdfeglS4=",
+        "recipientPublicKey": "cer7TrB5C3m5WHu9ras2TNmxzo5+QykEJ/vNBH3EuHE=",
         "ruleId": "allocation-score-v1",
         "settlementContract": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
         "snapshot": {
@@ -142,17 +142,17 @@
       "sealedResult": {
         "version": 1,
         "suite": "DHKEM(X25519, HKDF-SHA256)/HKDF-SHA256/AES-256-GCM",
-        "orderDigest": "0x607b306f688ca2a80e67249b2e72eb1c9164be08ab750f8e10103525524f0e69",
-        "recipientPublicKey": "V2SSVO9GHTL5pfic0ck8meQ9WWVP8DU0PexGdfeglS4=",
-        "enc": "sg3peVlvkGjSQBuHzFrG6D7DwoMhaTJJ0HmvJae0AXc=",
-        "ciphertext": "nS/CAaL51Q2+YsFl2RHd1Ume45CT+Ceugl2puLn5f1/PTmQ43MycXdtaJuWSNUTyPUFvDpujvNdRb9oklwUPRWd/XNDzBXs2zpt20GvkOC1avwvcz7kummB5Hyx3KxUAaUV/FRt9qmtkubUw2eZqylWqiwGMYmB0NXREQjI="
+        "orderDigest": "0xb740aa124af2dae47fae3b407495057302a9e0fc6da26cc9b7f205d8c59ebd82",
+        "recipientPublicKey": "cer7TrB5C3m5WHu9ras2TNmxzo5+QykEJ/vNBH3EuHE=",
+        "enc": "FhpXKKAPBOgW4vYT0i7rfteHj0CQRo6ESyw5/wwUgCc=",
+        "ciphertext": "nUI2q4WKx6QkGwei7GU2QmGIz1T8rdBvMrWZYnV9y0fn4gjiZBLiow3jcAV5r82vpQqFe6P4LmGdwAK0ne3j71RPTZS6wRVHyMuxT36bQzHDouZMIUKjakEXT45mfmlOSsoZPsYr8UlQL5SBo6PgDgffHRfQ54GVdgM7ZAM="
       },
       "evidence": {
         "proofSystem": "deterministic-evaluator-evidence-v1",
         "verifierId": "local-verifier",
         "publicInputs": {
-          "orderDigest": "sha256:607b306f688ca2a80e67249b2e72eb1c9164be08ab750f8e10103525524f0e69",
-          "ciphertextCommitment": "sha256:67b9a7094489fb3668885ab443aee18ff944b07b7f70f5e61e835ba9db437410"
+          "orderDigest": "sha256:b740aa124af2dae47fae3b407495057302a9e0fc6da26cc9b7f205d8c59ebd82",
+          "ciphertextCommitment": "sha256:bf87a547047d97121da54bfc5c1c453bd7dc880e19c624d2216214ae91b2a52b"
         },
         "evaluation": {
           "ok": true,
@@ -160,34 +160,34 @@
           "scoreBps": 7960,
           "ruleVersion": "allocation-score-v1"
         },
-        "evidenceDigest": "sha256:e90de3c7939b9fe6a440047d071a218ab53e2d2c74c722d0c064e248ed87985f"
+        "evidenceDigest": "sha256:d35c3a7d2b2cc6e0b48fde72ef55d73f263a28685e064fdd140db07948e2b23f"
       },
       "attestation": {
-        "signature": "0x10541234501c681fbc9317f17380341274103d18006f6516eb8a7466e1a48ea81e1d79ee646dd4f532f1a80dca478df2d534865b9580222c495e26a654ee591a1c",
+        "signature": "0x41e4b39cb17d364f70ecf7072651504202dd8b502004906e8b903f86df6610ec66f2bef23fc050d37319f62e6cd7cd384dd462c0e8fbf2567f9a881cb4dddf091c",
         "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
       },
       "chain": {
         "chainId": 31337,
         "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
       },
-      "orderDigest": "sha256:607b306f688ca2a80e67249b2e72eb1c9164be08ab750f8e10103525524f0e69",
-      "ciphertextCommitment": "sha256:67b9a7094489fb3668885ab443aee18ff944b07b7f70f5e61e835ba9db437410"
+      "orderDigest": "sha256:b740aa124af2dae47fae3b407495057302a9e0fc6da26cc9b7f205d8c59ebd82",
+      "ciphertextCommitment": "sha256:bf87a547047d97121da54bfc5c1c453bd7dc880e19c624d2216214ae91b2a52b"
     },
     "prepaymentBundle": {
       "schemaVersion": 2,
-      "orderId": "0x3db14c350e74b69d2a0721801d007815058f783702960ba6d05e29136ed597c7",
+      "orderId": "0x5ab5684f252dd7aeb8a225a67bf54cd4a6e49108c6bcba128bc9d133abd16a1a",
       "order": {
         "buyer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
         "chainId": 31337,
-        "deadline": 1789187045,
+        "deadline": 1789187323,
         "deadlineSeconds": 900,
         "feeMinorUnits": "1000000000000000000",
         "inputCommitment": "sha256:fdb6221d1359d653f2aab63d630cacc74a1a8b35607ab9cf122b919119eaf74c",
-        "nonce": "0x37211fa5e17e788ab48e3308dcab597c99a41659ebbbd77f46cb6d722f725677",
+        "nonce": "0x5ace36f21564655c4f33d8828ec02dfcd4103d418dffe8546ffe77bed000070b",
         "payee": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
         "paymentAsset": "native",
         "provider": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-        "recipientPublicKey": "fx5pOGUbEZ7M+UL8HDF+advK/Dn0WBMSVlaiJLX6Pww=",
+        "recipientPublicKey": "fFZzOEOQVV+tMDRtVjg4aPOzZEsjUNElLjBeXGcZ1Sw=",
         "ruleId": "allocation-score-v1",
         "settlementContract": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
         "snapshot": {
@@ -213,17 +213,17 @@
       "sealedResult": {
         "version": 1,
         "suite": "DHKEM(X25519, HKDF-SHA256)/HKDF-SHA256/AES-256-GCM",
-        "orderDigest": "0xa58d9bfd2ed31ecd56e90897838b00a0f166f0e61c0436dba52e9c0202b43b8e",
-        "recipientPublicKey": "fx5pOGUbEZ7M+UL8HDF+advK/Dn0WBMSVlaiJLX6Pww=",
-        "enc": "lqk3ilTc/5hYSAl/cqiYMKN9VsznP925HesbsX2ajAo=",
-        "ciphertext": "WRduv1aO4H64LZiAUKeyhutkt2XHkJpLa7VbgGvhmrt13oOnIK024sSiKdg7/38GEWwi2kvtKmoFkf0aj909S6qA6YXV9QwSYFh0VDYD02a+EnwUcNAmPX8PCht30c5vniWP8BGGHHPfreW7NKlwIqRA+JzI/pdKfcyb86E="
+        "orderDigest": "0x65db281faba46ead61744bf5b97ba741e9b4950548533017e3a795f3b9cfc2e8",
+        "recipientPublicKey": "fFZzOEOQVV+tMDRtVjg4aPOzZEsjUNElLjBeXGcZ1Sw=",
+        "enc": "4q4p7cJkbocytcP5wRIC5KZlqvWDu0/QJZdToktfjQ0=",
+        "ciphertext": "5uXw0RVVNhTK92eHHJZa1GVbdkIkcnad2rT+i+4qhM4tfx+P6fND8B+qd96fnqV8FH0IRJ39Hu7+oWwHwRJ6kqq6NQ3SbJl5F6tMuwPUraT484+EBs4Jjry8MV0LzkYqqgFR+c+0w+lmT0K0TxvGB6k0H+eRPX61jQ24EXY="
       },
       "evidence": {
         "proofSystem": "deterministic-evaluator-evidence-v1",
         "verifierId": "local-verifier",
         "publicInputs": {
-          "orderDigest": "sha256:a58d9bfd2ed31ecd56e90897838b00a0f166f0e61c0436dba52e9c0202b43b8e",
-          "ciphertextCommitment": "sha256:aa24c5a946843af782d8995b152daaa009245c0b5347d6a6711d15eacff1b6c2"
+          "orderDigest": "sha256:65db281faba46ead61744bf5b97ba741e9b4950548533017e3a795f3b9cfc2e8",
+          "ciphertextCommitment": "sha256:42609bd92affa6d0ed7f58fbb37feef15ac7c54eb368aaa8d4e17ee444dab13f"
         },
         "evaluation": {
           "ok": true,
@@ -231,68 +231,68 @@
           "scoreBps": 7960,
           "ruleVersion": "allocation-score-v1"
         },
-        "evidenceDigest": "sha256:61fe031ca8da36c1ec62765aec111b3d9d6c50a4eaca6b179affc290befdbf6d"
+        "evidenceDigest": "sha256:6e2a8cbae041d3443d4b98841b0f60cf62a64bb60d113651b6c674cc84ec9d89"
       },
       "attestation": {
-        "signature": "0x7f5f64dcc26134ec58d4f15c4e274472296867ac1877424b6d67a28b501c60fc1fffc555e455465eae65622f31a77ef1f6397251a32b40f177fe6cd2e38946e11c",
+        "signature": "0xf5b7c920e5855be2ee5b2e9c05c68b116e1686e664c8a98c80c369f18ff25f5471794b42d0671813285c276d6aa37b180334324565175bbf058228dfc2d347681c",
         "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
       },
       "chain": {
         "chainId": 31337,
         "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
       },
-      "orderDigest": "sha256:a58d9bfd2ed31ecd56e90897838b00a0f166f0e61c0436dba52e9c0202b43b8e",
-      "ciphertextCommitment": "sha256:aa24c5a946843af782d8995b152daaa009245c0b5347d6a6711d15eacff1b6c2"
+      "orderDigest": "sha256:65db281faba46ead61744bf5b97ba741e9b4950548533017e3a795f3b9cfc2e8",
+      "ciphertextCommitment": "sha256:42609bd92affa6d0ed7f58fbb37feef15ac7c54eb368aaa8d4e17ee444dab13f"
     }
   },
   "transactions": [
     {
       "action": "deploy",
-      "hash": "0x331a7b0a52c960874a2012f81e1876a2e110c0d98b9c7ae71fcacb7a9676f671",
+      "hash": "0xf6cf7f2ae3c5a6a6d39d207cc4da1b47df9778c9406d6aa5ad300adb87f768a3",
       "blockNumber": 1,
-      "blockHash": "0xb9a672c4c59a0338737fcd731662e138162e548d092f11019c35a7bf80566c64"
+      "blockHash": "0x7c285a541567d29698658dd67cb4d07baa35f16950db277359964a5058e682a9"
     },
     {
       "action": "settled:fund",
-      "hash": "0x1d953e52f40225e1c2b34d7583508a74e25a3d2f71775f8763f2337a0c29a08c",
+      "hash": "0xb6bd9493b828069a1c549a6cf07312de99dd3fbb0e0527fc5a77f7e07fd68b08",
       "blockNumber": 2,
-      "blockHash": "0xf74cb9dc76d0bfbb0e31738592e4c7470ef4b5ae22fc002a574556804c63a90e"
+      "blockHash": "0x11a013bf7d654d5c117b3334bab818f66c82b35225ade5de25d9aff8b77ca050"
     },
     {
       "action": "settled:submit",
-      "hash": "0x3a7314cd8e8c0afa5935bbdaa5b4d77a540e3d378d89968f76375292e39ab886",
+      "hash": "0xfdae3e1cbc5366ba81b99daec5459cd979ebb58895fda4a8dbfda5fd2b2ef574",
       "blockNumber": 3,
-      "blockHash": "0x89fae99b4391f06a19c1a2057b8afe17c555e4226d3dd41f6e2abc77918e3dac"
+      "blockHash": "0xadfa6538597f06aa0c446956fecec1b0e2005a3aa4003b6ac9e903468b2267e3"
     },
     {
       "action": "settled:verify",
-      "hash": "0x99e56ee900577c24bb43837af56096f1f552377c616a939c010e865671ea70e2",
+      "hash": "0xe037dd3e16bce9f4a8ab4781ba8ae4ef853cea12b5fa35323067d00a82c4def4",
       "blockNumber": 4,
-      "blockHash": "0x1c158dd535982041ef5fc3a05640eeba05e2efcbae7edc8b245de582c15a9b01"
+      "blockHash": "0x6bb04dc74cbce77fc94a4bdcd27271df92564256ef3723035d932f9a12761879"
     },
     {
       "action": "settled:pay",
-      "hash": "0x1b5a49c6fb7caf07611237789a20bd4aedf2652cdd63349bc70e0e3dc80e9a19",
+      "hash": "0x1f3c5e5dccccae9ab044739e5c8a338df75f1d3abe5eb39445fb25422ed93a16",
       "blockNumber": 5,
-      "blockHash": "0x4e0428997a68bc8281cbf76319836271514eb7c79953b7425ab3e9857b32b584"
+      "blockHash": "0x0432fc1419eb8bd4abb27a9dd9b2664c00c8737687c06136f536003f8ec4808f"
     },
     {
       "action": "prepayment:fund",
-      "hash": "0x69e5b8778346310418831fb36822048753c3de322bd221e56442c0addd2d985c",
+      "hash": "0x14dbfd53fa1ff5263cf066c7f294717d723e3e6f2332f1e73ef2e366c4a94a94",
       "blockNumber": 6,
-      "blockHash": "0x0bcfa261e83d5857fa5e80577aa6837f795186c90c3fbfe8adddf9c6c98bfdb4"
+      "blockHash": "0x4a4b5f4b8d5dee255e7631ebd79eebfc812e65e1d0582784274662206ef94509"
     },
     {
       "action": "prepayment:submit",
-      "hash": "0xf342d25675b76c8494123c8457cf741cf6f7b3a1d5eefde40a2ef4761e2146f5",
+      "hash": "0xc1e7096da35e6f9ccc9099c9155dcaeed08e0af3e19489603e1472d2f95098e7",
       "blockNumber": 7,
-      "blockHash": "0x0271db1e568866f9310981822634ac2a3d74c19cc51b326f61c9a77cf82d44bd"
+      "blockHash": "0x2d2008fa516e0e46747ead72dcb1ac96c2bc501d3870a15271ae34376a087e39"
     },
     {
       "action": "prepayment:refund",
-      "hash": "0xbbb3800e720f9e13a8869a5775b4eda57587ed98c640e411635cdbae49423669",
+      "hash": "0x5248a23a606409a4caa519bc8fc88c2a4c4d29a4e14e36e3bdbd5443153179b0",
       "blockNumber": 9,
-      "blockHash": "0x4e6f73807389273a71785791d262330ee9ea7dcddf3478a86ec34590c1942540"
+      "blockHash": "0xb476ecee68314b89ef02d8bf86c34a9fa2b52c09c8a86a74270b831a09ebaae7"
     }
   ],
   "claimBoundary": "Real recipient encryption and offline signature/integrity/decryption/re-evaluation on local Anvil. Trusted verifier; no ZK. Recovery does not establish payment or finality. Complete HPKE delivery permits prepayment decryption; provider-abort trace disproves full fair exchange. Buyer/provider still share one orchestration process.",

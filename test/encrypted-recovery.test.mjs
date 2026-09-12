@@ -63,8 +63,8 @@ async function fixture({ changeOrder, plaintext, signedEvaluation = evaluation, 
   const commitment = `sha256:${sealedResultCommitment(sealedResult).slice(2)}`;
   const evidence = buildEvidence({ orderDigest: digest, ciphertextCommitment: commitment, evaluation: signedEvaluation });
   const messageHash = solidityPackedKeccak256(
-    ["string", "address", "bytes32", "bytes32", "bytes32", "bytes32"],
-    ["ProofOrder/VerificationEvidence/v1", contractAddress, orderId, `0x${digest.slice(7)}`,
+    ["string", "uint256", "address", "bytes32", "bytes32", "bytes32", "bytes32"],
+    ["ProofOrder/VerificationEvidence/v1", 31337, contractAddress, orderId, `0x${digest.slice(7)}`,
       `0x${commitment.slice(7)}`, `0x${evidence.evidenceDigest.slice(7)}`],
   );
   const signature = await verifier.signMessage(getBytes(messageHash));
@@ -174,8 +174,8 @@ test("rewriting evaluation and evidence digest cannot replace the verifier signa
 test("a different signer is rejected even when all bundle digests are valid", async () => {
   const bundle = structuredClone(original.bundle);
   const messageHash = solidityPackedKeccak256(
-    ["string", "address", "bytes32", "bytes32", "bytes32", "bytes32"],
-    ["ProofOrder/VerificationEvidence/v1", contractAddress, bundle.orderId, `0x${bundle.orderDigest.slice(7)}`,
+    ["string", "uint256", "address", "bytes32", "bytes32", "bytes32", "bytes32"],
+    ["ProofOrder/VerificationEvidence/v1", bundle.order.chainId, contractAddress, bundle.orderId, `0x${bundle.orderDigest.slice(7)}`,
       `0x${bundle.ciphertextCommitment.slice(7)}`, `0x${bundle.evidence.evidenceDigest.slice(7)}`],
   );
   bundle.attestation.signature = await buyer.signMessage(getBytes(messageHash));

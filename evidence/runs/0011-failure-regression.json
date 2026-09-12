@@ -1,7 +1,7 @@
 {
   "flow": "failure-boundaries",
   "status": "passed",
-  "generatedAt": "2026-09-12T04:09:05.262Z",
+  "generatedAt": "2026-09-12T04:13:43.852Z",
   "environment": {
     "node": "v25.9.0",
     "ethers": "6.15.0",
@@ -9,7 +9,7 @@
     "chainId": 31337
   },
   "sourceSha256": {
-    "src/ProofOrderSettlement.sol": "bd45fb97794f2dcc37cfa89b80593421492eb19fcab335008418dcb1e954570e",
+    "src/ProofOrderSettlement.sol": "57f18883547663171cbf0ebfc5d8060232a4326b669b186163abbdab03cafc14",
     "src/failure-flow.mjs": "b75a54b764bd13973532a7b8bf9776d2bbabd1f23a6efe17891555db7fbc482e",
     "scripts/run-failure-demo.mjs": "fa062bfad9e50bf9d380dcebec00bf7aedaa19cb2f2e58b00e1410ba076c42ad",
     "scripts/local-demo.mjs": "c543677dc7e78bd3a3fdff282972d913178f1860e368d60962e7e0049e242ef2",
@@ -27,10 +27,10 @@
     "commitment": "0x91392c4fee9d77584f9962eeab79a81dd43fb1c0d6749c333eda0aaad885faf2",
     "evidenceDigest": "0x3fe52aa5d97b749cad16e96f65003939ab0e3ace6b1eae2bce10644403cd10e1",
     "amountWei": "1000000000000000000",
-    "submittedDeadline": "1789189745",
-    "absentDeadline": "1789189745",
-    "validSignature": "0x3a52555ff37c5c4015dd34e2483c45868aad1bbc09bc93c108c800d093b07a4c7c0964756b7fe3951093e601592f8dc860854a21587d686f55b76b3f06ede10a1c",
-    "wrongSignature": "0xe745a24ce1a6393b4e0d27cd1660d24cbf7feb9018f0bc038375ccd6201853146a411949eb633fca59e5c57d2cfc3dbe5dc9219852d0e3a0e7481993640511e41c"
+    "submittedDeadline": "1789190023",
+    "absentDeadline": "1789190023",
+    "validSignature": "0x03fe572c96a8ed62585b2e5cbeaeab51d21fcccf6e6ff7f428ec963b9e6308790906e98dbc5663ff929635a3cd843749249962e5fbc45b90cf5bff51e326a12a1b",
+    "wrongSignature": "0x8dd593331280b94706fcf72e25422a7377736a8fa9e0be9a75faf35c551f76204e8c2cd926986db807c8e42288b8b09df2ef58b1ed9cae2520cc8070e1a5aee31b"
   },
   "positiveControl": {
     "authorizedSignatureAccepted": true,
@@ -127,18 +127,18 @@
       "finalStateName": "Refunded",
       "buyer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
       "refundAmountWei": "1000000000000000000",
-      "transactionHash": "0x5fd1105b738cf46afaad82302440754470e418036af7c4bee22c219cb5b7063c",
+      "transactionHash": "0x31e477b1737408d7a23252fe046ee423e85d0465391ee6e429196e305d248d67",
       "blockNumber": 6,
-      "blockHash": "0x6a6f83d416a935a5c0f3f1c9ba9212e21ce6c23bc22dda1a56df97046f5cdd12",
+      "blockHash": "0x099753b5ab12cb29f5c5279422f3cd66559b696aba42ac68d94ce98940379f46",
       "balanceBeforeBlock": 5,
       "escrowBalanceBeforeWei": "2000000000000000000",
       "escrowBalanceAfterWei": "1000000000000000000",
-      "buyerBalanceBeforeWei": "9997996592828316857044",
-      "buyerBalanceAfterWei": "9998996529732665400164",
-      "transactionFeeWei": "63095651456880",
+      "buyerBalanceBeforeWei": "9997996570771593356666",
+      "buyerBalanceAfterWei": "9998996507673702677930",
+      "transactionFeeWei": "63097890678736",
       "buyerCreditPlusGasWei": "1000000000000000000",
-      "payeeBalanceBeforeWei": "9999999903594693501464",
-      "payeeBalanceAfterWei": "9999999903594693501464"
+      "payeeBalanceBeforeWei": "9999999903590329575352",
+      "payeeBalanceAfterWei": "9999999903590329575352"
     },
     {
       "orderId": "0x4c733d1148fb6dc7cdb7a063f4606e0020414b8e971170988f84334a556c0842",
@@ -147,63 +147,63 @@
       "finalStateName": "Refunded",
       "buyer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
       "refundAmountWei": "1000000000000000000",
-      "transactionHash": "0xa057b3f2405b3f001a53542d2856a363f08c55a774abd75dca4c19ee715b0a99",
+      "transactionHash": "0xa78aa3754a728b375ba4564bba07d7e41e370d4d7fb84d6bc30abf3aaef729e6",
       "blockNumber": 7,
-      "blockHash": "0x9cfdd8c513ecef3fc74c4e1aadbedbfd591a1a251c78597a3adad828a1c9e0a6",
+      "blockHash": "0xb08889ce906c4df784ba68d487329841cf50244e72012b603af8d3dcdb511a44",
       "balanceBeforeBlock": 6,
       "escrowBalanceBeforeWei": "1000000000000000000",
       "escrowBalanceAfterWei": "0",
-      "buyerBalanceBeforeWei": "9998996529732665400164",
-      "buyerBalanceAfterWei": "9999996468975156237684",
-      "transactionFeeWei": "60757509162480",
+      "buyerBalanceBeforeWei": "9998996507673702677930",
+      "buyerBalanceAfterWei": "9999996446914221800330",
+      "transactionFeeWei": "60759480877600",
       "buyerCreditPlusGasWei": "1000000000000000000",
-      "payeeBalanceBeforeWei": "9999999903594693501464",
-      "payeeBalanceAfterWei": "9999999903594693501464"
+      "payeeBalanceBeforeWei": "9999999903590329575352",
+      "payeeBalanceAfterWei": "9999999903590329575352"
     }
   ],
   "finalEscrowBalanceWei": "0",
   "transactions": [
     {
       "action": "deploy",
-      "hash": "0x331a7b0a52c960874a2012f81e1876a2e110c0d98b9c7ae71fcacb7a9676f671",
+      "hash": "0xf6cf7f2ae3c5a6a6d39d207cc4da1b47df9778c9406d6aa5ad300adb87f768a3",
       "blockNumber": 1,
-      "blockHash": "0x2e2960d70544f5b9d2a19420eb45d7c5edfc6a6f67af978ea18ec79b40299a06"
+      "blockHash": "0x7c285a541567d29698658dd67cb4d07baa35f16950db277359964a5058e682a9"
     },
     {
       "action": "fund-submitted",
-      "hash": "0x1ede5cc3d25ba35a83ce0efa7eda5776095ad75ef3b2fdce60232f50304c5425",
+      "hash": "0x96ac12ff9c54225b5305227a09fba1aaccbf022286b47bf2b3f02c10a811a9b1",
       "blockNumber": 2,
-      "blockHash": "0xb3c60fe39e404ab1abc9321b897942d704b999689b0ef36eee7778c4ecb72c08"
+      "blockHash": "0xc998d10d89b6dc5ca4e80df16e7f521fce075b6a81bc9d3afd425a7b7eaab0e6"
     },
     {
       "action": "submit",
-      "hash": "0x62436d299afedeb1e99eccaa33e69376f364875d970f7d318c65ce0004a782eb",
+      "hash": "0xe47c07635e30f6978f2e6983bacfdd08e8d7474d8a5de4057a97863f85f3143e",
       "blockNumber": 3,
-      "blockHash": "0x1d839734d89fa85717fd39f9c70d415748a4970540b2020f87cab30e6c5c1ec8"
+      "blockHash": "0x7266c7568313f8e6ea503e8b67f7097d71c70c5cd4c9d9bcf26ec8140a0ff4bd"
     },
     {
       "action": "fund-provider-absent",
-      "hash": "0x749a0649e18e265eae5853fb981ea32b32482f91d631f6edb4b39beca7d64752",
+      "hash": "0x45ccd92d6f55e3db0c04b85de908f4714121e16c2f08415115c8d0a1568ac630",
       "blockNumber": 4,
-      "blockHash": "0xf8208b951643500c7b670b2f22f16bdc552ac680a8fe175e70e418d25b5b70da"
+      "blockHash": "0x505b120b06836a0ff9781947269c986c19562aa5edfadca86e539c2b597f2698"
     },
     {
       "action": "refund-provider-absent",
-      "hash": "0x5fd1105b738cf46afaad82302440754470e418036af7c4bee22c219cb5b7063c",
+      "hash": "0x31e477b1737408d7a23252fe046ee423e85d0465391ee6e429196e305d248d67",
       "blockNumber": 6,
-      "blockHash": "0x6a6f83d416a935a5c0f3f1c9ba9212e21ce6c23bc22dda1a56df97046f5cdd12"
+      "blockHash": "0x099753b5ab12cb29f5c5279422f3cd66559b696aba42ac68d94ce98940379f46"
     },
     {
       "action": "refund-submitted",
-      "hash": "0xa057b3f2405b3f001a53542d2856a363f08c55a774abd75dca4c19ee715b0a99",
+      "hash": "0xa78aa3754a728b375ba4564bba07d7e41e370d4d7fb84d6bc30abf3aaef729e6",
       "blockNumber": 7,
-      "blockHash": "0x9cfdd8c513ecef3fc74c4e1aadbedbfd591a1a251c78597a3adad828a1c9e0a6"
+      "blockHash": "0xb08889ce906c4df784ba68d487329841cf50244e72012b603af8d3dcdb511a44"
     }
   ],
   "expiryBlock": {
     "number": 5,
-    "hash": "0x0c19b85edec77db84b6a52fd17273fa44b692f7edef6e325b66f9a03858cc54e",
-    "timestamp": 1789189746
+    "hash": "0xa2e99b452a128c88f96aa66cafc0e4d67456eee8862f68d487034332c6c293f9",
+    "timestamp": 1789190024
   },
   "claimBoundary": "Local Anvil: rejection probes are eth_call simulations; funding, submission and refunds are mined transactions. Placeholder commitments; no encryption, ZK proof, public testnet finality, deadline-race or interruption-retry claim.",
   "nodeLifecycle": "fresh Anvil started and stopped by runner"

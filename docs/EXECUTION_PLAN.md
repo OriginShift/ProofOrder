@@ -2,7 +2,7 @@
 
 Updated: 2026-09-12 HKT. Submission target: 2026-09-14 00:00 HKT (ETHGlobal deadline is 2026-09-13 12:00 EDT).
 
-Current gate: encrypted delivery and offline recovery work locally, but the HPKE exchange candidate fails full fair exchange. The [reproduced counterexample](../evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) permits decryption before payment followed by timeout refund when the provider stops before on-chain verification. G1 is not accepted. The next mechanism decision must address that timing and the Verified-state exit before UI or sponsor expansion.
+Current gate: encrypted delivery, offline recovery and explicit chain domain separation work locally, but the HPKE exchange candidate fails full fair exchange. The [reproduced counterexample](../evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) permits decryption before payment followed by timeout refund when the provider stops before on-chain verification. G1 is not accepted. The next mechanism decision must address that timing and the Verified-state exit before UI or sponsor expansion.
 
 ## First principle
 
