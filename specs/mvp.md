@@ -2,6 +2,8 @@
 
 Status: draft, created 2026-09-09 HKT
 
+Implementation update, 2026-09-12: the local encrypted delivery and offline recovery path is implemented, but the original exchange requirement is not met. The [HPKE counterexample](../evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) shows that the full prepayment recovery checkpoint enables immediate decryption followed by refund if the provider stops before verification is mined. The state machine and acceptance gates below remain design targets, not completed guarantees.
+
 ## Goal
 
 Demonstrate one complete agent-to-agent work order in which a buyer can verify that a sealed result satisfies a fixed deterministic rule before settlement, while retaining a local recovery bundle.
@@ -36,6 +38,8 @@ Out of scope: a marketplace, bidding, multiple task types, multi-chain support, 
 ## Frozen offline checkpoint
 
 Before any settlement or release action, the buyer must durably save the complete `RecoveryBundle` locally: order bytes and digest, ciphertext, nonce/IV and authentication data, wrapped key, proof/evidence, chain and contract identifiers, and the retrieval locator. The buyer may then stop responding. Recovery uses only the saved bundle, the buyer private key, and queryable chain state; it must not require a provider callback. This checkpoint does not promise recovery after local deletion or unavailable external storage.
+
+The current schema-2 implementation uses a direct HPKE envelope, so the encapsulation and authenticated ciphertext replace a separately wrapped application key/IV. Its offline signature and recovery checks do not query payment status. The existing contract also requires the buyer to call `settle`; therefore the buyer-offline settlement and bounded exit requirements are still open.
 
 ## Acceptance gates
 

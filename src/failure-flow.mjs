@@ -150,7 +150,7 @@ export async function runFailureFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}
     const finalBlock = Number(BigInt((await latestBlock()).number));
     assert.equal(await rpc.getBalance(settlementAddress, finalBlock), 0n);
     const sourceSha256 = {};
-    for (const path of ["src/ProofOrderSettlement.sol", "src/failure-flow.mjs", "scripts/run-failure-demo.mjs", "package-lock.json"]) {
+    for (const path of ["src/ProofOrderSettlement.sol", "src/failure-flow.mjs", "scripts/run-failure-demo.mjs", "scripts/local-demo.mjs", "package-lock.json"]) {
       sourceSha256[path] = createHash("sha256").update(await readFile(new URL(`../${path}`, import.meta.url))).digest("hex");
     }
     return {

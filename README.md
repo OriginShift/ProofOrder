@@ -23,21 +23,30 @@ npm ci
 git submodule update --init --recursive
 ```
 
-Start Anvil in one terminal:
+Run the encrypted delivery and exchange-boundary experiment:
 
 ```bash
-anvil --port 8546
+npm run demo
 ```
 
-Run the settlement demo in another terminal:
+The command starts a fresh local Anvil, deploys the contract, and runs two asserted traces:
+
+- A valid encrypted delivery is signed by the trusted verifier, settled for 1 ETH, then recovered and re-evaluated by a separate offline process. The payee receives exactly 1 ETH at the settlement block.
+- A provider delivers the complete encrypted bundle and stops before verification is mined. The buyer decrypts while the order is `Submitted`, then takes a 1 ETH timeout refund. This is an intentional counterexample to full fair exchange, not a successful security property.
+
+The report is `artifacts/encrypted-delivery.json`. The [recorded run and decision](evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) contain source hashes, full public bundles, transaction hashes and measured balances. Anvil is stopped automatically; the saved files remain usable for offline recovery.
+
+Encryption uses HPKE with X25519, HKDF-SHA256 and AES-256-GCM. The complete envelope commitment binds the suite, version, order digest, recipient key, encapsulation and ciphertext. Schema-2 recovery checks externally supplied order/chain/contract/verifier expectations, recomputes the order and evidence digests, verifies the ECDSA signature, decrypts, and re-evaluates allocations using the signed input snapshot.
+
+The private decryption key is stored separately under the ignored `artifacts/encrypted-*` directory with mode `0600`. It is a local demo key, not a wallet key, and is never included in the recovery bundle or committed report. The bundle, key and trusted-context files are written before funding using atomic replacement and file/directory sync. Keep the trusted context from the buyer's own order checkpoint; a context supplied alongside an untrusted bundle is not an independent trust anchor.
+
+To repeat recovery after the node has stopped, use the three paths printed in the report:
 
 ```bash
-PROOFORDER_RPC_URL=http://127.0.0.1:8546 npm run demo
+node scripts/recover-demo.mjs <bundle.json> <buyer-key.json> <trusted-context.json>
 ```
 
-The demo deploys a fresh settlement contract and runs the buyer/provider/verifier flow on local Anvil. See [the recorded run](evidence/decisions/0007-anvil-demo-flow.md) for the measured output and claim boundary.
-
-The current settlement demo uses a JSON payload as a placeholder for ciphertext. Recovery checks stored hashes; it does not yet decrypt and re-evaluate a hidden result or verify a recovery bundle's signature. The separate `npm run g0` HPKE experiment is not integrated into this flow.
+Recovery explicitly reports `settlementStatus: "not-queried"`; successful decryption or a valid signature does not prove payment or chain finality. Buyer/provider execution is still one orchestration process, and the verifier sees the result. The small public fixture and published demo output are not intended to be secret. The old schema-1 hash-only helpers remain for compatibility and are not used by this demo.
 
 ## Run failure checks
 
@@ -58,4 +67,4 @@ npm test
 forge test -vv
 ```
 
-The implementation and evidence will be updated in small, reviewable commits. Reused libraries and external research will be attributed with their licenses and links when integrated.
+The encryption implementation uses the existing MIT-licensed `@hpke/core` 1.9.0 and `@hpke/dhkem-x25519` 1.8.0 packages, with `ethers` 6.15.0 for signing and chain access. The lockfile records exact dependencies. HPKE's recipient-encryption construction is described in [RFC 9180](https://www.rfc-editor.org/rfc/rfc9180.html); it does not enforce a payment condition. See [the decision record](evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) for the demonstrated exchange limitation.

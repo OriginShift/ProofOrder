@@ -1,6 +1,8 @@
 # ProofOrder Execution Plan
 
-Updated: 2026-09-09 HKT. Submission target: 2026-09-14 00:00 HKT (ETHGlobal deadline is 2026-09-13 12:00 EDT).
+Updated: 2026-09-12 HKT. Submission target: 2026-09-14 00:00 HKT (ETHGlobal deadline is 2026-09-13 12:00 EDT).
+
+Current gate: encrypted delivery and offline recovery work locally, but the HPKE exchange candidate fails full fair exchange. The [reproduced counterexample](../evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) permits decryption before payment followed by timeout refund when the provider stops before on-chain verification. G1 is not accepted. The next mechanism decision must address that timing and the Verified-state exit before UI or sponsor expansion.
 
 ## First principle
 
@@ -21,7 +23,7 @@ Every scope decision is evaluated against this order. A feature that weakens the
 - Freeze the allocation task, integer units, canonical encoding, score formula, threshold, deadline, and threat model.
 - Write the exchange state machine and the offline checkpoint explicitly.
 - Select the proof/encryption candidates by a time-boxed feasibility experiment. Do not call a mock verifier a result.
-- Preferred exchange experiment: encrypt the result with an AEAD key, wrap that key to the buyer's HPKE public key, and bind ciphertext, wrapped key, order digest, and proof. Never broadcast a plaintext unlock key. The claim is limited by buyer-key secrecy, correct HPKE/AEAD libraries, and ciphertext availability.
+- Initial exchange candidate: encrypt for the buyer using HPKE and bind the complete envelope, order digest and evidence. The implemented direct HPKE envelope provides recipient encryption, but the complete package enables immediate buyer decryption. It does not satisfy payment-gated disclosure; the initial candidate failed the exchange experiment below.
 - Go/no-go by the first working session: at least 20 successful HPKE round trips; deliberate ciphertext, wrapped-key, and order mutations must be rejected; Anvil escrow must cover submit, settle, duplicate, provider abort, and timeout refund. A public-mempool hash-locked reveal path is a documented failure experiment, not the default mechanism.
 - Record the decision, rejected alternatives, assumptions, and command output in `evidence/decisions/`.
 
@@ -31,7 +33,7 @@ Every scope decision is evaluated against this order. A feature that weakens the
 - Implement order/ciphertext/proof bindings and the smallest settlement contract.
 - Run valid proof, changed ciphertext, changed order, changed rule, and secret-leakage experiments.
 - Stop and narrow the claim if the leakage or exchange experiment fails.
-- If a full ZK verifier cannot be benchmarked in the time box, ship the deterministic-evaluator evidence adapter only as a clearly labeled fallback. It may demonstrate the order and settlement path, but it must not be described as a signature, trustless hidden-result proof, or independent cryptographic verification.
+- If a full ZK verifier cannot be benchmarked in the time box, ship the ECDSA-signed deterministic-evaluator adapter only as a clearly labeled trusted attestation. The signature authenticates the verifier's statement; it does not independently prove hidden computation or correct encryption. This fallback also requires explicit exchange limitations.
 
 ## G2: complete order
 

@@ -1,4 +1,4 @@
-import { webcrypto } from "node:crypto";
+import { createHash, webcrypto } from "node:crypto";
 
 const encoder = new TextEncoder();
 
@@ -27,6 +27,10 @@ function canonicalize(value) {
 export function canonicalOrder(order) {
   const normalized = canonicalize({ ...ORDER_CONSTANTS, ...order });
   return JSON.stringify(normalized);
+}
+
+export function snapshotCommitment(snapshot) {
+  return `sha256:${createHash("sha256").update(`ProofOrder/InputSnapshot/v1|${JSON.stringify(canonicalize(snapshot))}`).digest("hex")}`;
 }
 
 export async function orderDigest(order) {

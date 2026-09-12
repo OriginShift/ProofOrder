@@ -2,6 +2,8 @@
 
 Date: 2026-09-09 HKT
 
+Update, 2026-09-12: this initial candidate has failed the full fair-exchange goal. [Decision 0011](0011-encrypted-recovery-and-exchange-boundary.md) records a runnable counterexample: the buyer decrypts the complete HPKE package before payment and later refunds when the provider stops before verification is mined. The original rationale below protects against plaintext-key disclosure to outsiders; it did not address prepayment access by the intended recipient.
+
 ## Decision under test
 
 Use AEAD for the result and RFC 9180 HPKE to wrap the AEAD key to the buyer. Bind the ciphertext, wrapped key, order digest, and proof inputs to the same canonical order bytes. Release payment after the sealed package and valid evidence are submitted; refund on a fixed timeout if submission does not happen.
