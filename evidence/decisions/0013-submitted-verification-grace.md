@@ -11,12 +11,15 @@ Before this change, a provider could submit before the order deadline, yet the b
 
 The contract now exposes `VERIFICATION_GRACE = 1 hour`. A `Funded` order remains refundable at its deadline. A `Submitted` order can be refunded only after `deadline + VERIFICATION_GRACE`; `markVerified` is rejected at or after that same boundary. This bounds the verifier window and removes the immediate Submitted-state refund race. It does not solve buyer prepayment decryption or guarantee provider payment after delivery.
 
+Deadlines are rejected when adding the grace would overflow `uint64`; comparisons use widened `uint256` arithmetic.
+
 ## Validation
 
 - Foundry tests cover chain-domain separation, Submitted refund before and after the grace period, and verification after grace; all contract tests passed.
 - JavaScript failure flow asserts `DeadlineNotReached` during the grace period and then completes both refunds after advancing past it.
 - Encrypted delivery demo still settles successfully; its provider-abort counterexample now advances past the configured grace before refunding.
 - The refreshed machine-readable reports at [0011 encrypted delivery](../runs/0011-encrypted-delivery.json) and [0011 failure regression](../runs/0011-failure-regression.json) match the current source hashes.
+- Foundry also checks submission exactly at the deadline and rejects a maximum `uint64` deadline that cannot represent the grace window.
 
 ## Boundary
 

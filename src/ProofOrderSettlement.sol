@@ -60,7 +60,8 @@ contract ProofOrderSettlement {
         if (orderId == bytes32(0) || orderDigest == bytes32(0) || provider == address(0) || payee == address(0)) {
             revert InvalidOrder();
         }
-        if (orders[orderId].state != State.None || msg.value == 0 || deadline <= block.timestamp) revert InvalidOrder();
+        if (orders[orderId].state != State.None || msg.value == 0 || deadline <= block.timestamp
+            || deadline > type(uint64).max - VERIFICATION_GRACE) revert InvalidOrder();
         orders[orderId] = Order({
             buyer: msg.sender,
             provider: provider,
@@ -93,7 +94,7 @@ contract ProofOrderSettlement {
     function markVerified(bytes32 orderId, bytes32 orderDigest, bytes32 ciphertextCommitment, bytes32 evidenceDigest, bytes calldata signature) external {
         Order storage order = orders[orderId];
         if (order.state != State.Submitted) revert InvalidState();
-        if (block.timestamp >= order.deadline + VERIFICATION_GRACE) revert DeadlinePassed();
+        if (block.timestamp >= uint256(order.deadline) + VERIFICATION_GRACE) revert DeadlinePassed();
         if (order.orderDigest != orderDigest || order.ciphertextCommitment != ciphertextCommitment || evidenceDigest == bytes32(0)) {
             revert InvalidOrder();
         }
@@ -129,7 +130,7 @@ contract ProofOrderSettlement {
         if (order.state != State.Funded && order.state != State.Submitted) revert InvalidState();
         if (msg.sender != order.buyer && msg.sender != order.provider) revert Unauthorized();
         uint256 refundDeadline = order.deadline;
-        if (order.state == State.Submitted) refundDeadline += VERIFICATION_GRACE;
+        if (order.state == State.Submitted) refundDeadline = uint256(order.deadline) + VERIFICATION_GRACE;
         if (block.timestamp < refundDeadline) revert DeadlineNotReached();
         order.state = State.Refunded;
         (bool ok,) = order.buyer.call{value: order.amount}("");

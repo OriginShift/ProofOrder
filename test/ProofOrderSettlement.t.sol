@@ -139,4 +139,18 @@ contract ProofOrderSettlementTest is Test {
         vm.expectRevert(ProofOrderSettlement.DeadlinePassed.selector);
         settlement.markVerified(orderId, orderDigest, commitment, evidenceDigest, signature);
     }
+
+    function testFundRejectsDeadlineThatWouldOverflowVerificationGrace() public {
+        vm.prank(buyer);
+        vm.expectRevert(ProofOrderSettlement.InvalidOrder.selector);
+        settlement.fund(orderId, orderDigest, provider, payee, type(uint64).max);
+    }
+
+    function testSubmitAtDeadlineIsRejected() public {
+        _fund();
+        vm.warp(block.timestamp + 1 days);
+        vm.prank(provider);
+        vm.expectRevert(ProofOrderSettlement.DeadlinePassed.selector);
+        settlement.submit(orderId, commitment);
+    }
 }
