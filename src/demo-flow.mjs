@@ -6,11 +6,10 @@ import { relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import { ContractFactory, FetchRequest, JsonRpcProvider, ZeroHash, getBytes, keccak256, parseEther, version } from "ethers";
-import { buildEvidence } from "./evidence.mjs";
-import { evaluateAllocation } from "./evaluator.mjs";
 import { canonicalOrder, orderDigest, snapshotCommitment } from "./order.mjs";
+import { prepareProviderSubmission } from "./provider-flow.mjs";
 import { createEncryptedRecoveryBundle, loadRecoveryBundle, recoverEncryptedResult, saveRecoveryBundle, verifyEncryptedRecoveryBundle } from "./recovery.mjs";
-import { generateRecipientKeyPair, openSealedResult, sealResult, sealedResultCommitment } from "./sealed-result.mjs";
+import { generateRecipientKeyPair, openSealedResult } from "./sealed-result.mjs";
 
 const execFileAsync = promisify(execFile);
 const hexDigest = (value) => `0x${value.slice("sha256:".length)}`;
@@ -76,14 +75,17 @@ export async function runDemoFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}) {
         deadline, deadlineSeconds: 900, snapshot, inputCommitment: snapshotCommitment(snapshot),
         recipientPublicKey: recipient.publicKey,
       }));
-      const digest = `sha256:${Buffer.from(await orderDigest(order)).toString("hex")}`;
+      const providerSubmission = await prepareProviderSubmission({
+        order,
+        allocations: result.allocations,
+        recipientPublicKey: recipient.publicKey,
+      });
+      assert.equal(providerSubmission.ok, true, `provider proposal rejected: ${providerSubmission.error?.code}`);
+      const { orderDigestHex, evaluation, sealedResult, ciphertextCommitment: commitment, evidence } = providerSubmission;
+      const digest = `sha256:${orderDigestHex.slice(2)}`;
+      assert.equal(digest, `sha256:${Buffer.from(await orderDigest(order)).toString("hex")}`);
       const orderId = keccak256(Buffer.from(`ProofOrder/demo/v2|${digest}`));
       const plaintext = Buffer.from(JSON.stringify(result));
-      const evaluation = evaluateAllocation({ snapshot: order.snapshot, allocations: result.allocations });
-      assert.equal(evaluation.ok, true);
-      const sealedResult = await sealResult({ plaintext, recipientPublicKey: recipient.publicKey, orderDigest: hexDigest(digest) });
-      const commitment = sealedResultCommitment(sealedResult);
-      const evidence = buildEvidence({ orderDigest: digest, ciphertextCommitment: `sha256:${commitment.slice(2)}`, evaluation });
       const message = await settlement.evidenceMessageHash(orderId, hexDigest(digest), commitment, hexDigest(evidence.evidenceDigest));
       const signature = await verifier.signMessage(getBytes(message));
       const expected = {
@@ -185,7 +187,7 @@ export async function runDemoFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}) {
     assert.equal(refundEvent.args.amount, amount);
 
     const sourceSha256 = {};
-    for (const path of ["src/ProofOrderSettlement.sol", "src/order.mjs", "src/demo-flow.mjs", "src/sealed-result.mjs", "src/recovery.mjs", "src/evaluator.mjs", "src/evidence.mjs", "scripts/recover-demo.mjs", "scripts/run-demo.mjs", "scripts/local-demo.mjs", "package-lock.json"]) {
+    for (const path of ["src/ProofOrderSettlement.sol", "src/order.mjs", "src/demo-flow.mjs", "src/provider-flow.mjs", "src/sealed-result.mjs", "src/recovery.mjs", "src/evaluator.mjs", "src/evidence.mjs", "scripts/recover-demo.mjs", "scripts/run-demo.mjs", "scripts/local-demo.mjs", "package-lock.json"]) {
       sourceSha256[path] = createHash("sha256").update(await readFile(new URL(`../${path}`, import.meta.url))).digest("hex");
     }
     return {

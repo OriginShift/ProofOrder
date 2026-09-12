@@ -5,7 +5,7 @@ import { isDeepStrictEqual } from "node:util";
 import { getAddress, getBytes, solidityPackedKeccak256, verifyMessage } from "ethers";
 import { buildEvidence } from "./evidence.mjs";
 import { ALLOCATION_RULES, evaluateAllocation } from "./evaluator.mjs";
-import { orderDigest as digestOrder, snapshotCommitment } from "./order.mjs";
+import { isValidOrderSpec, orderDigest as digestOrder } from "./order.mjs";
 import { openSealedResult, sealedResultCommitment, validateSealedResult } from "./sealed-result.mjs";
 
 function commitment(bytes) {
@@ -44,11 +44,6 @@ export function verifyRecoveryBundle(bundle) {
 const HASH = /^sha256:[0-9a-f]{64}$/;
 const HEX_HASH = /^0x[0-9a-f]{64}$/;
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
-const ORDER_FIELDS = [
-  "version", "nonce", "chainId", "settlementContract", "buyer", "provider", "payee",
-  "taskType", "ruleId", "verifierVersion", "paymentAsset", "feeMinorUnits", "deadlineSeconds",
-  "deadline", "snapshot", "inputCommitment", "recipientPublicKey", "verifierAddress",
-];
 const BUNDLE_FIELDS = [
   "schemaVersion", "orderId", "order", "orderDigest", "sealedResult", "ciphertextCommitment",
   "evidence", "attestation", "chain",
@@ -73,36 +68,6 @@ function address(value) {
 
 function validId(value) {
   return typeof value === "string" && value.length > 0 && value.length <= 128;
-}
-
-function validSnapshot(snapshot) {
-  if (!exactFields(snapshot, ["id", "targets"]) || !validId(snapshot.id)
-    || !Array.isArray(snapshot.targets) || snapshot.targets.length === 0 || snapshot.targets.length > 1024) return false;
-  const ids = new Set();
-  for (const target of snapshot.targets) {
-    if (!exactFields(target, ["id", "liquidityBps", "scoreBps"]) || !validId(target.id) || ids.has(target.id)) return false;
-    if (![target.liquidityBps, target.scoreBps].every((value) => Number.isSafeInteger(value) && value >= 0 && value <= 10_000)) return false;
-    ids.add(target.id);
-  }
-  return true;
-}
-
-function validOrder(order) {
-  if ((!exactFields(order, ORDER_FIELDS) && !exactFields(order, [...ORDER_FIELDS, "orderId"]))
-    || (Object.hasOwn(order, "orderId") && !HEX_HASH.test(order.orderId))
-    || order.version !== 1 || !HEX_HASH.test(order.nonce)
-    || !Number.isSafeInteger(order.chainId) || order.chainId <= 0
-    || ![order.settlementContract, order.buyer, order.provider, order.payee, order.verifierAddress].every(address)
-    || order.taskType !== "constrained-allocation-v1" || order.ruleId !== "allocation-score-v1"
-    || order.verifierVersion !== "ecdsa-evaluator-v1" || order.paymentAsset !== "native"
-    || typeof order.feeMinorUnits !== "string" || !/^[1-9][0-9]{0,77}$/.test(order.feeMinorUnits)
-    || BigInt(order.feeMinorUnits) >= 2n ** 256n
-    || !Number.isSafeInteger(order.deadlineSeconds) || order.deadlineSeconds <= 0
-    || !Number.isSafeInteger(order.deadline) || order.deadline <= 0
-    || order.deadlineSeconds > order.deadline
-    || !validSnapshot(order.snapshot) || !HASH.test(order.inputCommitment)
-    || order.inputCommitment !== snapshotCommitment(order.snapshot)) return false;
-  return typeof order.recipientPublicKey === "string";
 }
 
 function validTrust(trust) {
@@ -155,7 +120,7 @@ export async function verifyEncryptedRecoveryBundle(bundle, trust) {
     if (!exactFields(bundle, BUNDLE_FIELDS) || bundle.schemaVersion !== 2) return fail("INVALID_BUNDLE");
     bundle = structuredClone(bundle);
     trust = structuredClone(trust);
-    if (!validOrder(bundle.order)) return fail("INVALID_ORDER");
+    if (!isValidOrderSpec(bundle.order)) return fail("INVALID_ORDER");
     if (bundle.orderId !== trust.expectedOrderId) return fail("ORDER_ID_MISMATCH");
     if (Object.hasOwn(bundle.order, "orderId") && bundle.order.orderId !== trust.expectedOrderId) return fail("ORDER_ID_MISMATCH");
     if (bundle.orderDigest !== trust.expectedOrderDigest) return fail("ORDER_DIGEST_MISMATCH");
