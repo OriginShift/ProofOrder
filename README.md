@@ -31,10 +31,10 @@ npm run demo
 
 The command starts a fresh local Anvil, deploys the contract, and runs two asserted traces:
 
-- A valid encrypted delivery is signed by the trusted verifier, settled for 1 ETH, then recovered and re-evaluated by a separate offline process. The payee receives exactly 1 ETH at the settlement block.
+- A valid encrypted delivery is signed by the trusted verifier, then settled for 1 ETH by an independent relayer after the buyer stops sending transactions and the verification grace has elapsed. The payee receives exactly 1 ETH at the settlement block; the relayer cannot redirect the fixed payee.
 - A provider delivers the complete encrypted bundle and stops before verification is mined. The buyer decrypts while the order is `Submitted`, then takes a 1 ETH timeout refund. This is an intentional counterexample to full fair exchange, not a successful security property.
 
-The report is `artifacts/encrypted-delivery.json`. The [recorded run and decision](evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) contain source hashes, full public bundles, transaction hashes and measured balances. Anvil is stopped automatically; the saved files remain usable for offline recovery.
+The report is `artifacts/encrypted-delivery.json`. The [recorded settlement run](evidence/runs/0014-verified-settlement.json) and [exchange decision](evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) contain source hashes, public bundles, transaction hashes and measured balances. Anvil is stopped automatically; the saved files remain usable for offline recovery.
 
 Encryption uses HPKE with X25519, HKDF-SHA256 and AES-256-GCM. The complete envelope commitment binds the suite, version, order digest, recipient key, encapsulation and ciphertext. Schema-2 recovery checks externally supplied order/chain/contract/verifier expectations, recomputes the order and evidence digests, verifies the ECDSA signature, decrypts, and re-evaluates allocations using the signed input snapshot.
 
@@ -46,7 +46,7 @@ To repeat recovery after the node has stopped, use the three paths printed in th
 node scripts/recover-demo.mjs <bundle.json> <buyer-key.json> <trusted-context.json>
 ```
 
-Recovery explicitly reports `settlementStatus: "not-queried"`; successful decryption or a valid signature does not prove payment or chain finality. Buyer/provider execution is still one orchestration process, and the verifier sees the result. The small public fixture and published demo output are not intended to be secret. The old schema-1 hash-only helpers remain for compatibility and are not used by this demo.
+Recovery explicitly reports `settlementStatus: "not-queried"`; successful decryption or a valid signature does not prove payment or chain finality. The demo shows a buyer-offline settlement transaction, but buyer/provider execution is still one orchestration process, and the verifier sees the result. The small public fixture and published demo output are not intended to be secret. The old schema-1 hash-only helpers remain for compatibility and are not used by this demo.
 
 ## Run failure checks
 

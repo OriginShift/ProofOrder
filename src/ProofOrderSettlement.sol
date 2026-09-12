@@ -50,18 +50,17 @@ contract ProofOrderSettlement {
     event Settled(bytes32 indexed orderId, address indexed payee, uint256 amount);
     event Refunded(bytes32 indexed orderId, address indexed buyer, uint256 amount);
 
-    function fund(
-        bytes32 orderId,
-        bytes32 orderDigest,
-        address provider,
-        address payee,
-        uint64 deadline
-    ) external payable {
+    function fund(bytes32 orderId, bytes32 orderDigest, address provider, address payee, uint64 deadline)
+        external
+        payable
+    {
         if (orderId == bytes32(0) || orderDigest == bytes32(0) || provider == address(0) || payee == address(0)) {
             revert InvalidOrder();
         }
-        if (orders[orderId].state != State.None || msg.value == 0 || deadline <= block.timestamp
-            || deadline > type(uint64).max - VERIFICATION_GRACE) revert InvalidOrder();
+        if (
+            orders[orderId].state != State.None || msg.value == 0 || deadline <= block.timestamp
+                || deadline > type(uint64).max - VERIFICATION_GRACE
+        ) revert InvalidOrder();
         orders[orderId] = Order({
             buyer: msg.sender,
             provider: provider,
@@ -87,15 +86,39 @@ contract ProofOrderSettlement {
         emit Submitted(orderId, ciphertextCommitment);
     }
 
-    function evidenceMessageHash(bytes32 orderId, bytes32 orderDigest, bytes32 ciphertextCommitment, bytes32 evidenceDigest) public view returns (bytes32) {
-        return keccak256(abi.encodePacked("ProofOrder/VerificationEvidence/v1", block.chainid, address(this), orderId, orderDigest, ciphertextCommitment, evidenceDigest));
+    function evidenceMessageHash(
+        bytes32 orderId,
+        bytes32 orderDigest,
+        bytes32 ciphertextCommitment,
+        bytes32 evidenceDigest
+    ) public view returns (bytes32) {
+        return keccak256(
+            abi.encodePacked(
+                "ProofOrder/VerificationEvidence/v1",
+                block.chainid,
+                address(this),
+                orderId,
+                orderDigest,
+                ciphertextCommitment,
+                evidenceDigest
+            )
+        );
     }
 
-    function markVerified(bytes32 orderId, bytes32 orderDigest, bytes32 ciphertextCommitment, bytes32 evidenceDigest, bytes calldata signature) external {
+    function markVerified(
+        bytes32 orderId,
+        bytes32 orderDigest,
+        bytes32 ciphertextCommitment,
+        bytes32 evidenceDigest,
+        bytes calldata signature
+    ) external {
         Order storage order = orders[orderId];
         if (order.state != State.Submitted) revert InvalidState();
         if (block.timestamp >= uint256(order.deadline) + VERIFICATION_GRACE) revert DeadlinePassed();
-        if (order.orderDigest != orderDigest || order.ciphertextCommitment != ciphertextCommitment || evidenceDigest == bytes32(0)) {
+        if (
+            order.orderDigest != orderDigest || order.ciphertextCommitment != ciphertextCommitment
+                || evidenceDigest == bytes32(0)
+        ) {
             revert InvalidOrder();
         }
         if (signature.length != 65) revert InvalidSignature();
@@ -115,10 +138,10 @@ contract ProofOrderSettlement {
         emit Verified(orderId);
     }
 
+    /// @notice Anyone may execute a verified payment; the funded payee and amount remain fixed.
     function settle(bytes32 orderId) external {
         Order storage order = orders[orderId];
         if (order.state != State.Verified) revert InvalidState();
-        if (msg.sender != order.buyer) revert Unauthorized();
         order.state = State.Settled;
         (bool ok,) = order.payee.call{value: order.amount}("");
         if (!ok) revert TransferFailed();

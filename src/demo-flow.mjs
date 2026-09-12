@@ -40,22 +40,26 @@ export async function runDemoFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}) {
     const buyer = await rpc.getSigner(0);
     const provider = await rpc.getSigner(1);
     const verifier = await rpc.getSigner(2);
+    const relayer = await rpc.getSigner(3);
     const buyerAddress = await buyer.getAddress();
     const providerAddress = await provider.getAddress();
     const verifierAddress = await verifier.getAddress();
+    const relayerAddress = await relayer.getAddress();
+    assert.equal(new Set([buyerAddress, providerAddress, verifierAddress, relayerAddress]).size, 4);
     const artifact = JSON.parse(await readFile(new URL("../out/ProofOrderSettlement.sol/ProofOrderSettlement.json", import.meta.url), "utf8"));
     const transactions = [];
     const mined = async (pending, action) => {
       combinedSignal.throwIfAborted();
       const receipt = await (await pending).wait(1, 15_000);
       assert.equal(receipt?.status, 1, `${action} failed`);
-      transactions.push({ action, hash: receipt.hash, blockNumber: receipt.blockNumber, blockHash: receipt.blockHash });
+      transactions.push({ action, from: receipt.from, hash: receipt.hash, blockNumber: receipt.blockNumber, blockHash: receipt.blockHash });
       return receipt;
     };
     const settlement = await new ContractFactory(artifact.abi, artifact.bytecode, buyer).deploy(verifierAddress);
     await mined(settlement.deploymentTransaction(), "deploy");
     const contractAddress = await settlement.getAddress();
     const amount = parseEther("1");
+    const verificationGrace = Number(await settlement.VERIFICATION_GRACE());
     const latest = () => rpc.send("eth_getBlockByNumber", ["latest", false]);
     const artifacts = fileURLToPath(new URL("../artifacts/", import.meta.url));
     await mkdir(artifacts, { recursive: true });
@@ -109,9 +113,26 @@ export async function runDemoFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}) {
     }
 
     const valid = await prepare("settled");
-    await fundAndSubmit(valid, "settled");
-    await mined(settlement.markVerified(valid.orderId, hexDigest(valid.digest), valid.commitment, hexDigest(valid.evidence.evidenceDigest), valid.signature), "settled:verify");
-    const settled = await mined(settlement.settle(valid.orderId), "settled:pay");
+    const validSubmitted = await fundAndSubmit(valid, "settled");
+    const buyerNonceAtCheckpoint = await rpc.getTransactionCount(buyerAddress, validSubmitted.blockNumber);
+    const buyerBalanceAtCheckpoint = await rpc.getBalance(buyerAddress, validSubmitted.blockNumber);
+    const verified = await mined(settlement.connect(verifier).markVerified(valid.orderId, hexDigest(valid.digest), valid.commitment, hexDigest(valid.evidence.evidenceDigest), valid.signature), "settled:verify");
+    assert.equal((await settlement.orders(valid.orderId, { blockTag: verified.blockNumber })).state, 3n);
+
+    // The buyer sends no further transactions for this order, even after the verification window.
+    await rpc.send("evm_setNextBlockTimestamp", [valid.order.deadline + verificationGrace + 1]);
+    await rpc.send("evm_mine", []);
+    const settled = await mined(settlement.connect(relayer).settle(valid.orderId), "settled:pay");
+    assert.equal(settled.from, relayerAddress);
+    const settlementTimestamp = Number((await rpc.getBlock(settled.blockNumber)).timestamp);
+    assert.ok(settlementTimestamp > valid.order.deadline + verificationGrace);
+    const buyerNonceAfterSettlement = await rpc.getTransactionCount(buyerAddress, settled.blockNumber);
+    const buyerBalanceAfterSettlement = await rpc.getBalance(buyerAddress, settled.blockNumber);
+    assert.equal(buyerNonceAfterSettlement, buyerNonceAtCheckpoint);
+    assert.equal(buyerBalanceAfterSettlement, buyerBalanceAtCheckpoint);
+    const relayerBefore = await rpc.getBalance(relayerAddress, settled.blockNumber - 1);
+    const relayerAfter = await rpc.getBalance(relayerAddress, settled.blockNumber);
+    assert.equal(relayerBefore - relayerAfter, settled.fee);
     const settledOrder = await settlement.orders(valid.orderId, { blockTag: settled.blockNumber });
     assert.equal(settledOrder.state, 4n);
     assert.equal(settledOrder.orderDigest, hexDigest(valid.digest));
@@ -146,7 +167,6 @@ export async function runDemoFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}) {
     const earlyRecovery = await recoverEncryptedResult(await loadRecoveryBundle(attack.paths.bundle), { ...attack.expected, recipientPrivateKey: attack.recipient.privateKey });
     assert.equal(earlyRecovery.ok, true);
     assert.deepEqual(earlyRecovery.result, result);
-    const verificationGrace = Number(await settlement.VERIFICATION_GRACE());
     await rpc.send("evm_setNextBlockTimestamp", [attack.order.deadline + verificationGrace + 1]);
     await rpc.send("evm_mine", []);
     const refund = await mined(settlement.refund(attack.orderId), "prepayment:refund");
@@ -178,6 +198,16 @@ export async function runDemoFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}) {
         recovery: { independentProcess: true, rpcRequired: false, providerCallbackRequired: false, result: recovered.result, evaluation: recovered.evaluation,
           paths: Object.fromEntries(Object.entries(valid.paths).map(([key, value]) => [key, relative(fileURLToPath(new URL("../", import.meta.url)), value)])) },
         settlement: { transactionHash: settled.hash, blockNumber: settled.blockNumber, payeeBalanceBeforeWei: String(payeeBefore), payeeBalanceAfterWei: String(payeeAfter), payeeCreditWei: String(payeeAfter - payeeBefore), escrowBalanceAfterWei: "0" },
+        buyerOfflineSettlement: {
+          buyerAddress, providerAddress, verifierAddress, relayerAddress, payeeAddress: providerAddress,
+          checkpointBlockNumber: validSubmitted.blockNumber, verificationTransactionHash: verified.hash,
+          buyerNonceAtCheckpoint, buyerNonceAfterSettlement,
+          buyerBalanceAtCheckpointWei: String(buyerBalanceAtCheckpoint), buyerBalanceAfterSettlementWei: String(buyerBalanceAfterSettlement),
+          deadline: valid.order.deadline, verificationGraceSeconds: verificationGrace, settlementTimestamp,
+          relayerBalanceBeforeWei: String(relayerBefore), relayerBalanceAfterWei: String(relayerAfter), relayerFeeWei: String(settled.fee),
+          buyerTransactionsAfterCheckpoint: buyerNonceAfterSettlement - buyerNonceAtCheckpoint,
+          paymentAuthorization: "Trusted verifier signature accepted on chain; any caller may pay the fixed payee.",
+        },
       },
       exchangeBoundary: {
         status: "counterexample-reproduced", scenario: "Provider delivers the complete encrypted bundle, then stops before verification is mined. Buyer decrypts while Submitted, then obtains timeout refund.",
@@ -191,7 +221,7 @@ export async function runDemoFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}) {
       },
       inputs: { settledBundle: await loadRecoveryBundle(valid.paths.bundle), prepaymentBundle: await loadRecoveryBundle(attack.paths.bundle) },
       transactions,
-      claimBoundary: "Real recipient encryption and offline signature/integrity/decryption/re-evaluation on local Anvil. Trusted verifier; no ZK. Recovery does not establish payment or finality. Complete HPKE delivery permits prepayment decryption; provider-abort trace disproves full fair exchange. Buyer/provider still share one orchestration process.",
+      claimBoundary: "Real recipient encryption, offline recovery and fixed-payee settlement by a relayer after the buyer stops sending transactions, on local Anvil. Trusted verifier; no ZK. Verification authorizes payment without a further buyer approval and does not prove delivery. Recovery does not establish payment or finality. Complete HPKE delivery permits prepayment decryption; provider-abort trace disproves full fair exchange. Actors still share one orchestration process. A permanently reverting payee can still block payout.",
     };
   }
   let onAbort;

@@ -2,7 +2,7 @@
 
 Status: draft, created 2026-09-09 HKT
 
-Implementation update, 2026-09-12: the local encrypted delivery and offline recovery path is implemented, but the original exchange requirement is not met. The [HPKE counterexample](../evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) shows that the full prepayment recovery checkpoint enables immediate decryption followed by refund if the provider stops before verification is mined. The state machine and acceptance gates below remain design targets, not completed guarantees.
+Implementation update, 2026-09-12: the local encrypted delivery, offline recovery, bounded verification grace, and permissionless fixed-payee settlement paths are implemented. The [HPKE counterexample](../evidence/decisions/0011-encrypted-recovery-and-exchange-boundary.md) still shows that the full prepayment recovery checkpoint enables immediate decryption followed by refund if the provider stops before verification is mined. These local paths do not satisfy full fair exchange.
 
 ## Goal
 
@@ -39,7 +39,7 @@ Out of scope: a marketplace, bidding, multiple task types, multi-chain support, 
 
 Before any settlement or release action, the buyer must durably save the complete `RecoveryBundle` locally: order bytes and digest, ciphertext, nonce/IV and authentication data, wrapped key, proof/evidence, chain and contract identifiers, and the retrieval locator. The buyer may then stop responding. Recovery uses only the saved bundle, the buyer private key, and queryable chain state; it must not require a provider callback. This checkpoint does not promise recovery after local deletion or unavailable external storage.
 
-The current schema-2 implementation uses a direct HPKE envelope, so the encapsulation and authenticated ciphertext replace a separately wrapped application key/IV. Its offline signature and recovery checks do not query payment status. The existing contract also requires the buyer to call `settle`; therefore the buyer-offline settlement and bounded exit requirements are still open.
+The current schema-2 implementation uses a direct HPKE envelope, so the encapsulation and authenticated ciphertext replace a separately wrapped application key/IV. Its offline signature and recovery checks do not query payment status. After a verifier signature moves an order to `VERIFIED`, any caller may execute `settle`; the contract pays the immutable payee and amount, so the buyer need not send a transaction. A payee that rejects native transfers can still block settlement until it accepts a retry. This is a liveness improvement, not a delivery or fair-exchange guarantee.
 
 ## Acceptance gates
 
