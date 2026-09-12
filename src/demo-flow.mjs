@@ -146,7 +146,8 @@ export async function runDemoFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}) {
     const earlyRecovery = await recoverEncryptedResult(await loadRecoveryBundle(attack.paths.bundle), { ...attack.expected, recipientPrivateKey: attack.recipient.privateKey });
     assert.equal(earlyRecovery.ok, true);
     assert.deepEqual(earlyRecovery.result, result);
-    await rpc.send("evm_setNextBlockTimestamp", [attack.order.deadline + 1]);
+    const verificationGrace = Number(await settlement.VERIFICATION_GRACE());
+    await rpc.send("evm_setNextBlockTimestamp", [attack.order.deadline + verificationGrace + 1]);
     await rpc.send("evm_mine", []);
     const refund = await mined(settlement.refund(attack.orderId), "prepayment:refund");
     const buyerBefore = await rpc.getBalance(buyerAddress, refund.blockNumber - 1);
@@ -182,7 +183,7 @@ export async function runDemoFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}) {
         status: "counterexample-reproduced", scenario: "Provider delivers the complete encrypted bundle, then stops before verification is mined. Buyer decrypts while Submitted, then obtains timeout refund.",
         orderId: attack.orderId, orderDigest: attack.digest, ciphertextCommitment: attack.commitment,
         decryptedBeforePayment: true, chainStateAtDecryption: "Submitted", chainEvidenceAtDecryption: ZeroHash,
-        decryptBlockNumber: submitted.blockNumber, deadline: attack.order.deadline, finalState: "Refunded",
+        decryptBlockNumber: submitted.blockNumber, deadline: attack.order.deadline, verificationGraceSeconds: verificationGrace, finalState: "Refunded",
         refundTransactionHash: refund.hash, refundBlockNumber: refund.blockNumber,
         buyerBalanceBeforeWei: String(buyerBefore), buyerBalanceAfterWei: String(buyerAfter), refundFeeWei: String(refund.fee),
         buyerCreditPlusGasWei: String(buyerAfter - buyerBefore + refund.fee), providerCreditDuringRefundWei: String(attackPayeeAfter - attackPayeeBefore),

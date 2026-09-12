@@ -114,4 +114,29 @@ contract ProofOrderSettlementTest is Test {
         bytes32 otherChainHash = settlement.evidenceMessageHash(orderId, orderDigest, commitment, evidenceDigest);
         assertTrue(localHash != otherChainHash);
     }
+
+    function testSubmittedRefundWaitsForVerificationGrace() public {
+        _fund();
+        vm.prank(provider);
+        settlement.submit(orderId, commitment);
+        vm.warp(block.timestamp + 1 days);
+        vm.prank(buyer);
+        vm.expectRevert(ProofOrderSettlement.DeadlineNotReached.selector);
+        settlement.refund(orderId);
+        vm.warp(block.timestamp + settlement.VERIFICATION_GRACE());
+        vm.prank(buyer);
+        settlement.refund(orderId);
+        (, , , , , ProofOrderSettlement.State state, , ,) = settlement.orders(orderId);
+        assertEq(uint8(state), uint8(ProofOrderSettlement.State.Refunded));
+    }
+
+    function testVerificationAfterGraceIsRejected() public {
+        _fund();
+        vm.prank(provider);
+        settlement.submit(orderId, commitment);
+        vm.warp(block.timestamp + 1 days + settlement.VERIFICATION_GRACE());
+        bytes memory signature = _signature();
+        vm.expectRevert(ProofOrderSettlement.DeadlinePassed.selector);
+        settlement.markVerified(orderId, orderDigest, commitment, evidenceDigest, signature);
+    }
 }

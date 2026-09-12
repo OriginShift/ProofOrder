@@ -110,6 +110,10 @@ export async function runFailureFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}
     const expiryBlock = await latestBlock();
     assert.equal(BigInt(expiryBlock.timestamp), expiry + 1n);
     await rejected("submit-after-deadline", () => settlement.connect(serviceProvider).submit.staticCall(absentId, commitment), "DeadlinePassed");
+    await rejected("submitted-refund-during-verification-grace", () => settlement.refund.staticCall(submittedId), "DeadlineNotReached");
+    const grace = await settlement.VERIFICATION_GRACE();
+    await rpc.send("evm_setNextBlockTimestamp", [Number(expiry + grace + 1n)]);
+    await rpc.send("evm_mine", []);
 
     const refunds = [];
     for (const [id, initialState] of [[absentId, 1n], [submittedId, 2n]]) {

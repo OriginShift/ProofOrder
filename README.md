@@ -58,6 +58,8 @@ npm run demo:failures
 
 It checks an authorized-signature positive control and 10 exact contract rejections, then refunds a funded order and a submitted order after their deadlines. Refund events, receipt-block balances, buyer credit including gas, unchanged provider balance, and final zero escrow are asserted. A failed assertion or RPC error exits nonzero. The flow has a 60-second overall timeout and bounded RPC/receipt waits.
 
+The settlement contract gives submitted orders a fixed one-hour `VERIFICATION_GRACE`: a submission made before the deadline cannot be refunded immediately while verifier processing is in flight, and verification after the grace is rejected. This bounds the verifier window; it does not resolve post-payment delivery withholding.
+
 The generated report is `artifacts/failure-boundaries.json`; a new invocation removes the previous report so a failed run cannot leave stale success evidence. The [recorded run](evidence/decisions/0010-failure-boundaries-run.md) includes committed transaction hashes, inputs, source hashes and exact claim boundaries. Rejected calls are simulations; the refunds are mined local transactions.
 
 To reuse a dedicated local Anvil, set `PROOFORDER_RPC_URL`. The command deploys a new contract each time and advances that node's clock past the orders' deadlines. It does not reset or stop a supplied node. Use a dedicated node with the default unlocked accounts and chain ID 31337; do not share it with another active demo.

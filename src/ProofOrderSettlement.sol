@@ -5,6 +5,7 @@ pragma solidity ^0.8.24;
 /// The proof verifier is intentionally an explicit interface; a boolean submitted by a UI
 /// is never accepted as verification evidence.
 contract ProofOrderSettlement {
+    uint64 public constant VERIFICATION_GRACE = 1 hours;
     enum State {
         None,
         Funded,
@@ -92,6 +93,7 @@ contract ProofOrderSettlement {
     function markVerified(bytes32 orderId, bytes32 orderDigest, bytes32 ciphertextCommitment, bytes32 evidenceDigest, bytes calldata signature) external {
         Order storage order = orders[orderId];
         if (order.state != State.Submitted) revert InvalidState();
+        if (block.timestamp >= order.deadline + VERIFICATION_GRACE) revert DeadlinePassed();
         if (order.orderDigest != orderDigest || order.ciphertextCommitment != ciphertextCommitment || evidenceDigest == bytes32(0)) {
             revert InvalidOrder();
         }
@@ -126,7 +128,9 @@ contract ProofOrderSettlement {
         Order storage order = orders[orderId];
         if (order.state != State.Funded && order.state != State.Submitted) revert InvalidState();
         if (msg.sender != order.buyer && msg.sender != order.provider) revert Unauthorized();
-        if (block.timestamp < order.deadline) revert DeadlineNotReached();
+        uint256 refundDeadline = order.deadline;
+        if (order.state == State.Submitted) refundDeadline += VERIFICATION_GRACE;
+        if (block.timestamp < refundDeadline) revert DeadlineNotReached();
         order.state = State.Refunded;
         (bool ok,) = order.buyer.call{value: order.amount}("");
         if (!ok) revert TransferFailed();

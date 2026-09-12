@@ -14,10 +14,10 @@ Status: partial local implementation evidence; no gate is fully accepted. Passed
 | T08 | Replaced payee | fixed-recipient failure | pending |
 | T09 | Cross-domain replay | domain separation failure | contract evidence hash now binds `block.chainid`; Foundry hash-difference test and offline chain-context checks passed ([decision 0012](decisions/0012-chain-domain-separation.md)); public testnet replay pending |
 | T10 | Duplicate submit/settle | idempotent rejection | contract path passed; demo flow passed |
-| T12 | Provider abort | bounded exit/refund | [Local Funded and Submitted timeout refunds](decisions/0010-failure-boundaries-run.md) passed with event/balance assertions; provider-initiated exit and Verified-state handling pending |
+| T12 | Provider abort | bounded exit/refund | Funded and Submitted timeout refunds pass with event/balance assertions; Submitted refund uses a 1-hour verifier grace; provider-initiated exit and Verified-state handling pending |
 | T13 | Missing or corrupt ciphertext | no false recovery success | schema-2 envelope/signature/key mutation checks and durable local recovery passed; external storage pending |
 | T15 | Failed transaction leaks secret | mechanism result and narrowed claim if needed | [Prepayment decryption followed by provider-abort refund reproduced](decisions/0011-encrypted-recovery-and-exchange-boundary.md): full fair exchange failed, claim narrowed; failed/reverted-transaction and mempool race traces pending |
-| T16 | Deadline race | legal/illegal state traces | [Local predeadline refund rejection and postdeadline refund/submit checks](decisions/0010-failure-boundaries-run.md) passed; exact-deadline ordering and transaction races pending |
+| T16 | Deadline race | legal/illegal state traces | [Local predeadline refund rejection, Submitted verifier grace and post-grace refund/verify checks](decisions/0010-failure-boundaries-run.md) passed; exact-deadline transaction races pending |
 | T17 | Unconfirmed/reorged transaction | no premature final status | pending |
 | T18 | Retry/network interruption | same order, no duplicate payment | contract idempotency path tested; CLI retry pending |
 | T20 | Clean environment | independent reproduction log | automated fresh-Anvil run passed; clean installation and independent human reproduction pending |
