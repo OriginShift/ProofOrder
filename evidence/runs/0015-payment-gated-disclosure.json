@@ -1,14 +1,141 @@
 {
-  "experiment": "payment-gated-disclosure-v1",
-  "status": "candidate-fails-fair-exchange",
-  "orderDigest": "0xabababababababababababababababababababababababababababababababab",
-  "ciphertextCommitment": "0x44ff1259bb1e47886ade80c4f95716ae93036ec38602dca747b02afb1f03b019",
-  "keyCommitment": "0xdd35ad0e6b5450786849b299173606333c51483aad5faaee15c08026b10facdf",
-  "prepaymentDecryptable": false,
-  "prepaymentError": "KEY_UNAVAILABLE",
-  "postSettlementReleaseDecryptable": true,
-  "providerWithholdingAfterSettlement": true,
-  "withholdingError": "KEY_UNAVAILABLE",
-  "plaintextSha256": "d72f8008bac34750788bd6f493ccfa217f6801503df0a34d8a7e3b769b09e37f",
-  "claimBoundary": "The candidate prevents local decryption until a key release, but payment does not force the provider to release that key. It is an experiment, not a production fair-exchange protocol."
+  "experiment": "deferred-key-release-on-anvil",
+  "status": "passed",
+  "candidateResult": "fails-fair-exchange",
+  "generatedAt": "2026-09-12T06:04:27.198Z",
+  "environment": {
+    "node": "v25.9.0",
+    "ethers": "6.15.0",
+    "clientVersion": "anvil/v1.6.0",
+    "chainId": 31337
+  },
+  "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "buyerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "providerAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+  "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+  "relayerAddress": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+  "traces": [
+    {
+      "scenario": "release",
+      "orderId": "0xffc8b1bb1bbe0ac12d68d0fba64be391d1a828f277acd88bd82a886e544aeb5b",
+      "orderDigest": "0x961c625691b81286b65ad0009bbef84f35160b05ee879a57d3b5e8679a3f0c0f",
+      "envelope": {
+        "version": 1,
+        "suite": "AES-256-GCM",
+        "orderDigest": "0x961c625691b81286b65ad0009bbef84f35160b05ee879a57d3b5e8679a3f0c0f",
+        "iv": "AGSs8Mtez86NxQrG",
+        "ciphertext": "UsjpA28z5eZmi2yp8wnZAHvGnbd2fWaHUZhTsTYNae4mcN+mwg==",
+        "tag": "tiSwN1wGFSMVUnq6iGp6ZA==",
+        "keyCommitment": "0xfaaee65cb03d016446f5c42187684380070bb2fd1513f43375974c203eb50c81"
+      },
+      "envelopeCommitment": "0xe84f3cffe9cc1d0365b540d15678290ab5d31064eca754e2471f75b009ad3738",
+      "prepaymentRecoveryError": "KEY_UNAVAILABLE",
+      "payment": {
+        "state": "Settled",
+        "blockNumber": 5,
+        "relayerAddress": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+        "payeeCreditWei": "1000000000000000000",
+        "escrowAfterWei": "0"
+      },
+      "recovery": {
+        "keyReleasedAfterSettlement": true,
+        "decrypted": true
+      }
+    },
+    {
+      "scenario": "withhold",
+      "orderId": "0x30b0f62b62527afea6aa31325c96de1fd03e629e6396e4599c300b683874da9a",
+      "orderDigest": "0xd8c4fb68a1d07049968da50206db1ee8a8e01359d7b57c9ac178898436379567",
+      "envelope": {
+        "version": 1,
+        "suite": "AES-256-GCM",
+        "orderDigest": "0xd8c4fb68a1d07049968da50206db1ee8a8e01359d7b57c9ac178898436379567",
+        "iv": "TObbaXP4BNihEMBu",
+        "ciphertext": "+mI2VutF30/9f/quqkrxWJ6J4N0eHebiCtZJ2sea9Qr5wOJhSw==",
+        "tag": "vCi/OV94Q7EQM1AH+74ImQ==",
+        "keyCommitment": "0x88bdcc84b6df450524d835c278ea7ee31cc0c257625f0588624b846aa900aad1"
+      },
+      "envelopeCommitment": "0x5fa3b5d71d1fcc5a941cc058b1128849fc69b4d2bc567fd9dbed755554cb0c01",
+      "prepaymentRecoveryError": "KEY_UNAVAILABLE",
+      "payment": {
+        "state": "Settled",
+        "blockNumber": 9,
+        "relayerAddress": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+        "payeeCreditWei": "1000000000000000000",
+        "escrowAfterWei": "0"
+      },
+      "recovery": {
+        "keyReleasedAfterSettlement": false,
+        "decrypted": false,
+        "postPaymentError": "KEY_UNAVAILABLE"
+      }
+    }
+  ],
+  "transactions": [
+    {
+      "action": "deploy",
+      "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "hash": "0x04d240ce4c2edc465e14700b9480e5e752185dfcd1d674163855ed4673dfe1ca",
+      "blockNumber": 1,
+      "blockHash": "0x5ea0605903d9383c6a1ce153f38052c50c3e141c16443cf9089769c5e7fc54f0"
+    },
+    {
+      "action": "release:fund",
+      "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "hash": "0xaeaaa5c77ae9cd34c54eb722799899ded9140b9cca144dfa06d43b5edafb66e3",
+      "blockNumber": 2,
+      "blockHash": "0xe6a8e10894b2ece11c4c7825527d9e63f43f3acda3d10d271fd630c20882ba18"
+    },
+    {
+      "action": "release:submit",
+      "from": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "hash": "0xcad31d0b3cf5e4a8490b04a0c7a31a2e6f8137ae4dd9c0aa48f7a8bd62fede38",
+      "blockNumber": 3,
+      "blockHash": "0xb00a4afa566efaacd3ab709590ec4b0985e317c5d0c3904b335ac7642300dd39"
+    },
+    {
+      "action": "release:verify",
+      "from": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "hash": "0x4e17414bceda73e8d56dfa99339f34572b8c0143971c83d04c949a906a05a8cb",
+      "blockNumber": 4,
+      "blockHash": "0xac01ae871371d26daed6f51ffdfbe8d4e292f2442c24672f1cee22399263627e"
+    },
+    {
+      "action": "release:settle",
+      "from": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "hash": "0x7af9ae787ef3a2e68f4f1c21c58067a24017c8e028d1c4fe61318c10ea5e2d4f",
+      "blockNumber": 5,
+      "blockHash": "0x33b02e9224f0230b31a3b7ac42caee4986c2a3f85c9f8889864a1e54b990c879"
+    },
+    {
+      "action": "withhold:fund",
+      "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "hash": "0xeccddcd059d0855826d6040d83f2108f14fc5d086d10e9243f47316f861bc0f9",
+      "blockNumber": 6,
+      "blockHash": "0x7f537d5921d58dd9292052ae39556f8d2a6f67623959cb583d52baae34f92a00"
+    },
+    {
+      "action": "withhold:submit",
+      "from": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "hash": "0x52aea099bc8827493d25738908bf22d57a8504da83161c3bcb247748687b80ac",
+      "blockNumber": 7,
+      "blockHash": "0xf2405964fcf24a41d06bd065a2339959111d9fc5849478dd4ee4ea5b48031bea"
+    },
+    {
+      "action": "withhold:verify",
+      "from": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "hash": "0x60620f10f9b4b43ad9514bbe5fea66f4598510ca274cf7590fe643a7c0dd60d6",
+      "blockNumber": 8,
+      "blockHash": "0x2782e61cb4a43f85ecb0b85f0a1b2bd0a5047d40e30e0b33d17ae8a812527aa3"
+    },
+    {
+      "action": "withhold:settle",
+      "from": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "hash": "0x151f0bc2d8d954853886df799cef697e9d98892951fa23e36c322981bafefe41",
+      "blockNumber": 9,
+      "blockHash": "0x7744422d4b3d2de18d2b078c483e7f4814d5a66bdc6f1d7430ae8db62bcd1db0"
+    }
+  ],
+  "claimBoundary": "Mined local Anvil payments and fixed-payee settlement. Prepayment decryption is blocked by the missing key, but provider key release remains voluntary after payment. The candidate is not a production fair-exchange protocol; no ZK or trustless release is claimed.",
+  "nodeLifecycle": "fresh Anvil started and stopped by runner"
 }

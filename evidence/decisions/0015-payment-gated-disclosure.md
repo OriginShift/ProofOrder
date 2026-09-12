@@ -4,7 +4,7 @@ Date: 2026-09-12 HKT
 
 ## Experiment
 
-The direct HPKE bundle gives the buyer all material needed to decrypt before payment. This experiment separates the result ciphertext from a random AES-256-GCM data key. The public bundle contains the ciphertext, nonce, authentication tag, order-bound ciphertext commitment, and order-bound key commitment, but not the data key. A simulated post-settlement release supplies the key.
+The direct HPKE bundle gives the buyer all material needed to decrypt before payment. This experiment separates the result ciphertext from a random AES-256-GCM data key. The public bundle contains the ciphertext, nonce, authentication tag, order-bound key commitment, and buyer-pinned envelope commitment, but not the data key. A post-settlement provider release supplies the key.
 
 ## Result
 
@@ -14,8 +14,8 @@ This is a useful payment-gated disclosure primitive, but it is not fair exchange
 
 ## Evidence
 
-- `npm run experiment:payment-gated`: passed.
-- `node --test test/payment-gated-experiment.test.mjs`: 3 passed.
+- `npm run experiment:payment-gated`: passed on a fresh Anvil; both release and withholding traces mined fund, submit, verify, and relayer-settle transactions.
+- `npm test`: 112 passed, including 28 focused payment-gated tests.
 - Machine-readable output: [`0015-payment-gated-disclosure.json`](../runs/0015-payment-gated-disclosure.json).
 
 ## Decision
