@@ -27,20 +27,12 @@ function refuse(code, message, retryable = false, extra = {}) {
 
 async function loadVerifierInput(flags, paths) {
   const keyFile = flags["verification-key-file"];
-  const resultFile = flags["verification-result-file"];
-  if (keyFile !== undefined && resultFile !== undefined && keyFile !== true && resultFile !== true) {
-    throw Object.assign(new Error("supply only --verification-key-file; a plaintext result cannot verify the committed ciphertext"), { code: "USAGE" });
-  }
   if (typeof keyFile === "string") {
     const file = await readJson(keyFile, "verification key file");
     if (typeof file?.recipientPrivateKey !== "string" || file.recipientPrivateKey.length === 0) {
       throw Object.assign(new Error("verification key file has no recipientPrivateKey"), { code: "USAGE", field: "recipientPrivateKey" });
     }
     return { recipientPrivateKey: file.recipientPrivateKey, inputSource: keyFile };
-  }
-  if (typeof resultFile === "string") {
-    const file = await readJson(resultFile, "verification result file");
-    return { plaintextResult: { allocations: file?.allocations }, inputSource: resultFile };
   }
   throw Object.assign(
     new Error("a recipient key is required to verify the committed ciphertext: --verification-key-file FILE"),

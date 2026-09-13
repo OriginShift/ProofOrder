@@ -148,7 +148,6 @@ test("readSettlementStatus compares the expected chain id to the RPC network", a
       networkReads += 1;
       return { chainId: 31337n };
     },
-    async getBlockNumber() { return 10; },
     async getBlock(tag) {
       assert.equal(tag, "latest");
       return { timestamp: 1_000 };
@@ -175,6 +174,35 @@ test("readSettlementStatus compares the expected chain id to the RPC network", a
   assert.equal(networkReads, 1, "the RPC network must always be read, including when an expected chain is supplied");
   assert.equal(actual.ok, false);
   assert.equal(actual.code, "CHAIN_MISMATCH");
+});
+
+test("readSettlementStatus compares the expected contract address to the deployed contract", async () => {
+  const actualAddress = "0x0000000000000000000000000000000000000001";
+  const expectedAddress = "0x0000000000000000000000000000000000000009";
+  const provider = {
+    async getNetwork() { return { chainId: 31337n }; },
+    async getBlock(tag) {
+      assert.equal(tag, "latest");
+      return { timestamp: 1_000 };
+    },
+  };
+  const contract = {
+    runner: { provider },
+    async orders() { return record(); },
+    async VERIFICATION_GRACE() { return 3_600n; },
+    async verifier() { return "0x0000000000000000000000000000000000000004"; },
+    async getAddress() { return actualAddress; },
+  };
+
+  const actual = await readSettlementStatus({
+    contract,
+    orderId: ORDER_ID,
+    expected: { expectedContractAddress: expectedAddress },
+    now: 1_000,
+  });
+
+  assert.equal(actual.ok, false);
+  assert.equal(actual.code, "CONTRACT_MISMATCH");
 });
 
 test("reports an unknown order as retryable and a digest mismatch as final", () => {

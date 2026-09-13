@@ -9,12 +9,12 @@ Plaintext-only verification is refused with `UNBOUND_PLAINTEXT_REFUSED`: re-eval
 
 ## 1. Verified results (Codex-run reproduction)
 
-The latest full script ran in Ubuntu WSL on a fresh Linux-filesystem copy of this branch snapshot. Runtime: Node v26.5.1, npm 11.17.0 and Foundry v1.8.1; Anvil used chain ID 31337 and loopback only. WSL's npm registry access remains blocked by its proxy, so the already installed Windows `node_modules` was copied into the Linux snapshot. The WSL audit endpoint was also unreachable; an actual Windows npm 10.9.3 audit was run on the same `package-lock.json`. A temporary, uncommitted wrapper checked the lockfile SHA-256 (`0dbc5e7d5bf3b2c013c12b4b856f9cd07f787f48511ddcfb6313d26657b9f012`) and propagated that audit's exit status at the script's audit step. The log records this adaptation. `scripts/reproduce.sh` itself now runs `npm audit` directly, so a nonzero audit exits the script.
+The latest full script ran in Ubuntu WSL on a fresh Linux-filesystem snapshot of this branch, with pre-existing `artifacts/`, `out/`, and `cache/` removed before the run. Runtime: Node v26.5.1, npm 11.17.0 and Foundry v1.8.1; Anvil used chain ID 31337 and loopback only. `npm ci --ignore-scripts` completed on Windows with npm 10.9.3 and reported zero vulnerabilities; its `node_modules` was copied into the Linux snapshot because WSL cannot reach the Windows loopback-bound npm proxy. The WSL audit endpoint was also unreachable; an actual Windows npm 10.9.3 audit was run on the same `package-lock.json`. A temporary, uncommitted wrapper checked the lockfile SHA-256 (`0dbc5e7d5bf3b2c013c12b4b856f9cd07f787f48511ddcfb6313d26657b9f012`) and propagated that audit's exit status at the script's audit step. The log records this adaptation. `scripts/reproduce.sh` itself runs `npm audit` directly, so a nonzero audit exits the script.
 
 | Check | Command | Result |
 | --- | --- | --- |
-| Full reproduction | `bash scripts/reproduce.sh` | **exit 0**, log [0018-codex-wsl-reproduce.log](evidence/runs/0018-codex-wsl-reproduce.log) |
-| JS unit + CLI end-to-end | `npm test` | **197 tests, 197 pass, 0 fail** (baseline was 179) |
+| Full reproduction | `bash scripts/reproduce.sh` | **exit 0**, log [0019-codex-wsl-reproduce.log](evidence/runs/0019-codex-wsl-reproduce.log) |
+| JS unit + CLI end-to-end | `npm test` | **198 tests, 198 pass, 0 fail** (baseline was 179) |
 | Contract tests | `forge test -vv` | **38 tests, 0 failed, 3 suites** (baseline 24 + 14 adversarial) |
 | CLI end-to-end alone | `node --test test/cli-workflow.test.mjs` | **5 tests, 5 pass, 0 fail** (already included in `npm test`) |
 | Encrypted delivery demo | `npm run demo` | `status: passed` (`artifacts/encrypted-delivery.json`) |
@@ -89,7 +89,13 @@ Observed on that run: `publishedOnChain: true`, `verificationPath: "independent-
   failed with `ORDER_DIGEST_MISMATCH`), and the recovery-bundle commitment form in the `markVerified` call.
 - `readSettlementStatus` used to substitute `expectedChainId` for the RPC's actual network id; it now always
   reads `provider.getNetwork()`. The regression test reports `CHAIN_MISMATCH` for actual chain 31337 when 1 is
-  expected. `scripts/reproduce.sh` no longer turns a failing `npm audit` into a successful run.
+  expected. It also used to substitute the expected settlement address for the deployed address; it now always
+  calls `contract.getAddress()`, and a `readSettlementStatus()` regression reports `CONTRACT_MISMATCH` for actual
+  `0x0000000000000000000000000000000000000001` versus expected `0x0000000000000000000000000000000000000009`.
+  The unused `provider.getBlockNumber()` call was removed. The verifier CLI accepts only
+  `--verification-key-file FILE`; its old plaintext-result-file branch was removed while the lower-level
+  `UNBOUND_PLAINTEXT_REFUSED` check remains. `scripts/reproduce.sh` no longer turns a failing `npm audit` into
+  a successful run.
 
 ## 3. Tests added
 
@@ -99,6 +105,8 @@ Observed on that run: `publishedOnChain: true`, `verificationPath: "independent-
 - `test/cli-workflow.test.mjs` (5, separate-process, own Anvil): full happy path; timeout refund with no bundle;
   tampered claim (verifier signs nothing, chain state unchanged); tampered recovery bundle rejected by the buyer;
   provider refusal on digest mismatch and on an unfunded order (nothing written).
+- `test/settlement-status.test.mjs`: `readSettlementStatus()` detects both chain-id mismatch and the actual
+  deployed-contract-address mismatch; expected values cannot stand in for RPC/contract observations.
 - `test/ProofOrderAdversarial.t.sol` (14, contract unchanged — behaviour only pinned): cross-order and
   cross-contract signature replay, evidence-hash domain separation, provider-only submit, permissionless
   `markVerified`/`settle` with a fixed payee, zero commitment / zero evidence / malformed signature lengths,
