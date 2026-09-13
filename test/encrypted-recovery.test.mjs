@@ -242,13 +242,13 @@ test("recovery snapshots its inputs before asynchronous checks", async () => {
   assert.equal((await pending).ok, true);
 });
 
-test("atomic durable bundle writes preserve JSON, restrict permissions and clean failed temporary files", async () => {
+test("atomic durable bundle writes preserve JSON, restrict POSIX permissions and clean failed temporary files", async () => {
   const directory = await mkdtemp(join(tmpdir(), "prooforder-recovery-"));
   try {
     const path = join(directory, "bundle.json");
     await saveRecoveryBundle(path, original.bundle);
     assert.deepEqual(await loadRecoveryBundle(path), original.bundle);
-    assert.equal((await stat(path)).mode & 0o777, 0o600);
+    if (process.platform !== "win32") assert.equal((await stat(path)).mode & 0o777, 0o600);
     assert.equal((await recoverEncryptedResult(await loadRecoveryBundle(path), { ...original.trust, recipientPrivateKey: original.recipient.privateKey })).ok, true);
     const circular = {};
     circular.self = circular;
@@ -257,7 +257,7 @@ test("atomic durable bundle writes preserve JSON, restrict permissions and clean
     assert.deepEqual(await readdir(directory), ["bundle.json"]);
     await saveRecoveryBundle(path, { schemaVersion: 1, replaced: true });
     assert.deepEqual(await loadRecoveryBundle(path), { schemaVersion: 1, replaced: true });
-    assert.equal((await stat(path)).mode & 0o777, 0o600);
+    if (process.platform !== "win32") assert.equal((await stat(path)).mode & 0o777, 0o600);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
