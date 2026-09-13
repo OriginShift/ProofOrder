@@ -1,5 +1,5 @@
 import { createHash, webcrypto } from "node:crypto";
-import { getAddress } from "ethers";
+import { getAddress, keccak256 } from "ethers";
 
 const encoder = new TextEncoder();
 
@@ -98,6 +98,16 @@ export async function orderDigest(order) {
   const digest = await webcrypto.subtle.digest("SHA-256", data);
   return new Uint8Array(digest);
 }
+
+/// Canonical order-id derivation shared by the buyer/provider/verifier CLIs. It is derived from the
+/// order digest only, so every participant can recompute it offline from the frozen order.
+export function orderIdFromDigest(orderDigestValue) {
+  const value = typeof orderDigestValue === "string" ? orderDigestValue : `0x${hex(orderDigestValue)}`;
+  const hexDigest = value.startsWith("sha256:") ? value.slice("sha256:".length) : value.slice(2);
+  if (!/^[0-9a-f]{64}$/.test(hexDigest)) throw new TypeError("orderIdFromDigest requires a 32-byte digest");
+  return keccak256(encoder.encode(`ProofOrder/OrderId/v1|${hexDigest}`));
+}
+
 
 export function hex(bytes) {
   return Buffer.from(bytes).toString("hex");

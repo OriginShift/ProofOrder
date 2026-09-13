@@ -3,6 +3,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { ContractFactory, FetchRequest, JsonRpcProvider, getBytes, parseEther, version } from "ethers";
 import { createPaymentGatedEnvelope, openPaymentGatedResult, paymentGatedCommitment } from "./payment-gated-experiment.mjs";
+import { loadSettlementArtifact } from "./chain-client.mjs";
 
 export async function runPaymentGatedFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}) {
   const url = new URL(rpcUrl);
@@ -26,7 +27,7 @@ export async function runPaymentGatedFlow(rpcUrl, { signal, timeoutMs = 60_000 }
     const providerAddress = await provider.getAddress();
     const verifierAddress = await verifier.getAddress();
     const relayerAddress = await relayer.getAddress();
-    const artifact = JSON.parse(await readFile(new URL("../out/ProofOrderSettlement.sol/ProofOrderSettlement.json", import.meta.url), "utf8"));
+    const artifact = await loadSettlementArtifact();
     const settlement = await new ContractFactory(artifact.abi, artifact.bytecode, buyer).deploy(verifierAddress);
     const deploy = await settlement.deploymentTransaction().wait(1, 15_000);
     const contractAddress = await settlement.getAddress();

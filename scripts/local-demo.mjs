@@ -7,7 +7,7 @@ import { setTimeout as delay } from "node:timers/promises";
 const rootUrl = new URL("../", import.meta.url);
 const artifactsUrl = new URL("../artifacts/", import.meta.url);
 
-async function freePort() {
+export async function freePort() {
   const server = createServer();
   server.listen(0, "127.0.0.1");
   await once(server, "listening");
@@ -16,14 +16,14 @@ async function freePort() {
   return port;
 }
 
-function checkLocalUrl(rpcUrl) {
+export function checkLocalUrl(rpcUrl) {
   const url = new URL(rpcUrl);
   if (url.protocol !== "http:" || !["127.0.0.1", "localhost", "[::1]"].includes(url.hostname)) {
     throw new Error("Demos require a dedicated local Anvil HTTP endpoint");
   }
 }
 
-async function waitForAnvil(rpcUrl, childState, signal) {
+export async function waitForAnvil(rpcUrl, childState, signal) {
   const deadline = Date.now() + 10_000;
   while (Date.now() < deadline) {
     signal.throwIfAborted();
@@ -46,7 +46,7 @@ async function waitForAnvil(rpcUrl, childState, signal) {
   throw new Error(`Anvil did not become ready within 10 seconds: ${childState.output}`);
 }
 
-async function stopChild(child, state) {
+export async function stopChild(child, state) {
   if (!child || state.ended) return;
   child.kill("SIGTERM");
   await Promise.race([state.promise, delay(2_000, undefined, { ref: false })]);

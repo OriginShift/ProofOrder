@@ -11,7 +11,9 @@
     "g0": "node src/g0-hpke.mjs",
     "demo": "forge build && node scripts/run-demo.mjs",
     "demo:failures": "forge build && node scripts/run-failure-demo.mjs",
-    "experiment:payment-gated": "node scripts/run-payment-gated-experiment.mjs"
+    "experiment:payment-gated": "node scripts/run-payment-gated-experiment.mjs",
+    "test:cli": "node --test test/cli-workflow.test.mjs",
+    "reproduce": "bash scripts/reproduce.sh"
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,6 @@
   "dependencies": {
     "@hpke/core": "^1.9.0",
     "@hpke/dhkem-x25519": "^1.8.0",
-    "ethers": "^6.15.0"
+    "ethers": "^6.17.0"
   }
 }
