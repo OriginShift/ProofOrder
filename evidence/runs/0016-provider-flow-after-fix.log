@@ -1,0 +1,17 @@
+✔ provider validates, seals and commits the accepted fixed allocation (54.820351ms)
+✔ rejected provider allocations produce no ciphertext or evidence (1.565624ms)
+✔ rejects a snapshot that does not match the order commitment before encryption (0.395606ms)
+✔ rejects a recipient key that differs from the order before encryption (2.835744ms)
+✔ rejects an order that selects a different fixed rule (2.848044ms)
+✔ rejects an order snapshot with fields the recovery schema will not accept (2.362337ms)
+✔ rejects an order without its recipient key (3.85306ms)
+✔ evaluates and seals one snapshot of allocation values (25.910302ms)
+✔ rejects unreadable allocation data before encryption (4.086263ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6676.476309

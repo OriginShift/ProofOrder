@@ -1,0 +1,33 @@
+No files changed, compilation skipped
+
+Ran 12 tests for test/ProofOrderSettlement.t.sol:ProofOrderSettlementTest
+[PASS] testCannotSettleBeforeVerification() (gas: 219343)
+[PASS] testEvidenceHashBindsChainId() (gas: 36618)
+[PASS] testFundRejectsDeadlineThatWouldOverflowVerificationGrace() (gas: 46395)
+[PASS] testHappyPathPaysFixedPayee() (gas: 438071)
+[PASS] testInvalidRelayerSignatureCannotMarkVerified() (gas: 287532)
+[PASS] testRejectsDuplicateSubmitAndSettlement() (gas: 462789)
+[PASS] testRejectsSignatureForDifferentEvidence() (gas: 317214)
+[PASS] testSubmitAtDeadlineIsRejected() (gas: 225373)
+[PASS] testSubmittedRefundWaitsForVerificationGrace() (gas: 359301)
+[PASS] testTimeoutRefundReturnsFundsToBuyer() (gas: 237753)
+[PASS] testVerificationAfterGraceIsRejected() (gas: 322253)
+[PASS] testVerifierCannotApproveMismatchedEvidence() (gas: 286781)
+Suite result: ok. 12 passed; 0 failed; 0 skipped; finished in 34.06ms (38.23ms CPU time)
+
+Ran 12 tests for test/SettlementLiveness.t.sol:SettlementLivenessTest
+[PASS] testBuyerCanStillSettle() (gas: 435535)
+[PASS] testCannotSettleFundedOrder() (gas: 251820)
+[PASS] testCannotSettleRefundedOrder() (gas: 310575)
+[PASS] testCannotSettleSubmittedOrder() (gas: 309769)
+[PASS] testCannotSettleTwice() (gas: 454348)
+[PASS] testCannotSettleUnfundedOrder() (gas: 59066)
+[PASS] testFuzzArbitraryCallerCannotRedirectPayout(address,uint96) (runs: 256, μ: 426909, ~: 426884)
+[PASS] testPayoutFailurePreservesVerifiedOrderAndCanBeRetried() (gas: 853502)
+[PASS] testProviderSettlesAfterVerificationGrace() (gas: 466421)
+[PASS] testReentrantPayeeCannotDoublePaySameOrderOrDrainSecondEscrow() (gas: 1782595)
+[PASS] testRelayerSettlesWithoutBuyerAfterFunding() (gas: 464963)
+[PASS] testVerifiedOrderCannotBeRefundedEvenAfterGrace() (gas: 461601)
+Suite result: ok. 12 passed; 0 failed; 0 skipped; finished in 155.74ms (185.90ms CPU time)
+
+Ran 2 test suites in 175.49ms (189.80ms CPU time): 24 tests passed, 0 failed, 0 skipped (24 total tests)
