@@ -9,17 +9,17 @@ Plaintext-only verification is refused with `UNBOUND_PLAINTEXT_REFUSED`: re-eval
 
 ## 1. Verified results (Codex-run reproduction)
 
-The full script ran in Ubuntu WSL on a fresh Linux-filesystem copy of this branch snapshot. Runtime: Node v26.5.1, npm 11.17.0 and Foundry v1.8.1; Anvil used chain ID 31337 and loopback only. WSL's `npm ci --ignore-scripts` could not download `ethers` (`ECONNRESET`), so dependencies were installed with `npm ci --ignore-scripts` on Windows and copied into the temporary WSL snapshot. Tests and both demos ran under WSL Node and Linux Foundry. The WSL audit request could not reach npm's advisory endpoint through its proxy; a separate Windows `npm audit` on the same lockfile reported zero vulnerabilities.
+The latest full script ran in Ubuntu WSL on a fresh Linux-filesystem copy of this branch snapshot. Runtime: Node v26.5.1, npm 11.17.0 and Foundry v1.8.1; Anvil used chain ID 31337 and loopback only. WSL's npm registry access remains blocked by its proxy, so the already installed Windows `node_modules` was copied into the Linux snapshot. The WSL audit endpoint was also unreachable; an actual Windows npm 10.9.3 audit was run on the same `package-lock.json`. A temporary, uncommitted wrapper checked the lockfile SHA-256 (`0dbc5e7d5bf3b2c013c12b4b856f9cd07f787f48511ddcfb6313d26657b9f012`) and propagated that audit's exit status at the script's audit step. The log records this adaptation. `scripts/reproduce.sh` itself now runs `npm audit` directly, so a nonzero audit exits the script.
 
 | Check | Command | Result |
 | --- | --- | --- |
-| Full reproduction | `bash scripts/reproduce.sh` | **exit 0**, log [0017-codex-wsl-reproduce.log](evidence/runs/0017-codex-wsl-reproduce.log) |
-| JS unit + CLI end-to-end | `npm test` | **196 tests, 196 pass, 0 fail** (baseline was 179) |
+| Full reproduction | `bash scripts/reproduce.sh` | **exit 0**, log [0018-codex-wsl-reproduce.log](evidence/runs/0018-codex-wsl-reproduce.log) |
+| JS unit + CLI end-to-end | `npm test` | **197 tests, 197 pass, 0 fail** (baseline was 179) |
 | Contract tests | `forge test -vv` | **38 tests, 0 failed, 3 suites** (baseline 24 + 14 adversarial) |
 | CLI end-to-end alone | `node --test test/cli-workflow.test.mjs` | **5 tests, 5 pass, 0 fail** (already included in `npm test`) |
 | Encrypted delivery demo | `npm run demo` | `status: passed` (`artifacts/encrypted-delivery.json`) |
 | Failure boundaries demo | `npm run demo:failures` | `status: passed` (`artifacts/failure-boundaries.json`) |
-| Dependency audit | WSL `npm audit`; Windows `npm audit` | WSL could not reach the advisory endpoint; Windows reported **0 vulnerabilities** |
+| Dependency audit | Windows npm 10.9.3 `npm audit`, checked by the WSL reproduction wrapper | **0 vulnerabilities**; lockfile SHA-256 matched the WSL snapshot |
 
 The inspected delivery report ended `Settled`; the payee received exactly 1 ETH, escrow reached zero, and the buyer's nonce stayed at 2 after its checkpoint with zero buyer transactions after that checkpoint. The failure report showed both refund transactions ending in `Refunded`, total escrow zero, payee balance unchanged by refunds, and state/balance/nonce unchanged for simulated rejected calls. The exchange counterexample still reproduced: the buyer could decrypt before payment and later obtain a refund, so `fairExchangeEstablished` is false.
 
@@ -87,6 +87,9 @@ Observed on that run: `publishedOnChain: true`, `verificationPath: "independent-
   hard-coded `out/` are fixed — this is why both demos were failing before.
 - `sha256:` vs `bytes32` digest mapping at the status-read boundary (buyer `status`/`release` would always have
   failed with `ORDER_DIGEST_MISMATCH`), and the recovery-bundle commitment form in the `markVerified` call.
+- `readSettlementStatus` used to substitute `expectedChainId` for the RPC's actual network id; it now always
+  reads `provider.getNetwork()`. The regression test reports `CHAIN_MISMATCH` for actual chain 31337 when 1 is
+  expected. `scripts/reproduce.sh` no longer turns a failing `npm audit` into a successful run.
 
 ## 3. Tests added
 

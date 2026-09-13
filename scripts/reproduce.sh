@@ -34,7 +34,7 @@ LOG="delivery-logs/reproduce-$(date -u +%Y%m%dT%H%M%SZ).log"
 
   echo
   echo "== npm audit =="
-  npm audit || echo "npm audit reported findings (see above)"
+  npm audit
 
   echo
   echo "== CLI end-to-end harness alone =="

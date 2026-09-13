@@ -1,0 +1,2680 @@
+# ProofOrder reproduction
+# cwd: /home/cxh/prooforder-pr2-reproduce-20260913
+# date: 2026-09-13T05:54:10Z
+# node: v26.5.1
+# npm: 11.17.0
+# forge: forge Version: 1.8.1
+Commit SHA: 982849d3140c01fd3b72905759581a132df7aa98
+Build Timestamp: 2026-08-28T17:46:00.964391484Z (1787939160)
+Build Profile: dist
+# anvil: anvil Version: 1.8.1
+Commit SHA: 982849d3140c01fd3b72905759581a132df7aa98
+Build Timestamp: 2026-08-28T17:46:00.964391484Z (1787939160)
+Build Profile: dist
+
+== forge build ==
+Warning: Failed to check foundry.lock: git rev-parse exited with code 128: fatal: not a git repository (or any of the parent directories): .git
+Compiling 23 files with Solc 0.8.24
+Solc 0.8.24 finished in 12.48s
+Compiler run successful with warnings:
+Warning (2018): Function state mutability can be restricted to pure
+  --> test/ProofOrderAdversarial.t.sol:42:5:
+   |
+42 |     function _sign(uint256 pk, bytes32 message) internal returns (bytes memory) {
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+  --> test/ProofOrderSettlement.t.sol:93:5:
+   |
+93 |     function _signature() internal returns (bytes memory) {
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+   ╭▸ src/ProofOrderSettlement.sol:31:30
+   │
+31 │     address public immutable verifier;
+   │                              ━━━━━━━━ help: consider using: `VERIFIER`
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/screaming-snake-case-immutable
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/ProofOrderSettlement.t.sol:4:8
+  │
+4 │ import "forge-std/Test.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/SettlementLiveness.t.sol:4:8
+  │
+4 │ import "forge-std/Test.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/ProofOrderAdversarial.t.sol:4:8
+  │
+4 │ import "forge-std/Test.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[inline-assembly]: inline assembly used; review for memory safety and side effects
+    ╭▸ src/ProofOrderSettlement.sol:130:9
+    │
+130 │         assembly {
+    │         ━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/inline-assembly
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/ProofOrderSettlement.t.sol:5:8
+  │
+5 │ import "../src/ProofOrderSettlement.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[low-level-calls]: Low-level calls should be avoided
+    ╭▸ src/ProofOrderSettlement.sol:146:22
+    │
+146 │         (bool ok,) = order.payee.call{value: order.amount}("");
+    │                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/low-level-calls
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/SettlementLiveness.t.sol:5:8
+  │
+5 │ import "../src/ProofOrderSettlement.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[low-level-calls]: Low-level calls should be avoided
+    ╭▸ src/ProofOrderSettlement.sol:159:22
+    │
+159 │         (bool ok,) = order.buyer.call{value: order.amount}("");
+    │                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/low-level-calls
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+   ╭▸ test/SettlementLiveness.t.sol:22:43
+   │
+22 │     ProofOrderSettlement public immutable settlement;
+   │                                           ━━━━━━━━━━ help: consider using: `SETTLEMENT`
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/screaming-snake-case-immutable
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+   ╭▸ test/SettlementLiveness.t.sol:23:30
+   │
+23 │     bytes32 public immutable orderId;
+   │                              ━━━━━━━ help: consider using: `ORDER_ID`
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/screaming-snake-case-immutable
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/ProofOrderAdversarial.t.sol:5:8
+  │
+5 │ import "../src/ProofOrderSettlement.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[low-level-calls]: Low-level calls should be avoided
+   ╭▸ test/SettlementLiveness.t.sol:39:17
+   │
+39 │                 address(settlement).call(abi.encodeCall(ProofOrderSettlement.settle, (orderId)));
+   │                 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/low-level-calls
+
+note[multi-contract-file]: prefer having only one contract, interface or library per file
+  ╭▸ test/SettlementLiveness.t.sol:7:10
+  │
+7 │ contract RetryablePayee {
+  │          ━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/multi-contract-file
+
+note[multi-contract-file]: prefer having only one contract, interface or library per file
+   ╭▸ test/SettlementLiveness.t.sol:21:10
+   │
+21 │ contract ReentrantPayee {
+   │          ━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/multi-contract-file
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ProofOrderSettlement.t.sol:29:104
+   │
+29 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, uint64(block.timestamp + 1 days));
+   │                                                                                                        ━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ProofOrderSettlement.t.sol:70:35
+   │
+70 │         vm.warp(block.timestamp + 1 days);
+   │                                   ━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ProofOrderSettlement.t.sol:82:83
+   │
+82 │         settlement.markVerified(orderId, orderDigest, commitment, evidenceDigest, hex"00");
+   │                                                                                   ━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ProofOrderSettlement.t.sol:90:83
+   │
+90 │         settlement.markVerified(orderId, orderDigest, commitment, evidenceDigest, hex"00");
+   │                                                                                   ━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[multi-contract-file]: prefer having only one contract, interface or library per file
+   ╭▸ test/SettlementLiveness.t.sol:44:10
+   │
+44 │ contract SettlementLivenessTest is Test {
+   │          ━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/multi-contract-file
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/ProofOrderSettlement.t.sol:122:35
+    │
+122 │         vm.warp(block.timestamp + 1 days);
+    │                                   ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/ProofOrderSettlement.t.sol:137:35
+    │
+137 │         vm.warp(block.timestamp + 1 days + settlement.VERIFICATION_GRACE());
+    │                                   ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/ProofOrderSettlement.t.sol:151:35
+    │
+151 │         vm.warp(block.timestamp + 1 days);
+    │                                   ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+warning[locked-ether]: contract can receive ETH but has no mechanism to send it out
+  ╭▸ test/SettlementLiveness.t.sol:7:10
+  │
+7 │ contract RetryablePayee {
+  │          ━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/locked-ether
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+   ╭▸ test/ProofOrderSettlement.t.sol:29:9
+   │
+29 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, uint64(block.timestamp + 1 days));
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/ProofOrderSettlement.t.sol:29:79
+   │
+29 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, uint64(block.timestamp + 1 days));
+   │                                                                               ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unsafe-typecast
+
+warning[unused-return]: Return value of an external call is not used
+   ╭▸ test/ProofOrderSettlement.t.sol:41:61
+   │
+41 │         (, , , , , ProofOrderSettlement.State state, , ,) = settlement.orders(orderId);
+   │                                                             ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ src/ProofOrderSettlement.sol:61:70
+   │
+61 │             orders[orderId].state != State.None || msg.value == 0 || deadline <= block.timestamp
+   │                                                                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/block-timestamp
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/ProofOrderAdversarial.t.sol:39:20
+   │
+39 │         deadline = uint64(block.timestamp + 1 days);
+   │                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unsafe-typecast
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ src/ProofOrderSettlement.sol:82:13
+   │
+82 │         if (block.timestamp >= order.deadline) revert DeadlinePassed();
+   │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/block-timestamp
+
+note[asm-keccak256]: use of inefficient hashing mechanism; consider using inline assembly
+    ╭▸ src/ProofOrderSettlement.sol:95:16
+    │
+ 95 │           return keccak256(
+    │ ┏━━━━━━━━━━━━━━━━┛
+ 96 │ ┃             abi.encodePacked(
+ 97 │ ┃                 "ProofOrder/VerificationEvidence/v1",
+ 98 │ ┃                 block.chainid,
+    ‡ ┃
+105 │ ┃         );
+    │ ┗━━━━━━━━━┛
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/asm-keccak256
+
+warning[unused-return]: Return value of an external call is not used
+    ╭▸ test/ProofOrderSettlement.t.sol:129:61
+    │
+129 │         (, , , , , ProofOrderSettlement.State state, , ,) = settlement.orders(orderId);
+    │                                                             ━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[ecrecover]: ecrecover should reject malleable signatures
+    ╭▸ src/ProofOrderSettlement.sol:135:13
+    │
+135 │         if (ecrecover(ethSignedMessage, v, r, s) != verifier) revert InvalidSignature();
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/ecrecover
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/ProofOrderSettlement.sol:117:13
+    │
+117 │         if (block.timestamp >= uint256(order.deadline) + VERIFICATION_GRACE) revert DeadlinePassed();
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/block-timestamp
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ src/ProofOrderSettlement.sol:138:9
+    │
+138 │         emit Verified(orderId);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+note[asm-keccak256]: use of inefficient hashing mechanism; consider using inline assembly
+    ╭▸ src/ProofOrderSettlement.sol:126:36
+    │
+126 │         bytes32 ethSignedMessage = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", message));
+    │                                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/asm-keccak256
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ src/ProofOrderSettlement.sol:146:22
+    │
+146 │         (bool ok,) = order.payee.call{value: order.amount}("");
+    │                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ src/ProofOrderSettlement.sol:148:9
+    │
+148 │         emit Settled(orderId, order.payee, order.amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ src/ProofOrderSettlement.sol:159:22
+    │
+159 │         (bool ok,) = order.buyer.call{value: order.amount}("");
+    │                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/ProofOrderSettlement.sol:157:13
+    │
+157 │         if (block.timestamp < refundDeadline) revert DeadlineNotReached();
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/block-timestamp
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ src/ProofOrderSettlement.sol:161:9
+    │
+161 │         emit Refunded(orderId, order.buyer, order.amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+   ╭▸ test/ProofOrderAdversarial.t.sol:57:9
+   │
+57 │         target.fund{value: amount}(id, digest, provider, payee, deadline);
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[locked-ether]: contract can receive ETH but has no mechanism to send it out
+   ╭▸ test/SettlementLiveness.t.sol:21:10
+   │
+21 │ contract ReentrantPayee {
+   │          ━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/locked-ether
+
+warning[unused-return]: Return value of an external call is not used
+   ╭▸ test/ProofOrderAdversarial.t.sol:81:55
+   │
+81 │         (,,,,, ProofOrderSettlement.State state,,,) = settlement.orders(orderId);
+   │                                                       ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[unused-return]: Return value of an external call is not used
+   ╭▸ test/SettlementLiveness.t.sol:36:9
+   │
+36 │         (,,,,, stateDuringPayment,,,) = settlement.orders(orderId);
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/SettlementLiveness.t.sol:64:45
+   │
+64 │         deadline = uint64(block.timestamp + 1 days);
+   │                                             ━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:117:9
+    │
+117 │         settlement.fund{value: amount}(freshOrder, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/SettlementLiveness.t.sol:65:24
+   │
+65 │         vm.deal(buyer, 10 ether);
+   │                        ━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/SettlementLiveness.t.sol:66:27
+   │
+66 │         vm.deal(provider, 2 ether);
+   │                           ━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:130:9
+    │
+130 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:129:71
+    │
+129 │         vm.warp(uint256(deadline) + settlement.VERIFICATION_GRACE() + 1 days);
+    │                                                                       ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:185:33
+    │
+185 │         assertEq(buyer.balance, 10 ether);
+    │                                 ━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:140:9
+    │
+140 │         settlement.fund{value: amount}(lateOrder, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:203:71
+    │
+203 │         vm.warp(uint256(deadline) + settlement.VERIFICATION_GRACE() + 1 days);
+    │                                                                       ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:253:32
+    │
+253 │         uint256 secondAmount = 2 ether;
+    │                                ━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:281:56
+    │
+281 │         uint256 value = bound(uint256(fundedValue), 1, 10 ether);
+    │                                                        ━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+warning[unused-return]: Return value of an external call is not used
+    ╭▸ test/ProofOrderAdversarial.t.sol:154:55
+    │
+154 │         (,,,,, ProofOrderSettlement.State state,,,) = settlement.orders(orderId);
+    │                                                       ━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/SettlementLiveness.t.sol:64:20
+   │
+64 │         deadline = uint64(block.timestamp + 1 days);
+   │                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unsafe-typecast
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+   ╭▸ test/SettlementLiveness.t.sol:73:9
+   │
+73 │         settlement.fund{value: value}(id, orderDigest, provider, recipient, deadline);
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[unused-return]: Return value of an external call is not used
+   ╭▸ test/SettlementLiveness.t.sol:97:56
+   │
+97 │         (,,,,, ProofOrderSettlement.State actual,,,) = settlement.orders(id);
+   │                                                        ━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ test/SettlementLiveness.t.sol:115:9
+    │
+115 │         emit Settled(orderId, payee, amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ test/SettlementLiveness.t.sol:135:9
+    │
+135 │         emit Settled(orderId, payee, amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+warning[unused-return]: Return value of an external call is not used
+    ╭▸ test/ProofOrderAdversarial.t.sol:202:55
+    │
+202 │         (,,,,, ProofOrderSettlement.State state,,,) = settlement.orders(orderId);
+    │                                                       ━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:221:9
+    │
+221 │         settlement.fund{value: amount}(fundedOrder, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:239:9
+    │
+239 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:243:9
+    │
+243 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:248:9
+    │
+248 │         settlement.fund{value: amount}(zeroDigestOrder, bytes32(0), provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:250:9
+    │
+250 │         settlement.fund{value: amount}(zeroDigestOrder, orderDigest, address(0), payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:252:9
+    │
+252 │         settlement.fund{value: amount}(zeroDigestOrder, orderDigest, provider, address(0), deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:256:9
+    │
+256 │         settlement.fund{value: amount}(bytes32(0), orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ test/SettlementLiveness.t.sol:239:9
+    │
+239 │         emit Settled(orderId, address(recipient), amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+note[unused-error]: custom error is never used
+   ╭▸ src/ProofOrderSettlement.sol:41:5
+   │
+41 │     error WrongValue();
+   │     ━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-error
+
+
+== forge test -vv (baseline 24 + adversarial) ==
+No files changed, compilation skipped
+
+Ran 14 tests for test/ProofOrderAdversarial.t.sol:ProofOrderAdversarialTest
+[PASS] testAnyCallerCanPublishAValidAttestation() (gas: 369263)
+[PASS] testCrossOrderSignatureCannotVerifyAnotherOrder() (gas: 717218)
+[PASS] testEvidenceMessageHashSeparatesOrderAndContract() (gas: 83506)
+[PASS] testFundRejectsSecondFundAndZeroTerms() (gas: 390591)
+[PASS] testMarkVerifiedRejectsMalformedSignatureLengths() (gas: 348564)
+[PASS] testMarkVerifiedRejectsZeroEvidenceDigest() (gas: 308845)
+[PASS] testOnlyProviderCanSubmit() (gas: 486998)
+[PASS] testProviderCanRefundSubmittedOrderAfterGraceToBuyer() (gas: 344824)
+[PASS] testRefundCallerAndDeadlineBoundaries() (gas: 593334)
+[PASS] testSignatureCannotBeReplayedOntoAnotherContract() (gas: 624360)
+[PASS] testStrangerSettlementCannotRedirectTheFixedPayee() (gas: 427751)
+[PASS] testSubmitRejectsAfterDeadline() (gas: 456623)
+[PASS] testSubmitRejectsZeroCommitment() (gas: 224152)
+[PASS] testVerificationGraceBoundaryIsExact() (gas: 652835)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 225.21ms (240.88ms CPU time)
+
+Ran 12 tests for test/ProofOrderSettlement.t.sol:ProofOrderSettlementTest
+[PASS] testCannotSettleBeforeVerification() (gas: 219343)
+[PASS] testEvidenceHashBindsChainId() (gas: 36618)
+[PASS] testFundRejectsDeadlineThatWouldOverflowVerificationGrace() (gas: 46395)
+[PASS] testHappyPathPaysFixedPayee() (gas: 438071)
+[PASS] testInvalidRelayerSignatureCannotMarkVerified() (gas: 287532)
+[PASS] testRejectsDuplicateSubmitAndSettlement() (gas: 462789)
+[PASS] testRejectsSignatureForDifferentEvidence() (gas: 317214)
+[PASS] testSubmitAtDeadlineIsRejected() (gas: 225373)
+[PASS] testSubmittedRefundWaitsForVerificationGrace() (gas: 359301)
+[PASS] testTimeoutRefundReturnsFundsToBuyer() (gas: 237753)
+[PASS] testVerificationAfterGraceIsRejected() (gas: 322253)
+[PASS] testVerifierCannotApproveMismatchedEvidence() (gas: 286781)
+Suite result: ok. 12 passed; 0 failed; 0 skipped; finished in 229.69ms (274.56ms CPU time)
+
+Ran 12 tests for test/SettlementLiveness.t.sol:SettlementLivenessTest
+[PASS] testBuyerCanStillSettle() (gas: 435535)
+[PASS] testCannotSettleFundedOrder() (gas: 251820)
+[PASS] testCannotSettleRefundedOrder() (gas: 310575)
+[PASS] testCannotSettleSubmittedOrder() (gas: 309769)
+[PASS] testCannotSettleTwice() (gas: 454348)
+[PASS] testCannotSettleUnfundedOrder() (gas: 59066)
+[PASS] testFuzzArbitraryCallerCannotRedirectPayout(address,uint96) (runs: 256, μ: 427099, ~: 426884)
+[PASS] testPayoutFailurePreservesVerifiedOrderAndCanBeRetried() (gas: 853502)
+[PASS] testProviderSettlesAfterVerificationGrace() (gas: 466421)
+[PASS] testReentrantPayeeCannotDoublePaySameOrderOrDrainSecondEscrow() (gas: 1782595)
+[PASS] testRelayerSettlesWithoutBuyerAfterFunding() (gas: 464963)
+[PASS] testVerifiedOrderCannotBeRefundedEvenAfterGrace() (gas: 461601)
+Suite result: ok. 12 passed; 0 failed; 0 skipped; finished in 230.17ms (355.88ms CPU time)
+
+Ran 3 test suites in 246.06ms (685.06ms CPU time): 38 tests passed, 0 failed, 0 skipped (38 total tests)
+
+== npm test (JS units + separate-process CLI end-to-end harness) ==
+
+> prooforder@1.0.0 test
+> node --test test/*.test.mjs
+
+✔ freezes a buyer checkpoint that binds the order, chain, contract and verifier (3161.856201ms)
+✔ refuses to checkpoint an order outside the frozen specification (1.64939ms)
+✔ refuses a checkpoint that carries key material (205.302113ms)
+✔ verifies its own checkpoint and rejects a mutated order (239.074591ms)
+✔ rejects a checkpoint that binds another chain, contract or verifier (182.244759ms)
+✔ rejects a malformed or extended checkpoint (130.506987ms)
+✔ accepts the provider bundle that matches the checkpoint and reports the decision (335.646789ms)
+✔ rejects a bundle delivered for another order, recipient or verifier (520.475699ms)
+✔ rejects a replaced ciphertext or a rewritten evaluation (269.883903ms)
+✔ names the caller error when the checkpoint trust anchor is missing (103.241966ms)
+✔ allows settlement only after a verified checkpoint and a verified chain state (131.536056ms)
+✔ binds every checkpoint to a distinct order id (309.270269ms)
+✔ the recovered plaintext carries the checkpointed order's allocations (289.154767ms)
+✔ the evaluation in the accepted evidence is reproducible from the checkpointed snapshot (127.861288ms)
+✔ the full workflow runs as separate processes and never infers delivery (20299.39347ms)
+✔ a timeout refund needs the checkpoint and the chain only, never a provider bundle (17764.947004ms)
+✔ a tampered claim is rejected and nothing is signed (11588.047252ms)
+✔ a tampered recovery bundle is rejected by the buyer's offline verification (11223.163371ms)
+✔ the provider refuses a mismatched order binding before writing or submitting (10268.16071ms)
+✔ encrypted recovery verifies signed metadata and independently evaluates decrypted allocations (199.906803ms)
+✔ recovery requires independent complete trust anchors (4.685594ms)
+✔ recovery accepts reordered snapshot fields without changing the signed order (66.724691ms)
+✔ recovery rejects wrong trusted expectedOrderId (3.057396ms)
+✔ recovery rejects wrong trusted expectedOrderDigest (2.66506ms)
+✔ recovery rejects wrong trusted expectedChainId (4.996477ms)
+✔ recovery rejects wrong trusted expectedContractAddress (3.082692ms)
+✔ recovery rejects wrong trusted expectedVerifierAddress (6.466834ms)
+✔ recovery rejects mutation of order fee (5.368115ms)
+✔ recovery rejects mutation of input commitment (2.257628ms)
+✔ recovery rejects mutation of chain metadata (7.698131ms)
+✔ recovery rejects mutation of verifier metadata (4.654233ms)
+✔ recovery rejects mutation of envelope recipient (6.813977ms)
+✔ recovery rejects mutation of envelope order (3.904156ms)
+✔ recovery rejects mutation of envelope encapsulation (9.058707ms)
+✔ recovery rejects mutation of envelope schema (9.932363ms)
+✔ recovery rejects mutation of evidence proof system (4.087626ms)
+✔ recovery rejects mutation of evidence verifier ID (3.200872ms)
+✔ recovery rejects mutation of evidence public inputs (5.323922ms)
+✔ recovery rejects mutation of evidence digest (8.121261ms)
+✔ recovery rejects mutation of signature (5.355117ms)
+✔ recovery rejects mutation of contract incompatible signature v (10.459076ms)
+✔ recovery rejects mutation of extra private key field (2.958313ms)
+✔ rewriting all envelope and evidence hashes cannot replace the verifier signature (21.757613ms)
+✔ rewriting evaluation and evidence digest cannot replace the verifier signature (34.207861ms)
+✔ a different signer is rejected even when all bundle digests are valid (37.215566ms)
+✔ wrong recipient private key cannot decrypt a verified bundle (55.491053ms)
+✔ recovery rejects correctly signed ciphertext containing snapshot substitution (116.800447ms)
+✔ recovery rejects correctly signed ciphertext containing invalid UTF-8 (106.582731ms)
+✔ recovery rejects correctly signed ciphertext containing non-JSON bytes (84.963595ms)
+✔ recovery rejects correctly signed ciphertext containing additional allocation metadata (117.93136ms)
+✔ recovery rejects correctly signed ciphertext containing invalid allocation amount (138.273907ms)
+✔ recovery rejects correctly signed ciphertext containing unauthorized target (205.973129ms)
+✔ recovery rejects correctly signed ciphertext containing different valid evaluation (187.490755ms)
+✔ a signed order still rejects missing target score (36.866091ms)
+✔ a signed order still rejects NaN score (36.211464ms)
+✔ a signed order still rejects infinite liquidity (26.871687ms)
+✔ a signed order still rejects out of range score (30.559885ms)
+✔ a signed order still rejects negative liquidity (28.360938ms)
+✔ a signed order still rejects duplicate snapshot targets (34.865332ms)
+✔ a signed order still rejects unfrozen task (30.105344ms)
+✔ a signed order still rejects unfrozen rule (30.670821ms)
+✔ a signed order still rejects unexpected verifier version (31.710929ms)
+✔ a signed order still rejects numeric payment amount (40.178803ms)
+✔ a signed order still rejects overflowing payment amount (70.56189ms)
+✔ a signed order still rejects missing contract address (43.416058ms)
+✔ a signed order still rejects invalid deadline (24.65485ms)
+✔ creation rejects missing attestation and prevents caller mutations from changing the bundle (27.223587ms)
+✔ recovery snapshots its inputs before asynchronous checks (34.190916ms)
+✔ atomic durable bundle writes preserve JSON, restrict permissions and clean failed temporary files (148.78931ms)
+✔ accepts a fixed allocation that satisfies every rule (22.691823ms)
+✔ rejects empty result (0.662965ms)
+✔ rejects budget mismatch (0.682857ms)
+✔ rejects duplicate target (1.053169ms)
+✔ rejects unauthorized target (0.86721ms)
+✔ rejects liquidity floor (0.614441ms)
+✔ rejects duplicate target ids in the snapshot (0.722842ms)
+✔ rejects negative score (0.68346ms)
+✔ rejects fractional score (0.674016ms)
+✔ rejects string score (11.325367ms)
+✔ rejects score above 10000 (0.720531ms)
+✔ rejects negative liquidity (0.349416ms)
+✔ rejects fractional liquidity (1.348535ms)
+✔ rejects string liquidity (0.352128ms)
+✔ rejects liquidity above 10000 (11.945434ms)
+✔ rejects negative amount without numeric coercion (0.477609ms)
+✔ rejects fractional amount without numeric coercion (0.33535ms)
+✔ rejects string amount without numeric coercion (0.826321ms)
+✔ rejects unsafe integer amount without numeric coercion (0.233781ms)
+✔ accepts allocations exactly at the liquidity and score floors (14.315694ms)
+✔ rejects liquidity immediately below the fixed floor (0.751073ms)
+✔ rejects weighted score immediately below the fixed floor (0.483938ms)
+✔ rejects a multi-target total above the fixed budget (0.360366ms)
+✔ does not allow overriding the fixed task budget (0.321487ms)
+✔ canonical order digest is independent of object insertion order (167.321672ms)
+✔ evidence digest binds order, ciphertext, and evaluation (57.861321ms)
+✔ failure assertion accepts only the expected decoded contract error (40.822156ms)
+✔ RPC errors, wrong reverts, missing data and successful calls cannot pass a rejection check (57.688443ms)
+✔ failure flow rejects nonlocal endpoints before opening RPC (64.532991ms)
+✔ unresponsive RPC fails on the overall deadline and supports interruption (491.439548ms)
+✔ local runner writes success and removes stale evidence when a later flow fails (106.130224ms)
+✔ local runner timeout and pre-aborted input fail without publishing success (258.765379ms)
+✔ local runner refuses a remote endpoint before invoking the flow (4.808574ms)
+✔ SIGINT stops an owned Anvil and leaves no success report (1263.317361ms)
+✔ freezeOrderSpec fills the frozen constants and derives the input commitment (105.435117ms)
+✔ freezeOrderSpec is deterministic for the same draft (15.86988ms)
+✔ freezeOrderSpec reports missing fields with a retryable code (0.738916ms)
+✔ freezeOrderSpec rejects unknown fields instead of silently dropping them (0.609116ms)
+✔ freezeOrderSpec refuses to change a frozen constant (0.637749ms)
+✔ freezeOrderSpec refuses a fee outside the frozen integer range (15.792924ms)
+✔ freezeOrderSpec requires the deadline to cover the declared window (1.032675ms)
+✔ freezeOrderSpec rejects a snapshot shape outside the frozen schema (1.036091ms)
+✔ freezeOrderSpec rejects an input commitment that does not match its snapshot (31.58846ms)
+✔ freezeOrderSpec accepts its own derived commitment unchanged (2.455253ms)
+✔ freezeOrderSpec rejects values that are not plain objects (6.789192ms)
+✔ verifyFrozenOrderSpec accepts a complete frozen order (3.584474ms)
+✔ verifyFrozenOrderSpec does not fill defaults and reports each mutation (12.941038ms)
+✔ verifyFrozenOrderSpec is stable when the canonical order carries a derived orderId (3.524497ms)
+✔ the frozen spec description is deep frozen and digestible (12.763818ms)
+✔ describeFrozenOrderSpec returns a fresh copy that cannot mutate the frozen rules (0.584101ms)
+✔ creation separates the public envelope and provider secret by construction (28.823676ms)
+✔ a JSON-round-tripped envelope opens with both externally pinned values (5.375858ms)
+✔ empty plaintext remains authenticated and round-trips (13.834167ms)
+✔ encryption of the same order and plaintext uses fresh keys and IVs (2.632171ms)
+✔ the commitment normalizes property order and a null object prototype (1.885116ms)
+✔ a missing key stays unavailable, independent of payment or elapsed time (2.981184ms)
+✔ an early provider release already decrypts; this primitive does not enforce payment (11.706731ms)
+✔ a canonical but different data key does not match the committed key (20.527014ms)
+✔ a mismatched expected order cannot open the envelope (1.690115ms)
+✔ a mismatched externally pinned envelope commitment cannot open the envelope (1.709203ms)
+✔ an attacker cannot replace the key commitment and envelope using its own key (10.972636ms)
+✔ an attacker-supplied commitment field inside an envelope is rejected (2.457463ms)
+✔ a changed iv is rejected by the pinned commitment (1.444278ms)
+✔ AES authentication rejects a changed iv even with its replacement commitment (8.926073ms)
+✔ a changed ciphertext is rejected by the pinned commitment (52.741268ms)
+✔ AES authentication rejects a changed ciphertext even with its replacement commitment (3.280067ms)
+✔ a changed tag is rejected by the pinned commitment (4.25387ms)
+✔ AES authentication rejects a changed tag even with its replacement commitment (2.11297ms)
+✔ authenticated metadata prevents rewrapping unchanged ciphertext for another order (2.826871ms)
+✔ the key commitment is included in the externally pinned envelope commitment (5.410819ms)
+✔ every public field contributes to the commitment or is rejected as unsupported (6.116482ms)
+✔ envelope validation rejects omitted, extra, inherited, symbol and accessor fields (2.004469ms)
+✔ schema scalar values cannot be objects with coercion hooks (3.718594ms)
+✔ base64 decoding rejects whitespace, omitted padding, URL alphabet and noncanonical pad bits (1.936253ms)
+✔ nonce, authentication tag and key lengths are fixed (6.226089ms)
+✔ order digests and commitments require canonical 32-byte lowercase hex (4.714499ms)
+✔ both trusted context values are mandatory and are not taken from the envelope (1.180157ms)
+✔ malformed function argument objects use stable errors without evaluating accessors (2.19947ms)
+✔ provider validates, seals and commits the accepted fixed allocation (637.708736ms)
+✔ rejected provider allocations produce no ciphertext or evidence (31.765655ms)
+✔ rejects a snapshot that does not match the order commitment before encryption (29.613015ms)
+✔ rejects a recipient key that differs from the order before encryption (33.784656ms)
+✔ rejects an order that selects a different fixed rule (80.004314ms)
+✔ rejects an order snapshot with fields the recovery schema will not accept (31.655422ms)
+✔ rejects an order without its recipient key (60.356965ms)
+✔ evaluates and seals one snapshot of allocation values (169.275786ms)
+✔ rejects unreadable allocation data before encryption (18.696765ms)
+✔ recovery bundle validates its persisted ciphertext commitment (3.06413ms)
+✔ recovery bundle rejects ciphertext mutation (81.132089ms)
+✔ recovery bundle rejects mismatched order evidence (0.771237ms)
+✔ HPKE sealed result roundtrips arbitrary bytes after JSON persistence (224.270177ms)
+✔ recipient public and private keys have lossless separate serialization (10.256969ms)
+✔ HPKE uses fresh encapsulation for the same plaintext and order (221.832461ms)
+✔ HPKE supports an empty byte payload (71.885396ms)
+✔ opening requires a trusted order digest outside the envelope (114.045246ms)
+✔ ciphertext and encapsulated key tampering fail authenticated decryption (145.824105ms)
+✔ recipient public key metadata and private key substitution are rejected (266.090602ms)
+✔ envelope commitment binds canonical metadata and ciphertext without depending on property order (2.813337ms)
+✔ sealed result schema rejects extra, missing, inherited and accessor fields (3.585867ms)
+✔ unsupported version and suite are rejected by both opening and commitment (5.085114ms)
+✔ canonical padded base64 is required for every binary envelope field (2.932673ms)
+✔ key, encapsulation and authentication tag lengths are enforced (1.51215ms)
+✔ order digest has one canonical 32-byte representation (1.528155ms)
+✔ low-order X25519 recipient keys fail encryption with a stable error (28.5581ms)
+✔ sealing accepts byte payloads only (0.732918ms)
+✔ reports funding, verification and delivery independently (34.611002ms)
+✔ assertStatusSeparation rejects a status that infers delivery from verification (32.887789ms)
+✔ a verified order still reports that delivery was not observed (0.969788ms)
+✔ maps every state to one deterministic next action (2.3544ms)
+✔ treats the refund boundaries as inclusive for the caller that reached them (0.790936ms)
+✔ rejects a status read from the wrong chain or contract (13.296958ms)
+✔ readSettlementStatus compares the expected chain id to the RPC network (2.133935ms)
+✔ reports an unknown order as retryable and a digest mismatch as final (28.671434ms)
+✔ exposes a stable failure catalogue (225.924747ms)
+✔ keeps the settlement decision independent from the funding flag (0.836149ms)
+✔ blocks an action when the status carries a non-retryable error (0.587375ms)
+✔ accepts a delivery the verifier opened and re-evaluated itself (182.428829ms)
+✔ rejects unbound plaintext: a valid result does not prove ciphertext contents (41.340285ms)
+✔ rejects a self-consistent provider claim that the recovered result contradicts (128.19007ms)
+✔ rejects a replaced sealed result (117.235511ms)
+✔ refuses to attest without an independent input (54.803969ms)
+✔ rejects authenticated ciphertext containing allocations that fail the rule (155.63351ms)
+✔ rejects a chain binding that records a different ciphertext (56.09993ms)
+✔ rejects an order that is funded but not yet submitted (43.347598ms)
+✔ rejects chain terms that differ from the frozen order (48.308171ms)
+✔ rejects a submission bound to a different order (59.977221ms)
+✔ rejects a tampered order instead of attesting it (37.984554ms)
+✔ reports an already verified order without re-attesting blindly (72.649799ms)
+ℹ tests 197
+ℹ suites 0
+ℹ pass 197
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 71885.410747
+
+== npm audit ==
+WSL proxy is loopback-bound; using the actual Windows npm audit result for the same package-lock SHA-256.
+found 0 vulnerabilities
+
+== CLI end-to-end harness alone ==
+✔ the full workflow runs as separate processes and never infers delivery (7728.783152ms)
+✔ a timeout refund needs the checkpoint and the chain only, never a provider bundle (3938.328968ms)
+✔ a tampered claim is rejected and nothing is signed (4635.125106ms)
+✔ a tampered recovery bundle is rejected by the buyer's offline verification (3874.028548ms)
+✔ the provider refuses a mismatched order binding before writing or submitting (5574.653686ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 25957.164122
+
+== npm run demo (encrypted delivery / exchange boundary) ==
+
+> prooforder@1.0.0 demo
+> forge build && node scripts/run-demo.mjs
+
+Warning: Failed to check foundry.lock: git rev-parse exited with code 128: fatal: not a git repository (or any of the parent directories): .git
+No files changed, compilation skipped
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+   ╭▸ src/ProofOrderSettlement.sol:31:30
+   │
+31 │     address public immutable verifier;
+   │                              ━━━━━━━━ help: consider using: `VERIFIER`
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/screaming-snake-case-immutable
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/ProofOrderSettlement.t.sol:4:8
+  │
+4 │ import "forge-std/Test.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/ProofOrderAdversarial.t.sol:4:8
+  │
+4 │ import "forge-std/Test.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/ProofOrderSettlement.t.sol:5:8
+  │
+5 │ import "../src/ProofOrderSettlement.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/ProofOrderAdversarial.t.sol:5:8
+  │
+5 │ import "../src/ProofOrderSettlement.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/SettlementLiveness.t.sol:4:8
+  │
+4 │ import "forge-std/Test.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/SettlementLiveness.t.sol:5:8
+  │
+5 │ import "../src/ProofOrderSettlement.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+   ╭▸ test/SettlementLiveness.t.sol:22:43
+   │
+22 │     ProofOrderSettlement public immutable settlement;
+   │                                           ━━━━━━━━━━ help: consider using: `SETTLEMENT`
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/screaming-snake-case-immutable
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+   ╭▸ test/SettlementLiveness.t.sol:23:30
+   │
+23 │     bytes32 public immutable orderId;
+   │                              ━━━━━━━ help: consider using: `ORDER_ID`
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/screaming-snake-case-immutable
+
+note[low-level-calls]: Low-level calls should be avoided
+   ╭▸ test/SettlementLiveness.t.sol:39:17
+   │
+39 │                 address(settlement).call(abi.encodeCall(ProofOrderSettlement.settle, (orderId)));
+   │                 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/low-level-calls
+
+note[inline-assembly]: inline assembly used; review for memory safety and side effects
+    ╭▸ src/ProofOrderSettlement.sol:130:9
+    │
+130 │         assembly {
+    │         ━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/inline-assembly
+
+note[low-level-calls]: Low-level calls should be avoided
+    ╭▸ src/ProofOrderSettlement.sol:146:22
+    │
+146 │         (bool ok,) = order.payee.call{value: order.amount}("");
+    │                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/low-level-calls
+
+note[low-level-calls]: Low-level calls should be avoided
+    ╭▸ src/ProofOrderSettlement.sol:159:22
+    │
+159 │         (bool ok,) = order.buyer.call{value: order.amount}("");
+    │                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/low-level-calls
+
+note[multi-contract-file]: prefer having only one contract, interface or library per file
+  ╭▸ test/SettlementLiveness.t.sol:7:10
+  │
+7 │ contract RetryablePayee {
+  │          ━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/multi-contract-file
+
+note[multi-contract-file]: prefer having only one contract, interface or library per file
+   ╭▸ test/SettlementLiveness.t.sol:21:10
+   │
+21 │ contract ReentrantPayee {
+   │          ━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/multi-contract-file
+
+note[multi-contract-file]: prefer having only one contract, interface or library per file
+   ╭▸ test/SettlementLiveness.t.sol:44:10
+   │
+44 │ contract SettlementLivenessTest is Test {
+   │          ━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/multi-contract-file
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ProofOrderSettlement.t.sol:29:104
+   │
+29 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, uint64(block.timestamp + 1 days));
+   │                                                                                                        ━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+warning[locked-ether]: contract can receive ETH but has no mechanism to send it out
+  ╭▸ test/SettlementLiveness.t.sol:7:10
+  │
+7 │ contract RetryablePayee {
+  │          ━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/locked-ether
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ProofOrderSettlement.t.sol:70:35
+   │
+70 │         vm.warp(block.timestamp + 1 days);
+   │                                   ━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ProofOrderSettlement.t.sol:82:83
+   │
+82 │         settlement.markVerified(orderId, orderDigest, commitment, evidenceDigest, hex"00");
+   │                                                                                   ━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ProofOrderSettlement.t.sol:90:83
+   │
+90 │         settlement.markVerified(orderId, orderDigest, commitment, evidenceDigest, hex"00");
+   │                                                                                   ━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/ProofOrderSettlement.t.sol:122:35
+    │
+122 │         vm.warp(block.timestamp + 1 days);
+    │                                   ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/ProofOrderSettlement.t.sol:137:35
+    │
+137 │         vm.warp(block.timestamp + 1 days + settlement.VERIFICATION_GRACE());
+    │                                   ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/ProofOrderSettlement.t.sol:151:35
+    │
+151 │         vm.warp(block.timestamp + 1 days);
+    │                                   ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+   ╭▸ test/ProofOrderSettlement.t.sol:29:9
+   │
+29 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, uint64(block.timestamp + 1 days));
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/ProofOrderSettlement.t.sol:29:79
+   │
+29 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, uint64(block.timestamp + 1 days));
+   │                                                                               ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unsafe-typecast
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ src/ProofOrderSettlement.sol:61:70
+   │
+61 │             orders[orderId].state != State.None || msg.value == 0 || deadline <= block.timestamp
+   │                                                                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/block-timestamp
+
+warning[locked-ether]: contract can receive ETH but has no mechanism to send it out
+   ╭▸ test/SettlementLiveness.t.sol:21:10
+   │
+21 │ contract ReentrantPayee {
+   │          ━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/locked-ether
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/ProofOrderAdversarial.t.sol:39:20
+   │
+39 │         deadline = uint64(block.timestamp + 1 days);
+   │                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unsafe-typecast
+
+warning[unused-return]: Return value of an external call is not used
+   ╭▸ test/SettlementLiveness.t.sol:36:9
+   │
+36 │         (,,,,, stateDuringPayment,,,) = settlement.orders(orderId);
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/SettlementLiveness.t.sol:64:45
+   │
+64 │         deadline = uint64(block.timestamp + 1 days);
+   │                                             ━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/SettlementLiveness.t.sol:65:24
+   │
+65 │         vm.deal(buyer, 10 ether);
+   │                        ━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/SettlementLiveness.t.sol:66:27
+   │
+66 │         vm.deal(provider, 2 ether);
+   │                           ━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:129:71
+    │
+129 │         vm.warp(uint256(deadline) + settlement.VERIFICATION_GRACE() + 1 days);
+    │                                                                       ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:185:33
+    │
+185 │         assertEq(buyer.balance, 10 ether);
+    │                                 ━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:203:71
+    │
+203 │         vm.warp(uint256(deadline) + settlement.VERIFICATION_GRACE() + 1 days);
+    │                                                                       ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:253:32
+    │
+253 │         uint256 secondAmount = 2 ether;
+    │                                ━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:281:56
+    │
+281 │         uint256 value = bound(uint256(fundedValue), 1, 10 ether);
+    │                                                        ━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/SettlementLiveness.t.sol:64:20
+   │
+64 │         deadline = uint64(block.timestamp + 1 days);
+   │                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unsafe-typecast
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ src/ProofOrderSettlement.sol:82:13
+   │
+82 │         if (block.timestamp >= order.deadline) revert DeadlinePassed();
+   │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/block-timestamp
+
+note[asm-keccak256]: use of inefficient hashing mechanism; consider using inline assembly
+    ╭▸ src/ProofOrderSettlement.sol:95:16
+    │
+ 95 │           return keccak256(
+    │ ┏━━━━━━━━━━━━━━━━┛
+ 96 │ ┃             abi.encodePacked(
+ 97 │ ┃                 "ProofOrder/VerificationEvidence/v1",
+ 98 │ ┃                 block.chainid,
+    ‡ ┃
+105 │ ┃         );
+    │ ┗━━━━━━━━━┛
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/asm-keccak256
+
+warning[unused-return]: Return value of an external call is not used
+   ╭▸ test/ProofOrderSettlement.t.sol:41:61
+   │
+41 │         (, , , , , ProofOrderSettlement.State state, , ,) = settlement.orders(orderId);
+   │                                                             ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[ecrecover]: ecrecover should reject malleable signatures
+    ╭▸ src/ProofOrderSettlement.sol:135:13
+    │
+135 │         if (ecrecover(ethSignedMessage, v, r, s) != verifier) revert InvalidSignature();
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/ecrecover
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+   ╭▸ test/ProofOrderAdversarial.t.sol:57:9
+   │
+57 │         target.fund{value: amount}(id, digest, provider, payee, deadline);
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/ProofOrderSettlement.sol:117:13
+    │
+117 │         if (block.timestamp >= uint256(order.deadline) + VERIFICATION_GRACE) revert DeadlinePassed();
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/block-timestamp
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ src/ProofOrderSettlement.sol:138:9
+    │
+138 │         emit Verified(orderId);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+note[asm-keccak256]: use of inefficient hashing mechanism; consider using inline assembly
+    ╭▸ src/ProofOrderSettlement.sol:126:36
+    │
+126 │         bytes32 ethSignedMessage = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", message));
+    │                                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/asm-keccak256
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ src/ProofOrderSettlement.sol:146:22
+    │
+146 │         (bool ok,) = order.payee.call{value: order.amount}("");
+    │                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ src/ProofOrderSettlement.sol:148:9
+    │
+148 │         emit Settled(orderId, order.payee, order.amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+warning[unused-return]: Return value of an external call is not used
+   ╭▸ test/ProofOrderAdversarial.t.sol:81:55
+   │
+81 │         (,,,,, ProofOrderSettlement.State state,,,) = settlement.orders(orderId);
+   │                                                       ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ src/ProofOrderSettlement.sol:159:22
+    │
+159 │         (bool ok,) = order.buyer.call{value: order.amount}("");
+    │                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:117:9
+    │
+117 │         settlement.fund{value: amount}(freshOrder, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/ProofOrderSettlement.sol:157:13
+    │
+157 │         if (block.timestamp < refundDeadline) revert DeadlineNotReached();
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/block-timestamp
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ src/ProofOrderSettlement.sol:161:9
+    │
+161 │         emit Refunded(orderId, order.buyer, order.amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:130:9
+    │
+130 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[unused-return]: Return value of an external call is not used
+    ╭▸ test/ProofOrderSettlement.t.sol:129:61
+    │
+129 │         (, , , , , ProofOrderSettlement.State state, , ,) = settlement.orders(orderId);
+    │                                                             ━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:140:9
+    │
+140 │         settlement.fund{value: amount}(lateOrder, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[unused-return]: Return value of an external call is not used
+    ╭▸ test/ProofOrderAdversarial.t.sol:154:55
+    │
+154 │         (,,,,, ProofOrderSettlement.State state,,,) = settlement.orders(orderId);
+    │                                                       ━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+   ╭▸ test/SettlementLiveness.t.sol:73:9
+   │
+73 │         settlement.fund{value: value}(id, orderDigest, provider, recipient, deadline);
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[unused-return]: Return value of an external call is not used
+   ╭▸ test/SettlementLiveness.t.sol:97:56
+   │
+97 │         (,,,,, ProofOrderSettlement.State actual,,,) = settlement.orders(id);
+   │                                                        ━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ test/SettlementLiveness.t.sol:115:9
+    │
+115 │         emit Settled(orderId, payee, amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ test/SettlementLiveness.t.sol:135:9
+    │
+135 │         emit Settled(orderId, payee, amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+warning[unused-return]: Return value of an external call is not used
+    ╭▸ test/ProofOrderAdversarial.t.sol:202:55
+    │
+202 │         (,,,,, ProofOrderSettlement.State state,,,) = settlement.orders(orderId);
+    │                                                       ━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:221:9
+    │
+221 │         settlement.fund{value: amount}(fundedOrder, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:239:9
+    │
+239 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:243:9
+    │
+243 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:248:9
+    │
+248 │         settlement.fund{value: amount}(zeroDigestOrder, bytes32(0), provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:250:9
+    │
+250 │         settlement.fund{value: amount}(zeroDigestOrder, orderDigest, address(0), payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:252:9
+    │
+252 │         settlement.fund{value: amount}(zeroDigestOrder, orderDigest, provider, address(0), deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:256:9
+    │
+256 │         settlement.fund{value: amount}(bytes32(0), orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ test/SettlementLiveness.t.sol:239:9
+    │
+239 │         emit Settled(orderId, address(recipient), amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+note[unused-error]: custom error is never used
+   ╭▸ src/ProofOrderSettlement.sol:41:5
+   │
+41 │     error WrongValue();
+   │     ━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-error
+
+{
+  "flow": "encrypted-delivery-and-exchange-boundary",
+  "status": "passed",
+  "generatedAt": "2026-09-13T05:56:08.931Z",
+  "environment": {
+    "node": "v26.5.1",
+    "ethers": "6.17.0",
+    "clientVersion": "anvil/v1.8.1",
+    "chainId": 31337
+  },
+  "sourceSha256": {
+    "src/ProofOrderSettlement.sol": "c1e5845daa14ef82f87cc71ce3501b4b8ad7ab613102cfd9893fcbcf2e24ed6e",
+    "src/order.mjs": "97ecb69a19741307d75fbd33088a8e9bbbd317efacf869ad626be8aeb7eaa3d6",
+    "src/demo-flow.mjs": "f2acedb07b0f607b38d6f5be3835b4dbec975eebb0a786aab219d8daaf2e8131",
+    "src/provider-flow.mjs": "dbc75fab91dca59e02e054aa6ffe2b3440949945792628823e58ad7eb98d4a85",
+    "src/sealed-result.mjs": "e8736b133232df03cf576c6cdb19123eaa7328ce74a9b688822a959337f2f840",
+    "src/recovery.mjs": "ab656a83b1fa286f1d0200a65c7a6828afebe28fb351343e123dfa26f59bbc12",
+    "src/evaluator.mjs": "8e94c0276ede0eb87a312fc33e28effdcbb8dd120aa54781dc09b5e08056b917",
+    "src/evidence.mjs": "1c035ed42f5da72be70003d0ea44395d3bd5905cdc1ced9da2b2ad31f35102fb",
+    "scripts/recover-demo.mjs": "464203c22b9473c443ea8257182599f593edc33d96faab38e5a4799a12270002",
+    "scripts/run-demo.mjs": "624e4cb841a7148fa535bc29e1996bae205c27a4c6e156e3f25c53af6b0cee66",
+    "scripts/local-demo.mjs": "aad58447cfe0735351b20dc3cd7f0b6e31f4a888c8ee0db54018ae12d4687eac",
+    "package-lock.json": "0dbc5e7d5bf3b2c013c12b4b856f9cd07f787f48511ddcfb6313d26657b9f012"
+  },
+  "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "encryptedDelivery": {
+    "orderId": "0x39ede538cf7efa81b6b218ce0032551728bf2054124127f744053044b2e67390",
+    "orderDigest": "sha256:7e5d889d0951544aee7706f4439f93f54f20954696c62a3b4a772ff8d69e1878",
+    "ciphertextCommitment": "0x79a08952387ebd11a475df750d369fb3ee393e76702957e83a3a543d4a3adbe1",
+    "evidenceDigest": "sha256:5bb18929af5e45020ed6b2f2905e744cc77014f58e8b397fe71f54f54bd3fce1",
+    "suite": "DHKEM(X25519, HKDF-SHA256)/HKDF-SHA256/AES-256-GCM",
+    "checkpointBeforeFunding": true,
+    "finalState": "Settled",
+    "recipientKeyFileMode": "0600",
+    "recovery": {
+      "independentProcess": true,
+      "rpcRequired": false,
+      "providerCallbackRequired": false,
+      "result": {
+        "allocations": [
+          {
+            "target": "target-a",
+            "amountMinorUnits": 6000
+          },
+          {
+            "target": "target-b",
+            "amountMinorUnits": 4000
+          }
+        ]
+      },
+      "evaluation": {
+        "ok": true,
+        "totalMinorUnits": 10000,
+        "scoreBps": 7960,
+        "ruleVersion": "allocation-score-v1"
+      },
+      "paths": {
+        "bundle": "artifacts/encrypted-md1PNF/settled-bundle.json",
+        "key": "artifacts/encrypted-md1PNF/settled-buyer-key.json",
+        "context": "artifacts/encrypted-md1PNF/settled-trusted-context.json"
+      }
+    },
+    "settlement": {
+      "transactionHash": "0x39c0a3d7d22433a79bfcfb4b2093847f8694729c49f6bdd8b46a29226c897191",
+      "blockNumber": 6,
+      "payeeBalanceBeforeWei": "9999999903517489946170",
+      "payeeBalanceAfterWei": "10000999903517489946170",
+      "payeeCreditWei": "1000000000000000000",
+      "escrowBalanceAfterWei": "0"
+    },
+    "buyerOfflineSettlement": {
+      "buyerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "providerAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "relayerAddress": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "payeeAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "checkpointBlockNumber": 3,
+      "verificationTransactionHash": "0xb05b87b107196722581495b18264392387ff7c312e45cf3ade7e69cb814cea0a",
+      "buyerNonceAtCheckpoint": 2,
+      "buyerNonceAfterSettlement": 2,
+      "buyerBalanceAtCheckpointWei": "9998996677263438495975",
+      "buyerBalanceAfterSettlementWei": "9998996677263438495975",
+      "deadline": 1789279867,
+      "verificationGraceSeconds": 3600,
+      "settlementTimestamp": 1789283468,
+      "relayerBalanceBeforeWei": "10000000000000000000000",
+      "relayerBalanceAfterWei": "9999999933790484313049",
+      "relayerFeeWei": "66209515686951",
+      "buyerTransactionsAfterCheckpoint": 0,
+      "paymentAuthorization": "Trusted verifier signature accepted on chain; any caller may pay the fixed payee."
+    }
+  },
+  "exchangeBoundary": {
+    "status": "counterexample-reproduced",
+    "scenario": "Provider delivers the complete encrypted bundle, then stops before verification is mined. Buyer decrypts while Submitted, then obtains timeout refund.",
+    "orderId": "0x505726ab79eb596276db4022becc08bebe85cc084a00573540fc402b742c92fc",
+    "orderDigest": "sha256:ead77e9a829be44f34a328db2f521eff815a40a7e370b4d5cc7d28ae07875d20",
+    "ciphertextCommitment": "0x258930db6b6f3346c24857b0e391ed16b17483e9c09fa44f9a2ee3393dc79978",
+    "decryptedBeforePayment": true,
+    "chainStateAtDecryption": "Submitted",
+    "chainEvidenceAtDecryption": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "decryptBlockNumber": 8,
+    "deadline": 1789284368,
+    "verificationGraceSeconds": 3600,
+    "finalState": "Refunded",
+    "refundTransactionHash": "0x3786ade89098a2a691d12e87da4650aec1aeee2a671b4dc975a99460580e8b12",
+    "refundBlockNumber": 10,
+    "buyerBalanceBeforeWei": "9997996436957925544889",
+    "buyerBalanceAfterWei": "9998996381644670012729",
+    "refundFeeWei": "55313255532160",
+    "buyerCreditPlusGasWei": "1000000000000000000",
+    "providerCreditDuringRefundWei": "0",
+    "result": {
+      "allocations": [
+        {
+          "target": "target-a",
+          "amountMinorUnits": 6000
+        },
+        {
+          "target": "target-b",
+          "amountMinorUnits": 4000
+        }
+      ]
+    },
+    "fairExchangeEstablished": false
+  },
+  "inputs": {
+    "settledBundle": {
+      "schemaVersion": 2,
+      "orderId": "0x39ede538cf7efa81b6b218ce0032551728bf2054124127f744053044b2e67390",
+      "order": {
+        "buyer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "chainId": 31337,
+        "deadline": 1789279867,
+        "deadlineSeconds": 900,
+        "feeMinorUnits": "1000000000000000000",
+        "inputCommitment": "sha256:fdb6221d1359d653f2aab63d630cacc74a1a8b35607ab9cf122b919119eaf74c",
+        "nonce": "0x7c3b47523d29bb22d383e8f9f214aba29c147878d3da50924c949022975c3d57",
+        "payee": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "paymentAsset": "native",
+        "provider": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "recipientPublicKey": "LcezpyXthSfJnArckhkWNtct5GHbik+zAktNSwLywCw=",
+        "ruleId": "allocation-score-v1",
+        "settlementContract": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "snapshot": {
+          "id": "fixed-snapshot-001",
+          "targets": [
+            {
+              "id": "target-a",
+              "liquidityBps": 9000,
+              "scoreBps": 8200
+            },
+            {
+              "id": "target-b",
+              "liquidityBps": 8000,
+              "scoreBps": 7600
+            }
+          ]
+        },
+        "taskType": "constrained-allocation-v1",
+        "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+        "verifierVersion": "ecdsa-evaluator-v1",
+        "version": 1
+      },
+      "sealedResult": {
+        "version": 1,
+        "suite": "DHKEM(X25519, HKDF-SHA256)/HKDF-SHA256/AES-256-GCM",
+        "orderDigest": "0x7e5d889d0951544aee7706f4439f93f54f20954696c62a3b4a772ff8d69e1878",
+        "recipientPublicKey": "LcezpyXthSfJnArckhkWNtct5GHbik+zAktNSwLywCw=",
+        "enc": "GH3NJ9+K4Yyt4u7S9BtojkRUtmVPdu1WEOwMPQ6LPDM=",
+        "ciphertext": "zMG0bDxrmkNMhQDyfGdTiemcpjcXCFTub6XVsS9lwik2o8JWLm1tYchjhP1Eec/qSnfyHl+J78req4kDMYh3lmDa6kNcyl44cF0sk7c/lM3CxUozsUKdbzk9qotnkCh2KSnzeNk81ckNuMlvZnL/04UlpWpz5aoLyszV4es="
+      },
+      "evidence": {
+        "proofSystem": "deterministic-evaluator-evidence-v1",
+        "verifierId": "local-verifier",
+        "publicInputs": {
+          "orderDigest": "sha256:7e5d889d0951544aee7706f4439f93f54f20954696c62a3b4a772ff8d69e1878",
+          "ciphertextCommitment": "sha256:79a08952387ebd11a475df750d369fb3ee393e76702957e83a3a543d4a3adbe1"
+        },
+        "evaluation": {
+          "ok": true,
+          "totalMinorUnits": 10000,
+          "scoreBps": 7960,
+          "ruleVersion": "allocation-score-v1"
+        },
+        "evidenceDigest": "sha256:5bb18929af5e45020ed6b2f2905e744cc77014f58e8b397fe71f54f54bd3fce1"
+      },
+      "attestation": {
+        "signature": "0xf767814fd541e9ab7827d16f5bcd3624bb6f54fdc2e5501943cd994e541cd01c52e0a5ea515f925e8ba486b30e1c71718cd66e3cd63cc68f8a8bc55712bbc4941b",
+        "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
+      },
+      "chain": {
+        "chainId": 31337,
+        "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+      },
+      "orderDigest": "sha256:7e5d889d0951544aee7706f4439f93f54f20954696c62a3b4a772ff8d69e1878",
+      "ciphertextCommitment": "sha256:79a08952387ebd11a475df750d369fb3ee393e76702957e83a3a543d4a3adbe1"
+    },
+    "prepaymentBundle": {
+      "schemaVersion": 2,
+      "orderId": "0x505726ab79eb596276db4022becc08bebe85cc084a00573540fc402b742c92fc",
+      "order": {
+        "buyer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "chainId": 31337,
+        "deadline": 1789284368,
+        "deadlineSeconds": 900,
+        "feeMinorUnits": "1000000000000000000",
+        "inputCommitment": "sha256:fdb6221d1359d653f2aab63d630cacc74a1a8b35607ab9cf122b919119eaf74c",
+        "nonce": "0x78f4b3af4cbce1345d6f60eb2cbaa87518f18d9363c010373f5d133f67b6b272",
+        "payee": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "paymentAsset": "native",
+        "provider": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+        "recipientPublicKey": "p1w45VLvk4DVlOydXegpPCSQAfPHcCm5WiBEzoc/y0s=",
+        "ruleId": "allocation-score-v1",
+        "settlementContract": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "snapshot": {
+          "id": "fixed-snapshot-001",
+          "targets": [
+            {
+              "id": "target-a",
+              "liquidityBps": 9000,
+              "scoreBps": 8200
+            },
+            {
+              "id": "target-b",
+              "liquidityBps": 8000,
+              "scoreBps": 7600
+            }
+          ]
+        },
+        "taskType": "constrained-allocation-v1",
+        "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+        "verifierVersion": "ecdsa-evaluator-v1",
+        "version": 1
+      },
+      "sealedResult": {
+        "version": 1,
+        "suite": "DHKEM(X25519, HKDF-SHA256)/HKDF-SHA256/AES-256-GCM",
+        "orderDigest": "0xead77e9a829be44f34a328db2f521eff815a40a7e370b4d5cc7d28ae07875d20",
+        "recipientPublicKey": "p1w45VLvk4DVlOydXegpPCSQAfPHcCm5WiBEzoc/y0s=",
+        "enc": "JbpUKUhbERe9VCCDdbk8KThhexUQ1B7UZG8qWP0+IXc=",
+        "ciphertext": "u3fipHvzmqNvkGDkOX+oJmpt5gUTYJ7sHDl11z/NEt3i6hLlUYkwof+FS4GPRdr+7MIyfXWLa3tplI6BwjjVwaBq8N6QO+QCO+uIXuh74nrd9PHL6R0geJt/wvY9mdlq+gW6D4l4a+KirlZWM8oQ7z2NdnpbJvPNSFAdark="
+      },
+      "evidence": {
+        "proofSystem": "deterministic-evaluator-evidence-v1",
+        "verifierId": "local-verifier",
+        "publicInputs": {
+          "orderDigest": "sha256:ead77e9a829be44f34a328db2f521eff815a40a7e370b4d5cc7d28ae07875d20",
+          "ciphertextCommitment": "sha256:258930db6b6f3346c24857b0e391ed16b17483e9c09fa44f9a2ee3393dc79978"
+        },
+        "evaluation": {
+          "ok": true,
+          "totalMinorUnits": 10000,
+          "scoreBps": 7960,
+          "ruleVersion": "allocation-score-v1"
+        },
+        "evidenceDigest": "sha256:2a2b6b03982084f260cf7554d987ce832ef3b210d1fd04e135acb3de0b3538ee"
+      },
+      "attestation": {
+        "signature": "0x0dd1e12e86599e680bcd0868ee63e8f79e61afdef91e8ca4b6d8d413e3aa558d4e59a9e0f151d94d99214726f1c68a0e75dbb012f3d99a573af50ea4508326c61c",
+        "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
+      },
+      "chain": {
+        "chainId": 31337,
+        "contractAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+      },
+      "orderDigest": "sha256:ead77e9a829be44f34a328db2f521eff815a40a7e370b4d5cc7d28ae07875d20",
+      "ciphertextCommitment": "sha256:258930db6b6f3346c24857b0e391ed16b17483e9c09fa44f9a2ee3393dc79978"
+    }
+  },
+  "transactions": [
+    {
+      "action": "deploy",
+      "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "hash": "0x04d240ce4c2edc465e14700b9480e5e752185dfcd1d674163855ed4673dfe1ca",
+      "blockNumber": 1,
+      "blockHash": "0xd172a1c600ac5a92f52ab54f3b78b2c4c10da7e48ca39d4e77b5e2378d65803f"
+    },
+    {
+      "action": "settled:fund",
+      "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "hash": "0x673c7fc56f895a9a1075ab372bfae7b2acb61a7c7b68e5211cbd2d8140df3983",
+      "blockNumber": 2,
+      "blockHash": "0x5c16e5bc7c4b689320bba77ca385c209f261279fea820a2fbb88c27cf452996d"
+    },
+    {
+      "action": "settled:submit",
+      "from": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "hash": "0x2283ba65d6484add3d61486db7b4016abd2d78085e1e5fea3b02616a6e9d9af3",
+      "blockNumber": 3,
+      "blockHash": "0x721d91976154a28980ae6a44dac450f1a14738bc9b747912b90259bdd0e56c7c"
+    },
+    {
+      "action": "settled:verify",
+      "from": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+      "hash": "0xb05b87b107196722581495b18264392387ff7c312e45cf3ade7e69cb814cea0a",
+      "blockNumber": 4,
+      "blockHash": "0x7d35ba598be7fff3879f22e057bfe158155bb171a2c765b34528a292d926f699"
+    },
+    {
+      "action": "settled:pay",
+      "from": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+      "hash": "0x39c0a3d7d22433a79bfcfb4b2093847f8694729c49f6bdd8b46a29226c897191",
+      "blockNumber": 6,
+      "blockHash": "0x344b1cbe1d9a1242a5fb72d769dcd5ed4a4e9146b6cd0222c9de70cdd2a61f30"
+    },
+    {
+      "action": "prepayment:fund",
+      "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "hash": "0x2420ab0d9de4e0a8221b2d64e9e15d2f52e8500f0c4f981fa280938443bf9af8",
+      "blockNumber": 7,
+      "blockHash": "0x2d7bb42dbd8b81c5abc73bbdfcbe83d469fe7fa45fdb93ee2fb2b2d180129b30"
+    },
+    {
+      "action": "prepayment:submit",
+      "from": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+      "hash": "0x04ebf4e3968169282f093125e1661fff02c4116203801a8344bd60d77c67a70f",
+      "blockNumber": 8,
+      "blockHash": "0x1409578addc6cbc8fc31bc814aeb05285224a6c41efc65a21abcb2d94fde0932"
+    },
+    {
+      "action": "prepayment:refund",
+      "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "hash": "0x3786ade89098a2a691d12e87da4650aec1aeee2a671b4dc975a99460580e8b12",
+      "blockNumber": 10,
+      "blockHash": "0x58f800bbcfb5dda965fb00dbd1135ea1d4fc6b6a298d4de3b96f1247ff9bedd6"
+    }
+  ],
+  "claimBoundary": "Real recipient encryption, offline recovery and fixed-payee settlement by a relayer after the buyer stops sending transactions, on local Anvil. Trusted verifier; no ZK. Verification authorizes payment without a further buyer approval and does not prove delivery. Recovery does not establish payment or finality. Complete HPKE delivery permits prepayment decryption; provider-abort trace disproves full fair exchange. Actors still share one orchestration process. A permanently reverting payee can still block payout.",
+  "nodeLifecycle": "fresh Anvil started and stopped by runner"
+}
+
+== npm run demo:failures ==
+
+> prooforder@1.0.0 demo:failures
+> forge build && node scripts/run-failure-demo.mjs
+
+Warning: Failed to check foundry.lock: git rev-parse exited with code 128: fatal: not a git repository (or any of the parent directories): .git
+No files changed, compilation skipped
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+   ╭▸ src/ProofOrderSettlement.sol:31:30
+   │
+31 │     address public immutable verifier;
+   │                              ━━━━━━━━ help: consider using: `VERIFIER`
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/screaming-snake-case-immutable
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/ProofOrderSettlement.t.sol:4:8
+  │
+4 │ import "forge-std/Test.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/SettlementLiveness.t.sol:4:8
+  │
+4 │ import "forge-std/Test.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/ProofOrderSettlement.t.sol:5:8
+  │
+5 │ import "../src/ProofOrderSettlement.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[inline-assembly]: inline assembly used; review for memory safety and side effects
+    ╭▸ src/ProofOrderSettlement.sol:130:9
+    │
+130 │         assembly {
+    │         ━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/inline-assembly
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/ProofOrderAdversarial.t.sol:4:8
+  │
+4 │ import "forge-std/Test.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[low-level-calls]: Low-level calls should be avoided
+    ╭▸ src/ProofOrderSettlement.sol:146:22
+    │
+146 │         (bool ok,) = order.payee.call{value: order.amount}("");
+    │                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/low-level-calls
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/ProofOrderAdversarial.t.sol:5:8
+  │
+5 │ import "../src/ProofOrderSettlement.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[unaliased-plain-import]: use named imports '{A, B}' or alias 'import ".." as X'
+  ╭▸ test/SettlementLiveness.t.sol:5:8
+  │
+5 │ import "../src/ProofOrderSettlement.sol";
+  │        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/unaliased-plain-import
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ProofOrderSettlement.t.sol:29:104
+   │
+29 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, uint64(block.timestamp + 1 days));
+   │                                                                                                        ━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+   ╭▸ test/SettlementLiveness.t.sol:22:43
+   │
+22 │     ProofOrderSettlement public immutable settlement;
+   │                                           ━━━━━━━━━━ help: consider using: `SETTLEMENT`
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/screaming-snake-case-immutable
+
+note[low-level-calls]: Low-level calls should be avoided
+    ╭▸ src/ProofOrderSettlement.sol:159:22
+    │
+159 │         (bool ok,) = order.buyer.call{value: order.amount}("");
+    │                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/low-level-calls
+
+note[screaming-snake-case-immutable]: immutables should use SCREAMING_SNAKE_CASE
+   ╭▸ test/SettlementLiveness.t.sol:23:30
+   │
+23 │     bytes32 public immutable orderId;
+   │                              ━━━━━━━ help: consider using: `ORDER_ID`
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/screaming-snake-case-immutable
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ProofOrderSettlement.t.sol:70:35
+   │
+70 │         vm.warp(block.timestamp + 1 days);
+   │                                   ━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[low-level-calls]: Low-level calls should be avoided
+   ╭▸ test/SettlementLiveness.t.sol:39:17
+   │
+39 │                 address(settlement).call(abi.encodeCall(ProofOrderSettlement.settle, (orderId)));
+   │                 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/low-level-calls
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ProofOrderSettlement.t.sol:82:83
+   │
+82 │         settlement.markVerified(orderId, orderDigest, commitment, evidenceDigest, hex"00");
+   │                                                                                   ━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/ProofOrderSettlement.t.sol:90:83
+   │
+90 │         settlement.markVerified(orderId, orderDigest, commitment, evidenceDigest, hex"00");
+   │                                                                                   ━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/ProofOrderSettlement.t.sol:122:35
+    │
+122 │         vm.warp(block.timestamp + 1 days);
+    │                                   ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/ProofOrderSettlement.t.sol:137:35
+    │
+137 │         vm.warp(block.timestamp + 1 days + settlement.VERIFICATION_GRACE());
+    │                                   ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/ProofOrderSettlement.t.sol:151:35
+    │
+151 │         vm.warp(block.timestamp + 1 days);
+    │                                   ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[multi-contract-file]: prefer having only one contract, interface or library per file
+  ╭▸ test/SettlementLiveness.t.sol:7:10
+  │
+7 │ contract RetryablePayee {
+  │          ━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/multi-contract-file
+
+note[multi-contract-file]: prefer having only one contract, interface or library per file
+   ╭▸ test/SettlementLiveness.t.sol:21:10
+   │
+21 │ contract ReentrantPayee {
+   │          ━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/multi-contract-file
+
+note[multi-contract-file]: prefer having only one contract, interface or library per file
+   ╭▸ test/SettlementLiveness.t.sol:44:10
+   │
+44 │ contract SettlementLivenessTest is Test {
+   │          ━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/multi-contract-file
+
+warning[locked-ether]: contract can receive ETH but has no mechanism to send it out
+  ╭▸ test/SettlementLiveness.t.sol:7:10
+  │
+7 │ contract RetryablePayee {
+  │          ━━━━━━━━━━━━━━
+  │
+  ╰ help: https://getfoundry.sh/forge/linting/locked-ether
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/ProofOrderAdversarial.t.sol:39:20
+   │
+39 │         deadline = uint64(block.timestamp + 1 days);
+   │                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unsafe-typecast
+
+warning[locked-ether]: contract can receive ETH but has no mechanism to send it out
+   ╭▸ test/SettlementLiveness.t.sol:21:10
+   │
+21 │ contract ReentrantPayee {
+   │          ━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/locked-ether
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+   ╭▸ test/ProofOrderSettlement.t.sol:29:9
+   │
+29 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, uint64(block.timestamp + 1 days));
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[unused-return]: Return value of an external call is not used
+   ╭▸ test/SettlementLiveness.t.sol:36:9
+   │
+36 │         (,,,,, stateDuringPayment,,,) = settlement.orders(orderId);
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/ProofOrderSettlement.t.sol:29:79
+   │
+29 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, uint64(block.timestamp + 1 days));
+   │                                                                               ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unsafe-typecast
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/SettlementLiveness.t.sol:64:45
+   │
+64 │         deadline = uint64(block.timestamp + 1 days);
+   │                                             ━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/SettlementLiveness.t.sol:65:24
+   │
+65 │         vm.deal(buyer, 10 ether);
+   │                        ━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+   ╭▸ test/SettlementLiveness.t.sol:66:27
+   │
+66 │         vm.deal(provider, 2 ether);
+   │                           ━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ src/ProofOrderSettlement.sol:61:70
+   │
+61 │             orders[orderId].state != State.None || msg.value == 0 || deadline <= block.timestamp
+   │                                                                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/block-timestamp
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:129:71
+    │
+129 │         vm.warp(uint256(deadline) + settlement.VERIFICATION_GRACE() + 1 days);
+    │                                                                       ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:185:33
+    │
+185 │         assertEq(buyer.balance, 10 ether);
+    │                                 ━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:203:71
+    │
+203 │         vm.warp(uint256(deadline) + settlement.VERIFICATION_GRACE() + 1 days);
+    │                                                                       ━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ src/ProofOrderSettlement.sol:82:13
+   │
+82 │         if (block.timestamp >= order.deadline) revert DeadlinePassed();
+   │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/block-timestamp
+
+warning[unused-return]: Return value of an external call is not used
+   ╭▸ test/ProofOrderSettlement.t.sol:41:61
+   │
+41 │         (, , , , , ProofOrderSettlement.State state, , ,) = settlement.orders(orderId);
+   │                                                             ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:253:32
+    │
+253 │         uint256 secondAmount = 2 ether;
+    │                                ━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[literal-instead-of-constant]: this literal appears multiple times in the contract; declare a named constant for it
+    ╭▸ test/SettlementLiveness.t.sol:281:56
+    │
+281 │         uint256 value = bound(uint256(fundedValue), 1, 10 ether);
+    │                                                        ━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/literal-instead-of-constant
+
+note[asm-keccak256]: use of inefficient hashing mechanism; consider using inline assembly
+    ╭▸ src/ProofOrderSettlement.sol:95:16
+    │
+ 95 │           return keccak256(
+    │ ┏━━━━━━━━━━━━━━━━┛
+ 96 │ ┃             abi.encodePacked(
+ 97 │ ┃                 "ProofOrder/VerificationEvidence/v1",
+ 98 │ ┃                 block.chainid,
+    ‡ ┃
+105 │ ┃         );
+    │ ┗━━━━━━━━━┛
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/asm-keccak256
+
+warning[ecrecover]: ecrecover should reject malleable signatures
+    ╭▸ src/ProofOrderSettlement.sol:135:13
+    │
+135 │         if (ecrecover(ethSignedMessage, v, r, s) != verifier) revert InvalidSignature();
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/ecrecover
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/ProofOrderSettlement.sol:117:13
+    │
+117 │         if (block.timestamp >= uint256(order.deadline) + VERIFICATION_GRACE) revert DeadlinePassed();
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/block-timestamp
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ src/ProofOrderSettlement.sol:138:9
+    │
+138 │         emit Verified(orderId);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+note[asm-keccak256]: use of inefficient hashing mechanism; consider using inline assembly
+    ╭▸ src/ProofOrderSettlement.sol:126:36
+    │
+126 │         bytes32 ethSignedMessage = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", message));
+    │                                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/asm-keccak256
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ src/ProofOrderSettlement.sol:146:22
+    │
+146 │         (bool ok,) = order.payee.call{value: order.amount}("");
+    │                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ src/ProofOrderSettlement.sol:148:9
+    │
+148 │         emit Settled(orderId, order.payee, order.amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ src/ProofOrderSettlement.sol:159:22
+    │
+159 │         (bool ok,) = order.buyer.call{value: order.amount}("");
+    │                      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/SettlementLiveness.t.sol:64:20
+   │
+64 │         deadline = uint64(block.timestamp + 1 days);
+   │                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unsafe-typecast
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/ProofOrderSettlement.sol:157:13
+    │
+157 │         if (block.timestamp < refundDeadline) revert DeadlineNotReached();
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/block-timestamp
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ src/ProofOrderSettlement.sol:161:9
+    │
+161 │         emit Refunded(orderId, order.buyer, order.amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+warning[unused-return]: Return value of an external call is not used
+    ╭▸ test/ProofOrderSettlement.t.sol:129:61
+    │
+129 │         (, , , , , ProofOrderSettlement.State state, , ,) = settlement.orders(orderId);
+    │                                                             ━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+   ╭▸ test/ProofOrderAdversarial.t.sol:57:9
+   │
+57 │         target.fund{value: amount}(id, digest, provider, payee, deadline);
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[unused-return]: Return value of an external call is not used
+   ╭▸ test/ProofOrderAdversarial.t.sol:81:55
+   │
+81 │         (,,,,, ProofOrderSettlement.State state,,,) = settlement.orders(orderId);
+   │                                                       ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:117:9
+    │
+117 │         settlement.fund{value: amount}(freshOrder, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:130:9
+    │
+130 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:140:9
+    │
+140 │         settlement.fund{value: amount}(lateOrder, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[unused-return]: Return value of an external call is not used
+    ╭▸ test/ProofOrderAdversarial.t.sol:154:55
+    │
+154 │         (,,,,, ProofOrderSettlement.State state,,,) = settlement.orders(orderId);
+    │                                                       ━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+   ╭▸ test/SettlementLiveness.t.sol:73:9
+   │
+73 │         settlement.fund{value: value}(id, orderDigest, provider, recipient, deadline);
+   │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[unused-return]: Return value of an external call is not used
+   ╭▸ test/SettlementLiveness.t.sol:97:56
+   │
+97 │         (,,,,, ProofOrderSettlement.State actual,,,) = settlement.orders(id);
+   │                                                        ━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[unused-return]: Return value of an external call is not used
+    ╭▸ test/ProofOrderAdversarial.t.sol:202:55
+    │
+202 │         (,,,,, ProofOrderSettlement.State state,,,) = settlement.orders(orderId);
+    │                                                       ━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/unused-return
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:221:9
+    │
+221 │         settlement.fund{value: amount}(fundedOrder, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:239:9
+    │
+239 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ test/SettlementLiveness.t.sol:115:9
+    │
+115 │         emit Settled(orderId, payee, amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:243:9
+    │
+243 │         settlement.fund{value: amount}(orderId, orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:248:9
+    │
+248 │         settlement.fund{value: amount}(zeroDigestOrder, bytes32(0), provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:250:9
+    │
+250 │         settlement.fund{value: amount}(zeroDigestOrder, orderDigest, address(0), payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:252:9
+    │
+252 │         settlement.fund{value: amount}(zeroDigestOrder, orderDigest, provider, address(0), deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[arbitrary-send-eth]: ETH is sent to a user-controlled destination; restrict the destination or the caller
+    ╭▸ test/ProofOrderAdversarial.t.sol:256:9
+    │
+256 │         settlement.fund{value: amount}(bytes32(0), orderDigest, provider, payee, deadline);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/arbitrary-send-eth
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ test/SettlementLiveness.t.sol:135:9
+    │
+135 │         emit Settled(orderId, payee, amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+warning[reentrancy-events]: event emitted after an external call; reentrancy can reorder or fabricate logs that off-chain consumers rely on
+    ╭▸ test/SettlementLiveness.t.sol:239:9
+    │
+239 │         emit Settled(orderId, address(recipient), amount);
+    │         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://getfoundry.sh/forge/linting/reentrancy-events
+
+note[unused-error]: custom error is never used
+   ╭▸ src/ProofOrderSettlement.sol:41:5
+   │
+41 │     error WrongValue();
+   │     ━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://getfoundry.sh/forge/linting/unused-error
+
+{
+  "flow": "failure-boundaries",
+  "status": "passed",
+  "generatedAt": "2026-09-13T05:56:11.409Z",
+  "environment": {
+    "node": "v26.5.1",
+    "ethers": "6.17.0",
+    "clientVersion": "anvil/v1.8.1",
+    "chainId": 31337
+  },
+  "sourceSha256": {
+    "src/ProofOrderSettlement.sol": "c1e5845daa14ef82f87cc71ce3501b4b8ad7ab613102cfd9893fcbcf2e24ed6e",
+    "src/failure-flow.mjs": "cdde62fc6158e40c9557cf6faa353d2878df7a7a64f94e35d94c24cab95251d2",
+    "scripts/run-failure-demo.mjs": "6c5d874f5d825617c00dacf8886c2c0f1e2cecfb9b2f4f5d0b42a63c071301e6",
+    "scripts/local-demo.mjs": "aad58447cfe0735351b20dc3cd7f0b6e31f4a888c8ee0db54018ae12d4687eac",
+    "package-lock.json": "0dbc5e7d5bf3b2c013c12b4b856f9cd07f787f48511ddcfb6313d26657b9f012"
+  },
+  "settlementAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "buyerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "providerAddress": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+  "verifierAddress": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+  "inputs": {
+    "submittedId": "0x4c733d1148fb6dc7cdb7a063f4606e0020414b8e971170988f84334a556c0842",
+    "absentId": "0x20829efa57538b53bf9238a77956a665bc17127a5b0e2035581cd1270f04a16a",
+    "orderDigest": "0xe04ef1c67e1b73d04cadde35e19adbfebf38fc7365c9c1b45a65ce2dbf231135",
+    "absentDigest": "0xaf31488e993b1d2ec9e1afa63c3732892cb89dfe93a807a7a3381207c28a7652",
+    "commitment": "0x91392c4fee9d77584f9962eeab79a81dd43fb1c0d6749c333eda0aaad885faf2",
+    "evidenceDigest": "0x3fe52aa5d97b749cad16e96f65003939ab0e3ace6b1eae2bce10644403cd10e1",
+    "amountWei": "1000000000000000000",
+    "submittedDeadline": "1789282570",
+    "absentDeadline": "1789282570",
+    "validSignature": "0x03fe572c96a8ed62585b2e5cbeaeab51d21fcccf6e6ff7f428ec963b9e6308790906e98dbc5663ff929635a3cd843749249962e5fbc45b90cf5bff51e326a12a1b",
+    "wrongSignature": "0x8dd593331280b94706fcf72e25422a7377736a8fa9e0be9a75faf35c551f76204e8c2cd926986db807c8e42288b8b09df2ef58b1ed9cae2520cc8070e1a5aee31b"
+  },
+  "positiveControl": {
+    "authorizedSignatureAccepted": true,
+    "simulation": true,
+    "stateBalancesAndNoncesUnchanged": true
+  },
+  "rejectedCalls": [
+    {
+      "scenario": "wrong-verifier-signature",
+      "error": "InvalidSignature",
+      "revertData": "0x8baa579f",
+      "blockNumber": 4,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "changed-order-digest",
+      "error": "InvalidOrder",
+      "revertData": "0xaf610693",
+      "blockNumber": 4,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "changed-ciphertext-commitment",
+      "error": "InvalidOrder",
+      "revertData": "0xaf610693",
+      "blockNumber": 4,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "changed-evidence-digest",
+      "error": "InvalidSignature",
+      "revertData": "0x8baa579f",
+      "blockNumber": 4,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "settle-before-verification",
+      "error": "InvalidState",
+      "revertData": "0xbaf3f0f7",
+      "blockNumber": 4,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "submitted-refund-before-deadline",
+      "error": "DeadlineNotReached",
+      "revertData": "0x66ec4ee6",
+      "blockNumber": 4,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "funded-refund-before-deadline",
+      "error": "DeadlineNotReached",
+      "revertData": "0x66ec4ee6",
+      "blockNumber": 4,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "submit-after-deadline",
+      "error": "DeadlinePassed",
+      "revertData": "0x70f65caa",
+      "blockNumber": 5,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "submitted-refund-during-verification-grace",
+      "error": "DeadlineNotReached",
+      "revertData": "0x66ec4ee6",
+      "blockNumber": 5,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "repeat-refund-provider-absent",
+      "error": "InvalidState",
+      "revertData": "0xbaf3f0f7",
+      "blockNumber": 7,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    },
+    {
+      "scenario": "repeat-refund-submitted",
+      "error": "InvalidState",
+      "revertData": "0xbaf3f0f7",
+      "blockNumber": 8,
+      "stateBalancesAndNoncesUnchanged": true,
+      "simulation": true
+    }
+  ],
+  "refunds": [
+    {
+      "orderId": "0x20829efa57538b53bf9238a77956a665bc17127a5b0e2035581cd1270f04a16a",
+      "initialState": 1,
+      "finalState": 5,
+      "finalStateName": "Refunded",
+      "buyer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "refundAmountWei": "1000000000000000000",
+      "transactionHash": "0x4d6e943849ba9322a6e86566fce9428bf514ee9ebc48095e530aa529fe64c728",
+      "blockNumber": 7,
+      "blockHash": "0x922fdcfff16f270db08b44d46612b25ceeb8d097fbe04506b07d3e57ca105399",
+      "balanceBeforeBlock": 6,
+      "escrowBalanceBeforeWei": "2000000000000000000",
+      "escrowBalanceAfterWei": "1000000000000000000",
+      "buyerBalanceBeforeWei": "9997996399935628103524",
+      "buyerBalanceAfterWei": "9998996339120309426294",
+      "transactionFeeWei": "60815318677230",
+      "buyerCreditPlusGasWei": "1000000000000000000",
+      "payeeBalanceBeforeWei": "9999999903517489946170",
+      "payeeBalanceAfterWei": "9999999903517489946170"
+    },
+    {
+      "orderId": "0x4c733d1148fb6dc7cdb7a063f4606e0020414b8e971170988f84334a556c0842",
+      "initialState": 2,
+      "finalState": 5,
+      "finalStateName": "Refunded",
+      "buyer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "refundAmountWei": "1000000000000000000",
+      "transactionHash": "0xd4517f47520b77b560ddc4e6fe2af50baf10393f7bf4305605f073f841e5ce44",
+      "blockNumber": 8,
+      "blockHash": "0xb029250cd86b4cc4e8b130fbb23f31ee65de42a850e32de700f1d81785a2e749",
+      "balanceBeforeBlock": 7,
+      "escrowBalanceBeforeWei": "1000000000000000000",
+      "escrowBalanceAfterWei": "0",
+      "buyerBalanceBeforeWei": "9998996339120309426294",
+      "buyerBalanceAfterWei": "9999996279853628537594",
+      "transactionFeeWei": "59266680888700",
+      "buyerCreditPlusGasWei": "1000000000000000000",
+      "payeeBalanceBeforeWei": "9999999903517489946170",
+      "payeeBalanceAfterWei": "9999999903517489946170"
+    }
+  ],
+  "finalEscrowBalanceWei": "0",
+  "transactions": [
+    {
+      "action": "deploy",
+      "hash": "0x04d240ce4c2edc465e14700b9480e5e752185dfcd1d674163855ed4673dfe1ca",
+      "blockNumber": 1,
+      "blockHash": "0x1c108e074ba9569e239c81e4f7bb287ac36fe1cd95b3198e4c70bd5cdae3b1eb"
+    },
+    {
+      "action": "fund-submitted",
+      "hash": "0xdde523bb39edc9e7be542a8ba289f66b12513063337edca2fa277ee13df2e844",
+      "blockNumber": 2,
+      "blockHash": "0x427512763734b6c55db3adc23f68743b12cc942087429982927a0e958d6a1d3e"
+    },
+    {
+      "action": "submit",
+      "hash": "0x608f87568187cfde7872375d32a9ea9fe692aacc9deab2531dc0bb58980be75a",
+      "blockNumber": 3,
+      "blockHash": "0xe16f0c9d70fb6f81c26648846e643da1395435e42ad5c926b041fd6334344a1a"
+    },
+    {
+      "action": "fund-provider-absent",
+      "hash": "0xf6f23d9c32ff74601d93e16ff95a1e903fbf0187503b9f86fb2965a5e486656c",
+      "blockNumber": 4,
+      "blockHash": "0x9db59b8ec1bf673fe6df75b629a96c24e37dde1b4807c37fe4c3f94a5436f9b7"
+    },
+    {
+      "action": "refund-provider-absent",
+      "hash": "0x4d6e943849ba9322a6e86566fce9428bf514ee9ebc48095e530aa529fe64c728",
+      "blockNumber": 7,
+      "blockHash": "0x922fdcfff16f270db08b44d46612b25ceeb8d097fbe04506b07d3e57ca105399"
+    },
+    {
+      "action": "refund-submitted",
+      "hash": "0xd4517f47520b77b560ddc4e6fe2af50baf10393f7bf4305605f073f841e5ce44",
+      "blockNumber": 8,
+      "blockHash": "0xb029250cd86b4cc4e8b130fbb23f31ee65de42a850e32de700f1d81785a2e749"
+    }
+  ],
+  "expiryBlock": {
+    "number": 5,
+    "hash": "0x77f9f9cfef648672cfb18f98ab2d1296eec81a4df2cf616de095d87f14dd9262",
+    "timestamp": 1789282571
+  },
+  "claimBoundary": "Local Anvil: rejection probes are eth_call simulations; funding, submission and refunds are mined transactions. Placeholder commitments; no encryption, ZK proof, public testnet finality, deadline-race or interruption-retry claim.",
+  "nodeLifecycle": "fresh Anvil started and stopped by runner"
+}
+
+== done ==

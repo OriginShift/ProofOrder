@@ -3,14 +3,14 @@
 //
 //   verifier-cli attest --rpc URL --dir DIR [--verifier-index 2]
 //                       --verification-key-file FILE   (recipient HPKE secret; verifier decrypts)
-//                       | --verification-result-file FILE   (plaintext result supplied out of band)
 //                       [--submission-file FILE]
 //
 // Passing the recipient key means the verifier can decrypt the committed ciphertext. That is a
 // trusted-local-demo property and every success reports it as a disclosure, not as private
-// isolation. Both paths re-run the frozen rule over the recovered allocations and recompute the
-// evidence; the signature is produced only after that re-derivation matches and the on-chain
-// `Submitted` binding is confirmed.
+// isolation. A separately supplied plaintext is not an alternate success path: it is not bound to
+// the committed ciphertext and is rejected. The signature is produced only after decrypting the
+// committed bytes, re-running the frozen rule, recomputing the evidence, and confirming the on-chain
+// `Submitted` binding.
 import { getBytes } from "ethers";
 import { connectLocal, createReceiptRecorder, loadSettlementArtifact, settlementAt } from "../src/chain-client.mjs";
 import { integerFlag, parseArgs, readJson, recordStep, requiredFlag, runCli, workflowPaths, writeJson } from "../src/cli.mjs";
@@ -29,7 +29,7 @@ async function loadVerifierInput(flags, paths) {
   const keyFile = flags["verification-key-file"];
   const resultFile = flags["verification-result-file"];
   if (keyFile !== undefined && resultFile !== undefined && keyFile !== true && resultFile !== true) {
-    throw Object.assign(new Error("supply exactly one of --verification-key-file or --verification-result-file"), { code: "USAGE" });
+    throw Object.assign(new Error("supply only --verification-key-file; a plaintext result cannot verify the committed ciphertext"), { code: "USAGE" });
   }
   if (typeof keyFile === "string") {
     const file = await readJson(keyFile, "verification key file");
@@ -40,10 +40,10 @@ async function loadVerifierInput(flags, paths) {
   }
   if (typeof resultFile === "string") {
     const file = await readJson(resultFile, "verification result file");
-    return { plaintextResult: { allocations: file?.allocations }, inputSource: resultFile, plaintextSourceFile: resultFile };
+    return { plaintextResult: { allocations: file?.allocations }, inputSource: resultFile };
   }
   throw Object.assign(
-    new Error("an independent input is required: --verification-key-file FILE or --verification-result-file FILE"),
+    new Error("a recipient key is required to verify the committed ciphertext: --verification-key-file FILE"),
     { code: "MISSING_VERIFICATION_INPUT", retryable: true, dir: paths.directory },
   );
 }

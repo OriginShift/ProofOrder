@@ -189,17 +189,18 @@ const STRUCT_FIELDS = ["buyer", "provider", "payee", "amount", "deadline", "stat
 export async function readSettlementStatus({ contract, orderId, expected = {}, now }) {
   try {
     const provider = contract.runner?.provider ?? contract.runner;
-    const [raw, grace, verifierAddress, blockNumber, block] = await Promise.all([
+    const [raw, grace, verifierAddress, blockNumber, block, network] = await Promise.all([
       contract.orders(orderId),
       contract.VERIFICATION_GRACE(),
       contract.verifier(),
       provider.getBlockNumber(),
       provider.getBlock("latest"),
+      provider.getNetwork(),
     ]);
     const record = Object.fromEntries(STRUCT_FIELDS.map((field, index) => [field, raw[field] ?? raw[index]]));
     return buildSettlementStatus({
       orderId,
-      chainId: expected.expectedChainId ?? Number((await provider.getNetwork()).chainId),
+      chainId: Number(network.chainId),
       contractAddress: expected.expectedContractAddress ?? await contract.getAddress(),
       verifierAddress,
       verificationGrace: Number(grace),

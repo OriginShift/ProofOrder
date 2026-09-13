@@ -15,16 +15,16 @@
 
 ## 主助手复查发现并修复
 子任务曾保留 plaintext-only 验证分支。它只能验证另一份明文，不能建立其与密文的关系。因此主助手将该分支改为 UNBOUND_PLAINTEXT_REFUSED：只允许对实际密文认证解密的路径。先运行回归测试观察失败，再修复。对应测试日志：delivery-logs/parent-plaintext-red.log。原先仅传明文的非法分配测试也改为真的加密非法分配后验证拒绝，避免只覆盖接口参数。
-CLI 的 --verification-result-file 不作为可成功验收的方式；即使仍可解析该旧参数，明文单独提交也会被拒绝。应使用 --verification-key-file。
+Verifier CLI 只有通过 `--verification-key-file` 解密并独立重算后才会签名。单独提供明文结果无法证明它对应已提交密文，因此会被拒绝。
 
 ## 最终实跑
 Codex 在 Ubuntu WSL 的 Linux 文件系统临时副本中重新执行 `bash scripts/reproduce.sh`；退出码 0。环境为 Node v26.5.1、npm 11.17.0、Foundry v1.8.1，所有 Anvil 流程都只连接本地 31337 链。
-- `npm test`：196 通过，0 失败。
+- `npm test`：197 通过，0 失败。
 - `forge test -vv`：38 通过，0 失败，3 个 suite。
-- 单独 CLI 流程：5 通过，0 失败；这 5 项已包含在 196 项中。
+- 单独 CLI 流程：5 通过，0 失败；这 5 项已包含在 197 项中。
 - `npm run demo` 与 `npm run demo:failures`：均通过。
-- WSL 的 `npm ci --ignore-scripts` 和 `npm audit` 因代理连接错误无法访问 npm registry；Windows 执行的干净 `npm ci --ignore-scripts` 成功，随后 Windows `npm audit` 在同一 lockfile 上报告 0 vulnerabilities。测试和演示是在 WSL 运行的。
-- 完整日志：[0017-codex-wsl-reproduce.log](evidence/runs/0017-codex-wsl-reproduce.log)。日志已扫描私钥/助记词标记；匹配项仅为测试名称，不含私钥材料。
+- WSL 的 npm registry/audit endpoint 因代理只监听 Windows loopback 而不可达；Linux 快照复用了此前在 Windows 安装的 `node_modules`。完整复现脚本中的 audit 步骤使用临时 wrapper 调用 Windows npm 10.9.3 的真实审计结果，并核对 `package-lock.json` SHA-256 `0dbc5e7d5bf3b2c013c12b4b856f9cd07f787f48511ddcfb6313d26657b9f012` 后传递退出码；审计报告 0 vulnerabilities。仓库脚本没有忽略失败的 fallback。
+- 完整日志：[0018-codex-wsl-reproduce.log](evidence/runs/0018-codex-wsl-reproduce.log)。日志已扫描私钥/助记词标记；匹配项仅为测试名称，不含私钥材料。
 
 演示报告显示主流程状态为 `Settled`、固定 payee 收到 1 ETH、托管余额归零、买方 checkpoint 后 nonce 不变且无买方交易；失败流程的两笔退款均进入 `Refunded`，退款模拟拒绝调用没有改变状态、余额或 nonce。报告继续将公平交换标记为未实现的反例。以上是 AI 运行和复核，不是 Chris 或其他成员的独立人工复现。
 

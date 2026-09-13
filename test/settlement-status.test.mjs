@@ -5,6 +5,7 @@ import {
   assertStatusSeparation,
   buildSettlementStatus,
   nextSettlementAction,
+  readSettlementStatus,
   retryableFailure,
 } from "../src/settlement-status.mjs";
 
@@ -138,6 +139,42 @@ test("rejects a status read from the wrong chain or contract", () => {
   const wrongVerifier = status({}, { expectedVerifierAddress: "0x0000000000000000000000000000000000000009" });
   assert.equal(wrongVerifier.ok, false);
   assert.equal(wrongVerifier.code, "VERIFIER_MISMATCH");
+});
+
+test("readSettlementStatus compares the expected chain id to the RPC network", async () => {
+  let networkReads = 0;
+  const provider = {
+    async getNetwork() {
+      networkReads += 1;
+      return { chainId: 31337n };
+    },
+    async getBlockNumber() { return 10; },
+    async getBlock(tag) {
+      assert.equal(tag, "latest");
+      return { timestamp: 1_000 };
+    },
+  };
+  const contract = {
+    runner: { provider },
+    async orders(orderId) {
+      assert.equal(orderId, ORDER_ID);
+      return record();
+    },
+    async VERIFICATION_GRACE() { return 3_600n; },
+    async verifier() { return "0x0000000000000000000000000000000000000004"; },
+    async getAddress() { return "0x0000000000000000000000000000000000000001"; },
+  };
+
+  const actual = await readSettlementStatus({
+    contract,
+    orderId: ORDER_ID,
+    expected: { expectedChainId: 1 },
+    now: 1_000,
+  });
+
+  assert.equal(networkReads, 1, "the RPC network must always be read, including when an expected chain is supplied");
+  assert.equal(actual.ok, false);
+  assert.equal(actual.code, "CHAIN_MISMATCH");
 });
 
 test("reports an unknown order as retryable and a digest mismatch as final", () => {
