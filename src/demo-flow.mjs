@@ -10,6 +10,7 @@ import { canonicalOrder, orderDigest, snapshotCommitment } from "./order.mjs";
 import { prepareProviderSubmission } from "./provider-flow.mjs";
 import { createEncryptedRecoveryBundle, loadRecoveryBundle, recoverEncryptedResult, saveRecoveryBundle, verifyEncryptedRecoveryBundle } from "./recovery.mjs";
 import { generateRecipientKeyPair, openSealedResult } from "./sealed-result.mjs";
+import { loadSettlementArtifact } from "./chain-client.mjs";
 
 const execFileAsync = promisify(execFile);
 const hexDigest = (value) => `0x${value.slice("sha256:".length)}`;
@@ -45,7 +46,7 @@ export async function runDemoFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}) {
     const verifierAddress = await verifier.getAddress();
     const relayerAddress = await relayer.getAddress();
     assert.equal(new Set([buyerAddress, providerAddress, verifierAddress, relayerAddress]).size, 4);
-    const artifact = JSON.parse(await readFile(new URL("../out/ProofOrderSettlement.sol/ProofOrderSettlement.json", import.meta.url), "utf8"));
+    const artifact = await loadSettlementArtifact();
     const transactions = [];
     const mined = async (pending, action) => {
       combinedSignal.throwIfAborted();

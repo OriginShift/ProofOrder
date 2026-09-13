@@ -22,3 +22,18 @@ Each human-owned slice should have a small commit with a clear message, a review
 ## Integrity rule
 
 Do not create token human commits, mechanical retyping, or artificial authorship. If Codex generated a draft, the responsible member must inspect it, change what is necessary, test it, and be able to explain the code during judging. If a member cannot explain a security claim, that claim is removed or narrowed.
+
+## 2026-09-13 status: the new CLI/verifier slice is AI-authored and unapproved
+
+The buyer/provider/verifier CLI workflow, the independent-verification module and the separate-process CLI harness in this worktree were written by an AI agent, not by a human owner. Nothing under this heading satisfies the personal implementation, explanation, review or acceptance requirement above. Status remains **pending** for:
+
+- Qy (named future owner): final edits to the frozen `OrderSpec` encoding, proof statement and buyer workflow, with the trade-offs explained in a decision record.
+- Every human-owned item listed above, including T20 and the clean-environment reproduction.
+
+`DELIVERY_REPORT.md` records exactly which obligations were and were not met.
+
+## 2026-09-13 WSL integration run (AI verification only)
+
+- Codex applied the handoff implementation on Chris's branch and ran the final `bash scripts/reproduce.sh` in an Ubuntu WSL Linux-filesystem snapshot. It passed 196 JavaScript tests, 38 Foundry tests, the standalone 5-test CLI harness, and both local Anvil demos. The log is [0017-codex-wsl-reproduce.log](../evidence/runs/0017-codex-wsl-reproduce.log).
+- This records Codex's test execution only. It does not count as Chris's personal implementation, human reproduction, independent security review, or Qy's final acceptance. WSL npm registry access failed through the configured proxy; Windows `npm ci --ignore-scripts` succeeded and Windows `npm audit` reported zero vulnerabilities on the same lockfile. WSL audit could not reach the advisory endpoint.
+- The reviewed local reports show the settled payee received exactly the funded 1 ETH, escrow returned to zero, buyer nonce did not change after checkpoint, both failure-flow refunds returned funds to the buyer, and rejected simulations left state/balances/nonces unchanged. The fixture remains demonstration data, and the reports continue to show that fair exchange is not established.

@@ -223,7 +223,14 @@ export async function saveRecoveryBundle(path, bundle) {
     await rename(temporary, path);
     const parent = await open(directory, "r");
     try {
-      await parent.sync();
+      try {
+        await parent.sync();
+      } catch (error) {
+        // Windows does not expose directory handles that Node can flush with fsync. The file
+        // itself was synced before the atomic rename; tolerate only this unsupported directory
+        // flush while preserving other I/O failures.
+        if (process.platform !== "win32" || error?.code !== "EPERM") throw error;
+      }
     } finally {
       await parent.close();
     }

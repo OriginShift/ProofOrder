@@ -24,11 +24,11 @@ test("local runner writes success and removes stale evidence when a later flow f
 test("local runner timeout and pre-aborted input fail without publishing success", async () => {
   let aborted = false;
   await assert.rejects(runLocalDemo({
-    env, reportName: name, timeoutMs: 30,
+    env, reportName: name, timeoutMs: 250,
     flow: async (url, { signal }) => new Promise((resolve) => {
       signal.addEventListener("abort", () => { aborted = true; resolve({ status: "passed" }); }, { once: true });
     }),
-  }), /exceeded 30 ms/);
+  }), /exceeded 250 ms/);
   assert.equal(aborted, true);
   const controller = new AbortController();
   controller.abort(new Error("cancelled before launch"));

@@ -53,3 +53,7 @@ The current schema-2 implementation uses a direct HPKE envelope, so the encapsul
 ## Explicit assumptions
 
 This MVP proves only the fixed rule and the stated exchange assumptions. It does not prove global optimality, input truth, future returns, LLM correctness, data availability after local deletion, or production readiness.
+
+## 2026-09-13 implementation update (AI-authored, unapproved)
+
+The buyer/provider/verifier workflow now runs as separate processes with a durable buyer checkpoint taken before funding. A `SettlementStatus` read never reports delivery: `delivery.observed` is always false because the contract records only a ciphertext commitment and a verifier attestation. The verifier CLI re-derives the evidence itself (it opens the committed ciphertext with an explicitly supplied demo recipient key or accepts an out-of-band plaintext result), re-runs the frozen rule, and refuses to sign a provider-claimed evaluation; it discloses that it holds decryption capability in this trusted local demo. A timeout refund is a separate command that needs the checkpoint and chain state only and never a provider bundle. These paths are exercised by `test/cli-workflow.test.mjs` against a fresh local Anvil; they remain AI-authored and human review is pending.

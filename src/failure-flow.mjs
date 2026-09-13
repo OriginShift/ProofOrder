@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { ContractFactory, FetchRequest, JsonRpcProvider, ZeroHash, getBytes, keccak256, parseEther, version } from "ethers";
+import { loadSettlementArtifact } from "./chain-client.mjs";
 
 export async function expectContractError(call, abi, expectedName) {
   let failure;
@@ -37,7 +38,7 @@ export async function runFailureFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}
     const buyerAddress = await buyer.getAddress();
     const providerAddress = await serviceProvider.getAddress();
     const verifierAddress = await verifier.getAddress();
-    const artifact = JSON.parse(await readFile(new URL("../out/ProofOrderSettlement.sol/ProofOrderSettlement.json", import.meta.url), "utf8"));
+    const artifact = await loadSettlementArtifact();
     const transactions = [];
     async function mined(transaction, action) {
       const tx = await transaction;
