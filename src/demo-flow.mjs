@@ -101,7 +101,7 @@ export async function runDemoFlow(rpcUrl, { signal, timeoutMs = 60_000 } = {}) {
       await saveRecoveryBundle(paths.key, { recipientPrivateKey: recipient.privateKey });
       await saveRecoveryBundle(paths.context, expected);
       await saveRecoveryBundle(paths.bundle, bundle);
-      assert.equal((await stat(paths.key)).mode & 0o777, 0o600);
+      if (process.platform !== "win32") assert.equal((await stat(paths.key)).mode & 0o777, 0o600);
       const saved = await loadRecoveryBundle(paths.bundle);
       assert.equal((await verifyEncryptedRecoveryBundle(saved, expected)).ok, true);
       assert.equal(JSON.stringify(saved).includes(recipient.privateKey), false);

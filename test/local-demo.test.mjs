@@ -44,7 +44,7 @@ test("local runner refuses a remote endpoint before invoking the flow", async ()
   }), /dedicated local Anvil/);
 });
 
-test("SIGINT stops an owned Anvil and leaves no success report", { timeout: 15_000 }, async () => {
+test("SIGINT handling stops an owned Anvil and leaves no success report", { timeout: 15_000 }, async () => {
   // Exercise signal handling in another process so it cannot interrupt the test runner.
   const script = `
     import { runLocalDemo } from ${JSON.stringify(new URL("../scripts/local-demo.mjs", import.meta.url).href)};
@@ -52,7 +52,9 @@ test("SIGINT stops an owned Anvil and leaves no success report", { timeout: 15_0
     try {
       await runLocalDemo({ env: {}, reportName: ${JSON.stringify(name)}, flow: async (rpcUrl, {signal}) => {
         url = rpcUrl;
-        process.kill(process.pid, 'SIGINT');
+        // Windows cannot deliver a catchable self-SIGINT to Node's handler.
+        if (process.platform === 'win32') process.emit('SIGINT');
+        else process.kill(process.pid, 'SIGINT');
         return await new Promise(resolve => signal.addEventListener('abort', () => resolve({status:'passed'}), {once:true}));
       }});
       throw new Error('Unexpected success');
